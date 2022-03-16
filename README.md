@@ -1,2 +1,2 @@
-# SoftUni-Courses
-Courses from my education at SoftUni
+# My First Console Games
+
