@@ -54,108 +54,109 @@ namespace Snake
                 "Exit"
                };
             Coordinates cursor = new Coordinates(menu.Row, menu.Col - 2);
-            while (true)
-            {
-                // Print menu options
-                for (int i = 0; i < menuElements.Length; i++)
-                {
-                    Console.SetCursorPosition(menu.Col, menu.Row);
-                    visualizer.Write(menuElements[i], menu.Row + i, menu.Col, ConsoleColor.Yellow);
-                    menuElementsPossition.Add(new Coordinates(menu.Row + i, menu.Col));
-                }
-                int cursorDirection = 0;
-                bool isEnterPressed = false;
+            GameOptions(menuElements, visualizer, menuElementsPossition, menu, cursor);
+            //while (true)
+            //{
+            //    // Print menu options
+            //    for (int i = 0; i < menuElements.Length; i++)
+            //    {
+            //        Console.SetCursorPosition(menu.Col, menu.Row);
+            //        visualizer.Write(menuElements[i], menu.Row + i, menu.Col, ConsoleColor.Yellow);
+            //        menuElementsPossition.Add(new Coordinates(menu.Row + i, menu.Col));
+            //    }
+            //    int cursorDirection = 0;
+            //    bool isEnterPressed = false;
 
-                if (Console.KeyAvailable)
-                {
-                    ConsoleKeyInfo key = Console.ReadKey();
-                    if (key.Key == ConsoleKey.DownArrow)
-                    {
-                        cursorDirection = 1;
-                    }
-                    if (key.Key == ConsoleKey.UpArrow)
-                    {
-                        cursorDirection = -1;
-                    }
-                    if (key.Key == ConsoleKey.Enter)
-                    {
-                        isEnterPressed = true;
-                    }
-                }
+            //    if (Console.KeyAvailable)
+            //    {
+            //        ConsoleKeyInfo key = Console.ReadKey();
+            //        if (key.Key == ConsoleKey.DownArrow)
+            //        {
+            //            cursorDirection = 1;
+            //        }
+            //        if (key.Key == ConsoleKey.UpArrow)
+            //        {
+            //            cursorDirection = -1;
+            //        }
+            //        if (key.Key == ConsoleKey.Enter)
+            //        {
+            //            isEnterPressed = true;
+            //        }
+            //    }
 
-                visualizer.Write(" ", cursor.Row, cursor.Col);
-                cursor.Row += cursorDirection;
+            //    visualizer.Write(" ", cursor.Row, cursor.Col);
+            //    cursor.Row += cursorDirection;
 
-                if (cursor.Row < menu.Row)
-                {
-                    cursor.Row = menu.Row;
-                }
-                if (cursor.Row > menu.Row + menuElements.Length - 1)
-                {
-                    cursor.Row = menu.Row + menuElements.Length - 1;
-                }
+            //    if (cursor.Row < menu.Row)
+            //    {
+            //        cursor.Row = menu.Row;
+            //    }
+            //    if (cursor.Row > menu.Row + menuElements.Length - 1)
+            //    {
+            //        cursor.Row = menu.Row + menuElements.Length - 1;
+            //    }
 
-                visualizer.Write("*", cursor.Row, cursor.Col, ConsoleColor.Yellow);
+            //    visualizer.Write("*", cursor.Row, cursor.Col, ConsoleColor.Yellow);
 
-                if (isEnterPressed)
-                {
-                    for (int i = 0; i < menuElementsPossition.Count; i++)
-                    {
-                        if (menuElementsPossition[i].Row == cursor.Row && menuElementsPossition[i].Col == menu.Col)
-                        {
-                            if (menuElements[i] == "Exit")
-                            {
-                                Console.Clear();
+            //    if (isEnterPressed)
+            //    {
+            //        for (int i = 0; i < menuElementsPossition.Count; i++)
+            //        {
+            //            if (menuElementsPossition[i].Row == cursor.Row && menuElementsPossition[i].Col == menu.Col)
+            //            {
+            //                if (menuElements[i] == "Exit")
+            //                {
+            //                    Console.Clear();
 
-                                visualizer.Write("Are you sure ?", settings.ConsoleRow / 2, settings.ConsoleCol / 2 - 7, ConsoleColor.Yellow);
-                                visualizer.Write("y \\ n", settings.ConsoleRow / 2 + 1, settings.ConsoleCol / 2 - 3, ConsoleColor.Yellow);
+            //                    visualizer.Write("Are you sure ?", settings.ConsoleRow / 2, settings.ConsoleCol / 2 - 7, ConsoleColor.Yellow);
+            //                    visualizer.Write("y \\ n", settings.ConsoleRow / 2 + 1, settings.ConsoleCol / 2 - 3, ConsoleColor.Yellow);
 
-                                string pressedKey = GetKeyboarKeyPressed();
-                                if (pressedKey == "y")
-                                {
-                                    Console.Clear();
-                                    Environment.Exit(0);
-                                }
-                                else if (pressedKey == "n")
-                                {
-                                    Console.Clear();
-                                    break;
-                                }
-                            }
-                            if (menuElements[i] == "Settings")
-                            {
-                                menuElements = new string[]
-                                {
-                                    "Screen size",
-                                    "Dificult",
-                                    "Field Color",
-                                    "Snake Color",
-                                    "Snake Length"
-                                };
-                                break;
-                            }
-                            if (menuElements[i] == "Screen size")
-                            {
-                                Console.Clear();
-                                menuElements = new string[]
-                                {
-                                    "Small",
-                                    "Medium",
-                                    "Large"
-                                };
-                                break;
-                            }
-                            if (menuElements[i] == "Small")
-                            {
-                                GameSettings gameSettings = new GameSettings();
-                                gameSettings.ConsoleRow = 15;
-                                gameSettings.ConsoleCol = 60;
-                            }
-                        }
-                    }
-                }
-                Thread.Sleep(40);
-            }
+            //                    string pressedKey = GetKeyboarKeyPressed();
+            //                    if (pressedKey == "y")
+            //                    {
+            //                        Console.Clear();
+            //                        Environment.Exit(0);
+            //                    }
+            //                    else if (pressedKey == "n")
+            //                    {
+            //                        Console.Clear();
+            //                        break;
+            //                    }
+            //                }
+            //                if (menuElements[i] == "Settings")
+            //                {
+            //                    menuElements = new string[]
+            //                    {
+            //                        "Screen size",
+            //                        "Dificult",
+            //                        "Field Color",
+            //                        "Snake Color",
+            //                        "Snake Length"
+            //                    };
+            //                    break;
+            //                }
+            //                if (menuElements[i] == "Screen size")
+            //                {
+            //                    Console.Clear();
+            //                    menuElements = new string[]
+            //                    {
+            //                        "Small",
+            //                        "Medium",
+            //                        "Large"
+            //                    };
+            //                    break;
+            //                }
+            //                if (menuElements[i] == "Small")
+            //                {
+            //                    GameSettings gameSettings = new GameSettings();
+            //                    gameSettings.ConsoleRow = 15;
+            //                    gameSettings.ConsoleCol = 60;
+            //                }
+            //            }
+            //        }
+            //    }
+            //    Thread.Sleep(40);
+            //}
         }
         public string GetKeyboarKeyPressed()
         {
@@ -207,9 +208,63 @@ namespace Snake
 
             return pressedKey;
         }
-        public void GameOptions()
+        public Coordinates GameOptions(string[] menuElements, Visualizer visualizer, List<Coordinates> menuElementsPossition, Coordinates menu, Coordinates cursor)
         {
+            while (true)
+            {
+                // Print menu options
+                for (int i = 0; i < menuElements.Length; i++)
+                {
+                    Console.SetCursorPosition(menu.Col, menu.Row);
+                    visualizer.Write(menuElements[i], menu.Row + i, menu.Col, ConsoleColor.Yellow);
+                    menuElementsPossition.Add(new Coordinates(menu.Row + i, menu.Col));
+                }
+                int cursorDirection = 0;
+                bool isEnterPressed = false;
 
+                if (Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo key = Console.ReadKey();
+                    if (key.Key == ConsoleKey.DownArrow)
+                    {
+                        cursorDirection = 1;
+                    }
+                    if (key.Key == ConsoleKey.UpArrow)
+                    {
+                        cursorDirection = -1;
+                    }
+                    if (key.Key == ConsoleKey.Enter)
+                    {
+                        isEnterPressed = true;
+                    }
+                }
+
+                visualizer.Write(" ", cursor.Row, cursor.Col);
+                cursor.Row += cursorDirection;
+
+                if (cursor.Row < menu.Row)
+                {
+                    cursor.Row = menu.Row;
+                }
+                if (cursor.Row > menu.Row + menuElements.Length - 1)
+                {
+                    cursor.Row = menu.Row + menuElements.Length - 1;
+                }
+
+                visualizer.Write("*", cursor.Row, cursor.Col, ConsoleColor.Yellow);
+
+                if (isEnterPressed)
+                {
+                    for (int i = 0; i < menuElementsPossition.Count; i++)
+                    {
+                        if (menuElementsPossition[i].Row == cursor.Row && menuElementsPossition[i].Col == menu.Col)
+                        {
+                            return (cursor);
+                        }
+                    }
+                }
+                Thread.Sleep(40);
+            }
         }
     }
 }
