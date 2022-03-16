@@ -46,17 +46,16 @@ namespace Snake
              * menuElementsPossition[2] => Settings.
              * menuElementsPossition[3] => Exit.
              */
-
-            Coordinates cursor = new Coordinates(menu.Row, menu.Col - 2);
-            while (true)
-            {
-                string[] menuElements = new string[]
-                {
+            string[] menuElements = new string[]
+               {
                 "New Game",
                 "Dificult",
                 "Settings",
                 "Exit"
-                };
+               };
+            Coordinates cursor = new Coordinates(menu.Row, menu.Col - 2);
+            while (true)
+            {
                 // Print menu options
                 for (int i = 0; i < menuElements.Length; i++)
                 {
@@ -125,6 +124,32 @@ namespace Snake
                             }
                             if (menuElements[i] == "Settings")
                             {
+                                menuElements = new string[]
+                                {
+                                    "Screen size",
+                                    "Dificult",
+                                    "Field Color",
+                                    "Snake Color",
+                                    "Snake Length"
+                                };
+                                break;
+                            }
+                            if (menuElements[i] == "Screen size")
+                            {
+                                Console.Clear();
+                                menuElements = new string[]
+                                {
+                                    "Small",
+                                    "Medium",
+                                    "Large"
+                                };
+                                break;
+                            }
+                            if (menuElements[i] == "Small")
+                            {
+                                GameSettings gameSettings = new GameSettings();
+                                gameSettings.ConsoleRow = 15;
+                                gameSettings.ConsoleCol = 60;
                             }
                         }
                     }
