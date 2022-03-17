@@ -352,11 +352,11 @@ namespace Snake
                 // Check if cursor is out from the menu
                 if (cursor.Row < menu.Row)
                 {
-                    cursor.Row = menu.Row;
+                    cursor.Row = menu.Row + menuElements.Length - 1;
                 }
                 if (cursor.Row > menu.Row + menuElements.Length - 1)
                 {
-                    cursor.Row = menu.Row + menuElements.Length - 1;
+                    cursor.Row = menu.Row;// + menuElements.Length - 1;
                 }
 
                 visualizer.Write("*", cursor.Row, cursor.Col, ConsoleColor.Yellow);
