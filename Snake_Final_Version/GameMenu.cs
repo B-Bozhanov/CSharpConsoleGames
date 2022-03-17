@@ -13,6 +13,8 @@ namespace Snake
         {
             Visualizer visualizer = new Visualizer();
             GameSettings settings = new GameSettings();
+
+            settings.ConsoleSettings();
             Random generator = new Random();
             int loadingTime = 0;
 
@@ -41,13 +43,13 @@ namespace Snake
             {
                 string[] menuElements = new string[]
                    {
-                "New Game",
-                "Dificult",
-                "Settings",
-                "Exit"
+                      "New Game",
+                      "Dificult",
+                      "Settings",
+                      "Exit"
                    };
                 string element = null;
-                element = GameOptions(menuElements);
+                element = GameOptions(menuElements, settings);
 
                 if (element == "New Game")
                 {
@@ -60,64 +62,78 @@ namespace Snake
                 else if (element == "Settings")
                 {
                     Console.Clear();
-                    string[] settingsOptions = new string[]
+                    while (true)
                     {
-                    "Screen size",
-                    "Dificult",
-                    "Field Color",
-                    "Snake Color",
-                    "Snake Length",
-                    "Back"
-                    };
-                    string settingsElement = GameOptions(settingsOptions);
-                    if (settingsElement == "Screen size")
-                    {
-                        Console.Clear();
-                        string[] screenSize = new string[]
+                        string[] settingsOptions = new string[]
                         {
-                            "Small",
-                            "Medium",
-                            "Large"
+                           "Screen size",
+                           "Dificult",
+                           "Field Color",
+                           "Snake Color",
+                           "Snake Length",
+                           "Back"
                         };
-                        string currentScreen = GameOptions(screenSize);
-                        if (currentScreen == "Small")
+                        string settingsElement = GameOptions(settingsOptions, settings);
+                        if (settingsElement == "Screen size")
                         {
-                            settings.ConsoleRow = 15;
-                            settings.ConsoleCol = 60;
-                            settings = new GameSettings(15, 60);
+                            while (true)
+                            {
+                                Console.Clear();
+                                string[] screenSize = new string[]
+                                {
+                                  "Small",
+                                  "Medium",
+                                  "Large",
+                                  "Back"
+                                };
+                                string currentScreen = GameOptions(screenSize, settings);
+                                if (currentScreen == "Small")
+                                {
+                                    settings.ConsoleRow = 15;
+                                    settings.ConsoleCol = 60;
+                                    //settings = new GameSettings(15, 60);
+                                }
+                                else if (currentScreen == "Medium")
+                                {
+                                    settings.ConsoleRow = 30;
+                                    settings.ConsoleCol = 120;
+                                }
+                                else if (currentScreen == "Large")
+                                {
+                                    settings.ConsoleRow = 46;
+                                    settings.ConsoleCol = 192;
+                                }
+                                else if (currentScreen == "Back")
+                                {
+                                    Console.Clear();
+                                    break;
+                                }
+                                settings.ConsoleSettings();
+                            }
                         }
-                        else if (currentScreen == "Medium")
+                        else if (settingsElement == "Dificult")
                         {
-                            settings.ConsoleRow = 30;
-                            settings.ConsoleCol = 120;
+
                         }
-                        else if (currentScreen == "Large")
+                        else if (settingsElement == "Field Color")
                         {
-                            settings.ConsoleRow = 42;
-                            settings.ConsoleCol = 190;
+
+                        }
+                        else if (settingsElement == "Snake Color")
+                        {
+
+                        }
+                        else if (settingsElement == "Snake Length")
+                        {
+
+                        }
+                        else if (settingsElement == "Back")
+                        {
+                            Console.Clear();
+                            break;
                         }
                     }
-                    else if (settingsElement == "Dificult")
-                    {
 
-                    }
-                    else if (settingsElement == "Field Color")
-                    {
-
-                    }
-                    else if (settingsElement == "Snake Color")
-                    {
-
-                    }
-                    else if (settingsElement == "Snake Length")
-                    {
-
-                    }
-                    else if (settingsElement == "Back")
-                    {
-                        Console.Clear();
-                        continue;
-                    }
                 }
                 else if (element == "Exit")
                 {
@@ -293,9 +309,9 @@ namespace Snake
 
             return pressedKey;
         }
-        public string GameOptions(string[] menuElements)
+        public string GameOptions(string[] menuElements, GameSettings settings)
         {
-            GameSettings settings = new GameSettings();
+            //GameSettings settings = new GameSettings();
             Visualizer visualizer = new Visualizer();
             Coordinates menu = new Coordinates(settings.ConsoleRow / 2, settings.ConsoleCol / 2 - 6);
             Coordinates cursor = new Coordinates(menu.Row, menu.Col - 2);
@@ -351,6 +367,7 @@ namespace Snake
                     {
                         if (possition.Key.Row == cursor.Row)
                         {
+                            Console.Clear();
                             return possition.Value;
                         }
                     }
