@@ -9,11 +9,10 @@ namespace Snake
     class GameMenu
     {
 
-        public string WellcomeSreen()
+        public void WellcomeSreen()
         {
-            GameSettings settings = new GameSettings();
             Visualizer visualizer = new Visualizer();
-
+            GameSettings settings = new GameSettings();
             Random generator = new Random();
             int loadingTime = 0;
 
@@ -29,7 +28,7 @@ namespace Snake
                 visualizer.Write(screen, wellcomeText.Row, wellcomeText.Col, ConsoleColor.Yellow);
                 visualizer.Write(loading, wellcomeText.Row + 1, wellcomeText.Col, ConsoleColor.Yellow);
 
-                loadingTime = generator.Next(5, 12);
+                loadingTime = 0;// generator.Next(5, 12);
                 if (seconds.Seconds == loadingTime)
                 {
                     timer.Reset();
@@ -38,23 +37,109 @@ namespace Snake
                 }
             }
 
-            Coordinates menu = new Coordinates(settings.ConsoleRow / 2, settings.ConsoleCol / 2 - 4);
-            List<Coordinates> menuElementsPossition = new List<Coordinates>();
-            /*
-             * menuElementsPossition[0] => New Game.
-             * menuElementsPossition[1] => Dificult.
-             * menuElementsPossition[2] => Settings.
-             * menuElementsPossition[3] => Exit.
-             */
-            string[] menuElements = new string[]
-               {
+            while (true)
+            {
+                string[] menuElements = new string[]
+                   {
                 "New Game",
                 "Dificult",
                 "Settings",
                 "Exit"
-               };
-            Coordinates cursor = new Coordinates(menu.Row, menu.Col - 2);
-            GameOptions(menuElements, visualizer, menuElementsPossition, menu, cursor);
+                   };
+                string element = null;
+                element = GameOptions(menuElements);
+
+                if (element == "New Game")
+                {
+
+                }
+                else if (element == "Dificult")
+                {
+
+                }
+                else if (element == "Settings")
+                {
+                    Console.Clear();
+                    string[] settingsOptions = new string[]
+                    {
+                    "Screen size",
+                    "Dificult",
+                    "Field Color",
+                    "Snake Color",
+                    "Snake Length",
+                    "Back"
+                    };
+                    string settingsElement = GameOptions(settingsOptions);
+                    if (settingsElement == "Screen size")
+                    {
+                        Console.Clear();
+                        string[] screenSize = new string[]
+                        {
+                            "Small",
+                            "Medium",
+                            "Large"
+                        };
+                        string currentScreen = GameOptions(screenSize);
+                        if (currentScreen == "Small")
+                        {
+                            settings.ConsoleRow = 15;
+                            settings.ConsoleCol = 60;
+                            settings = new GameSettings(15, 60);
+                        }
+                        else if (currentScreen == "Medium")
+                        {
+                            settings.ConsoleRow = 30;
+                            settings.ConsoleCol = 120;
+                        }
+                        else if (currentScreen == "Large")
+                        {
+                            settings.ConsoleRow = 42;
+                            settings.ConsoleCol = 190;
+                        }
+                    }
+                    else if (settingsElement == "Dificult")
+                    {
+
+                    }
+                    else if (settingsElement == "Field Color")
+                    {
+
+                    }
+                    else if (settingsElement == "Snake Color")
+                    {
+
+                    }
+                    else if (settingsElement == "Snake Length")
+                    {
+
+                    }
+                    else if (settingsElement == "Back")
+                    {
+                        Console.Clear();
+                        continue;
+                    }
+                }
+                else if (element == "Exit")
+                {
+                    Console.Clear();
+
+                    visualizer.Write("Are you sure ?", settings.ConsoleRow / 2, settings.ConsoleCol / 2 - 7, ConsoleColor.Yellow);
+                    visualizer.Write("y \\ n", settings.ConsoleRow / 2 + 1, settings.ConsoleCol / 2 - 3, ConsoleColor.Yellow);
+
+                    string pressedKey = GetKeyboarKeyPressed();
+                    if (pressedKey == "y")
+                    {
+                        Console.Clear();
+                        visualizer.Write("Good bye !", settings.ConsoleRow / 2 + 3, settings.ConsoleCol / 2 - 4, ConsoleColor.Red);
+                        Thread.Sleep(400);
+                        Environment.Exit(0);
+                    }
+                    else if (pressedKey == "n")
+                    {
+                        Console.Clear();
+                    }
+                }
+            }
             //while (true)
             //{
             //    // Print menu options
@@ -180,7 +265,7 @@ namespace Snake
                 {
                     Console.Clear();
                     visualizer.Write("Good bye !", settings.ConsoleRow / 2 + 3, settings.ConsoleCol / 2 - 4, ConsoleColor.Red);
-                    Thread.Sleep(200);
+                    Thread.Sleep(400);
                     Environment.Exit(0);
                 }
                 ConsoleKeyInfo key;
@@ -208,8 +293,14 @@ namespace Snake
 
             return pressedKey;
         }
-        public Coordinates GameOptions(string[] menuElements, Visualizer visualizer, List<Coordinates> menuElementsPossition, Coordinates menu, Coordinates cursor)
+        public string GameOptions(string[] menuElements)
         {
+            GameSettings settings = new GameSettings();
+            Visualizer visualizer = new Visualizer();
+            Coordinates menu = new Coordinates(settings.ConsoleRow / 2, settings.ConsoleCol / 2 - 6);
+            Coordinates cursor = new Coordinates(menu.Row, menu.Col - 2);
+            Dictionary<Coordinates, string> menuElementsPossition = new Dictionary<Coordinates, string>();
+
             while (true)
             {
                 // Print menu options
@@ -217,8 +308,9 @@ namespace Snake
                 {
                     Console.SetCursorPosition(menu.Col, menu.Row);
                     visualizer.Write(menuElements[i], menu.Row + i, menu.Col, ConsoleColor.Yellow);
-                    menuElementsPossition.Add(new Coordinates(menu.Row + i, menu.Col));
+                    menuElementsPossition.Add(new Coordinates(menu.Row + i, menu.Col), menuElements[i]);
                 }
+
                 int cursorDirection = 0;
                 bool isEnterPressed = false;
 
@@ -238,10 +330,10 @@ namespace Snake
                         isEnterPressed = true;
                     }
                 }
-
+                // Move cursor
                 visualizer.Write(" ", cursor.Row, cursor.Col);
                 cursor.Row += cursorDirection;
-
+                // Check if cursor is out from the menu
                 if (cursor.Row < menu.Row)
                 {
                     cursor.Row = menu.Row;
@@ -255,11 +347,11 @@ namespace Snake
 
                 if (isEnterPressed)
                 {
-                    for (int i = 0; i < menuElementsPossition.Count; i++)
+                    foreach (var possition in menuElementsPossition)
                     {
-                        if (menuElementsPossition[i].Row == cursor.Row && menuElementsPossition[i].Col == menu.Col)
+                        if (possition.Key.Row == cursor.Row)
                         {
-                            return (cursor);
+                            return possition.Value;
                         }
                     }
                 }
