@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TempSnakeWithClasses
+namespace Snake
 {
     internal class Field
     {
+        private List<Coordinates> obstacles;
+        private Coordinates food;
         private readonly int infoWindow;
         private readonly int consoleRow;
         private readonly int consoleCol;
-        private Coordinates food;
         private int score;
         private int level;
 
@@ -23,14 +24,25 @@ namespace TempSnakeWithClasses
             level = 1;
 
             food = new Coordinates();
+            obstacles = new List<Coordinates>()
+            {
+               new Coordinates(6, 30),    // TODO: Fix coordinates abaut the consoleSize
+               new Coordinates(15, 23),
+               new Coordinates(25, 100),
+               new Coordinates(17, 93),
+            };
 
             SetConsoleSettings();
+            foreach (var item in obstacles)
+            {
+                Visualizer.WriteOnConsole("=", item.Row, item.Col, ConsoleColor.Cyan);
+            }
         }
 
         public Coordinates Food 
         {
-            get { return food; }
-            set { food = value; }
+            get { return this.food; }
+            set { this.food = value; }
         }
         public Coordinates FieldSize { get; set; }
         public int InfoWindow { get { return infoWindow; } }
@@ -50,19 +62,18 @@ namespace TempSnakeWithClasses
         private void SetConsoleSettings()
         {
             Console.CursorVisible = false;
-            Console.Title = "Snake v1.1";
-            Console.WindowHeight = consoleRow + 2;
+            Console.Title = "Snake v1.2";
+            Console.WindowHeight = consoleRow;
             Console.WindowWidth = consoleCol;
-            Console.BufferHeight = consoleRow + 2;
+            Console.BufferHeight = consoleRow;
             Console.BufferWidth = consoleCol;
             Console.OutputEncoding = Encoding.UTF8;
         }
         public Coordinates FoodGenerator(Queue<Coordinates> snakeElements)
         {
             Random generator =  new Random();
-
             food.Row = generator.Next(infoWindow + 2, consoleRow + 2);
-            food.Col = generator.Next(0, consoleCol - 1);
+            food.Col = generator.Next(0, consoleCol - 2);
 
             if (snakeElements.Contains(food))
             {

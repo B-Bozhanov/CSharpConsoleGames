@@ -1,5 +1,5 @@
 ﻿
-namespace TempSnakeWithClasses
+namespace Snake
 {
     internal class Coordinates
     {

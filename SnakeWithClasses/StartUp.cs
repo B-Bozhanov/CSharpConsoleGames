@@ -1,4 +1,4 @@
-﻿namespace TempSnakeWithClasses
+﻿namespace Snake
 {
     internal class StartUp
     {

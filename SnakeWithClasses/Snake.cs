@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TempSnakeWithClasses
+namespace Snake
 {
     internal class Snake
     {
@@ -41,18 +41,6 @@ namespace TempSnakeWithClasses
             {
                 this.snakeElements.Enqueue(new Coordinates(infoWindow + 2, i));   // InfoWindow + 2
             }
-        }
-        public void NextPossition()
-        {
-            this.direction = GetSnakeDirection(this.direction);
-            Coordinates snakeHead = this.snakeElements.Last();
-            Coordinates nextDirection = this.directions[this.direction];
-            this.nextHead = new Coordinates(snakeHead.Row + nextDirection.Row, snakeHead.Col + nextDirection.Col);
-        }
-        public void Move()
-        {
-            this.snakeElements.Enqueue(nextHead);
-            this.snakeElements.Dequeue();
         }
         private int GetSnakeDirection(int direction)
         {
@@ -98,6 +86,18 @@ namespace TempSnakeWithClasses
             }
             return direction;
         }
+        public void NextPossition()
+        {
+            this.direction = GetSnakeDirection(this.direction);
+            Coordinates snakeHead = this.snakeElements.Last();
+            Coordinates nextDirection = this.directions[this.direction];
+            this.nextHead = new Coordinates(snakeHead.Row + nextDirection.Row, snakeHead.Col + nextDirection.Col);
+        }
+        public void Move()
+        {
+            this.snakeElements.Enqueue(nextHead);
+            this.snakeElements.Dequeue();
+        }
         public bool IsDeath(int row, int col, int infoWindow, bool wallsAppear) // TODO Obstacles and Levels
         {
             var isDeath = false;
@@ -111,8 +111,8 @@ namespace TempSnakeWithClasses
             }
             else
             {
-                if (nextHead.Row >= row + 2) nextHead.Row = infoWindow + 2;    // Goes through the walls
-                if (nextHead.Row < infoWindow + 2) nextHead.Row = row + 1;
+                if (nextHead.Row == row -1) nextHead.Row = infoWindow + 2;    // Goes through the walls
+                if (nextHead.Row < infoWindow + 2) nextHead.Row = row -1;
                 if (nextHead.Col >= col - 1) nextHead.Col = 1;
                 if (nextHead.Col < 1) nextHead.Col = col - 1;
             }
@@ -137,6 +137,12 @@ namespace TempSnakeWithClasses
             //}
 
             return isDeath;
+        }
+        public void Eat(Coordinates food)
+        {
+            nextHead.Row = food.Row;
+            nextHead.Col = food.Col;
+            snakeElements.Enqueue(nextHead);
         }
     }
 }

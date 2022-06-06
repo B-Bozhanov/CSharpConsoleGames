@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TempSnakeWithClasses
+namespace Snake
 {
     internal static class Visualizer
     {
@@ -60,7 +60,7 @@ namespace TempSnakeWithClasses
             WriteOnConsole($"Game over!\n Your Score is: {score}\n", 1, 1, ConsoleColor.DarkRed);
             Environment.Exit(0);
         }
-        private static void WriteOnConsole(string text, int row, int col, ConsoleColor color = ConsoleColor.Black)
+        public static void WriteOnConsole(string text, int row, int col, ConsoleColor color = ConsoleColor.Black)
         {
             Console.SetCursorPosition(col, row);
             Console.ForegroundColor = color;
