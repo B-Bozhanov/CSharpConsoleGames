@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Snake
 {
@@ -33,7 +34,7 @@ namespace Snake
             };
 
             SetConsoleSettings();
-            foreach (var item in obstacles)
+            foreach (var item in obstacles) // TODO: move this from here.
             {
                 Visualizer.WriteOnConsole("=", item.Row, item.Col, ConsoleColor.Cyan);
             }
@@ -43,6 +44,11 @@ namespace Snake
         {
             get { return this.food; }
             set { this.food = value; }
+        }
+        public List<Coordinates> Obstacles 
+        {
+            get => this.obstacles;
+            set => this.obstacles = value;
         }
         public Coordinates FieldSize { get; set; }
         public int InfoWindow { get { return infoWindow; } }
@@ -69,18 +75,27 @@ namespace Snake
             Console.BufferWidth = consoleCol;
             Console.OutputEncoding = Encoding.UTF8;
         }
-        public Coordinates FoodGenerator(Queue<Coordinates> snakeElements)
+        public void FoodGenerator(Queue<Coordinates> elements)
         {
             Random generator =  new Random();
-            food.Row = generator.Next(infoWindow + 2, consoleRow + 2);
+            food.Row = generator.Next(infoWindow + 2, consoleRow -1);
             food.Col = generator.Next(0, consoleCol - 2);
-
-            if (snakeElements.Contains(food))
+            
+            if (elements.Any(e => e.Row == food.Row && e.Col == food.Col))
             {
-                FoodGenerator(snakeElements);
+                FoodGenerator(elements);
             }
-
-            return food;
         }
+        //public void ObstaclesGen(List<Coordinates> obstacles)
+        //{
+        //    Random generator = new Random();
+        //    food.Row = generator.Next(infoWindow + 2, consoleRow - 1);
+        //    food.Col = generator.Next(0, consoleCol - 2);
+
+        //    if (elements.Any(e => e.Row == food.Row && e.Col == food.Col))
+        //    {
+        //        FoodGenerator(elements);
+        //    }
+        //}
     }
 }

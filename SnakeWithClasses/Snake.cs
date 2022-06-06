@@ -98,21 +98,20 @@ namespace Snake
             this.snakeElements.Enqueue(nextHead);
             this.snakeElements.Dequeue();
         }
-        public bool IsDeath(int row, int col, int infoWindow, bool wallsAppear) // TODO Obstacles and Levels
+        public bool IsDeath(int row, int col, int infoWindow, bool wallsAppear, List<Coordinates> obstacles)  // TODO Obstacles and Levels
         {
-            var isDeath = false;
             if (wallsAppear)
             {
                 if (nextHead.Row >= row + 2 || nextHead.Row < infoWindow + 2   // Die
                   || nextHead.Col >= col - 1 || nextHead.Col < 1)
                 {
-                    isDeath = true;
+                    return true;
                 }
             }
             else
             {
-                if (nextHead.Row == row -1) nextHead.Row = infoWindow + 2;    // Goes through the walls
-                if (nextHead.Row < infoWindow + 2) nextHead.Row = row -1;
+                if (nextHead.Row == row - 1) nextHead.Row = infoWindow + 2;    // Goes through the walls
+                if (nextHead.Row < infoWindow + 2) nextHead.Row = row - 1;
                 if (nextHead.Col >= col - 1) nextHead.Col = 1;
                 if (nextHead.Col < 1) nextHead.Col = col - 1;
             }
@@ -121,22 +120,17 @@ namespace Snake
             {
                 if (nextHead.Row == element.Row && nextHead.Col == element.Col)
                 {
-                    isDeath = true;
+                    return true;
                 }
             }
-            //if (level >= 5)
-            //{
-            //    foreach (var item in obstacles)
-            //    {
-            //        if (snakeElements.Contains(item))
-            //        {
-            //            Field.Write($"Game over!\n Your Score is: {Score}\n", 1, 1, ConsoleColor.DarkRed);
-            //            Environment.Exit(0);
-            //        }
-            //    }
-            //}
-
-            return isDeath;
+            foreach (var obstacle in obstacles)
+            {
+                if (snakeElements.Any(s => s.Row == obstacle.Row && s.Col == obstacle.Col))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         public void Eat(Coordinates food)
         {

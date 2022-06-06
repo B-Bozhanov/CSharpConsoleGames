@@ -1,14 +1,15 @@
 ﻿using System.Threading;
 using System.Diagnostics;
 using System;
+using System.Linq;
 
 namespace Snake
 {
     internal class Engine
     {
-        public static void Start()
+        public static void Start(Field field)
         {
-            Field field = new Field(new Coordinates(30, 120));
+           
             Snake snake = new Snake(10);
             snake.SnakeCreation(field.InfoWindow);
 
@@ -16,7 +17,7 @@ namespace Snake
 
             Stopwatch foodDisapearTimer = new Stopwatch();
             foodDisapearTimer.Start();
-
+            
             field.FoodGenerator(snake.SnakeElements);
             while (true)
             {
@@ -24,7 +25,7 @@ namespace Snake
                 Visualizer.DrowingGameInfo(field.Score, field.Level);
 
                 snake.NextPossition();
-                if (snake.IsDeath(field.ConsoleRow, field.ConsoleCol, field.InfoWindow, wallsApear))
+                if (snake.IsDeath(field.ConsoleRow, field.ConsoleCol, field.InfoWindow, wallsApear, field.Obstacles))
                 {
                     Visualizer.GameOver(field.Score);
                 }
@@ -42,12 +43,12 @@ namespace Snake
                 else if (foodDisapearTimer.ElapsedTicks % 100 == 0) // TODO: Something else with this.
                 {
                     Visualizer.WriteOnConsole(" ", field.Food.Row, field.Food.Col);
-                    field.Food = field.FoodGenerator(snake.SnakeElements);
-                    foodDisapearTimer.Restart();
+                    field.FoodGenerator(snake.SnakeElements);
+                   // foodDisapearTimer.Restart();
                 }
 
                 Visualizer.FoodDrowing(field.Food);
-
+                
                 Thread.Sleep(100);
                 //Console.Clear();
             }
