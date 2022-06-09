@@ -34,10 +34,10 @@ namespace Snake
             };
 
             SetConsoleSettings();
-            foreach (var item in obstacles) // TODO: move this from here.
-            {
-                Visualizer.WriteOnConsole("=", item.Row, item.Col, ConsoleColor.Cyan);
-            }
+            //foreach (var item in obstacles) // TODO: move this from here.
+            //{
+            //    Visualizer.WriteOnConsole("=", item.Row, item.Col, ConsoleColor.Cyan);
+            //}
         }
 
         public Coordinates Food 
