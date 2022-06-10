@@ -11,8 +11,8 @@ namespace Snake
     {
         private readonly Field field;
         private readonly string[] mainMenuOptions;
-        private Dictionary<Coordinates, List<string>> test;
-        private Coordinates[] cursor;
+        private Dictionary<Coordinates, string> test;
+        private Coordinates cursor;
 
 
 
@@ -25,32 +25,23 @@ namespace Snake
                "Settings",
                "Exit"
             };
-            cursor = new Coordinates[]
+
+            test = new Dictionary<Coordinates, string>()
             {
-                new Coordinates(field.ConsoleRow / 2 - 2, field.ConsoleCol / 2 - 5),
-                new Coordinates(field.ConsoleRow / 2 - 2 + 1, field.ConsoleCol / 2 - 5),
-                new Coordinates(field.ConsoleRow / 2 - 2 + 2, field.ConsoleCol / 2 - 5),
-                new Coordinates(field.ConsoleRow / 2 - 2 + 3, field.ConsoleCol / 2 - 5),
+                [new Coordinates(field.ConsoleRow / 2, field.ConsoleCol)] = "New Game",
+                [new Coordinates(field.ConsoleRow / 2 + 1, field.ConsoleCol)] = "Dificult",
+                [new Coordinates(field.ConsoleRow / 2 + 2, field.ConsoleCol)] = "Settings",
+                [new Coordinates(field.ConsoleRow / 2 + 3, field.ConsoleCol)] = "Exit",
             };
-            test.Add(cursor, new List<string>() 
+            this.cursor = new Coordinates();
+            cursor.Row = field.ConsoleRow / 2 - 2;
+            cursor.Col = field.ConsoleCol / 2 - 5;
+            test.Add(cursor, new List<string>()
             {
                "New Game",
                "Dificult",
                "Settings",
                "Exit"
-            });
-            test.Add(cursor.Row + 1, cursor.Col, new List<string>()
-            {
-               "Easy",
-               "Medium",
-               "Hard",
-               "Back"
-            });
-            test.Add(cursor, new List<string>()
-            {
-               "Window size",
-               "Snake length",
-               "Back"
             });
             this.field = field;
         }
@@ -83,14 +74,17 @@ namespace Snake
                     {
                         move = 1;
                     }
-                    if (key.Key == ConsoleKey.Enter) break;
+                    if (key.Key == ConsoleKey.Enter)
+                    {
+                        break;
+                    }
                     Visualizer.WriteOnConsole(" ", cursor.Row, cursor.Col);
                     cursor.Row += move;
                 }
 
                 if (cursor.Row < field.ConsoleRow / 2)
                     cursor.Row = field.ConsoleRow / 2;
-                if(cursor.Row > field.ConsoleRow / 2 + mainMenuOptions.Length -1)
+                if (cursor.Row > field.ConsoleRow / 2 + mainMenuOptions.Length - 1)
                     cursor.Row = field.ConsoleRow / 2 + mainMenuOptions.Length - 1;
             }
         }
@@ -120,6 +114,10 @@ namespace Snake
             }
 
             MainMenu();
+        }
+        private int GetMenuPossition(Dictionary<int, List<string>> test, Coordinates cursor)
+        {
+
         }
     }
 }
