@@ -11,6 +11,8 @@ namespace Snake
     {
         private readonly Field field;
         private readonly string[] mainMenuOptions;
+        private Dictionary<Coordinates, List<string>> test;
+        private Coordinates[] cursor;
 
 
 
@@ -23,23 +25,51 @@ namespace Snake
                "Settings",
                "Exit"
             };
+            cursor = new Coordinates[]
+            {
+                new Coordinates(field.ConsoleRow / 2 - 2, field.ConsoleCol / 2 - 5),
+                new Coordinates(field.ConsoleRow / 2 - 2 + 1, field.ConsoleCol / 2 - 5),
+                new Coordinates(field.ConsoleRow / 2 - 2 + 2, field.ConsoleCol / 2 - 5),
+                new Coordinates(field.ConsoleRow / 2 - 2 + 3, field.ConsoleCol / 2 - 5),
+            };
+            test.Add(cursor, new List<string>() 
+            {
+               "New Game",
+               "Dificult",
+               "Settings",
+               "Exit"
+            });
+            test.Add(cursor.Row + 1, cursor.Col, new List<string>()
+            {
+               "Easy",
+               "Medium",
+               "Hard",
+               "Back"
+            });
+            test.Add(cursor, new List<string>()
+            {
+               "Window size",
+               "Snake length",
+               "Back"
+            });
             this.field = field;
         }
 
 
         private void MainMenu()
         {
-            for (int i = 0; i < mainMenuOptions.Length; i++)
-            {
-                Visualizer.WriteOnConsole(mainMenuOptions[i], field.ConsoleRow / 2 + i, field.ConsoleCol / 2 - 3, ConsoleColor.Yellow);
-            }
-
             int move = 1;
             int direction = field.ConsoleRow / 2;
-
+            //Coordinates cursor = new Coordinates(field.ConsoleRow / 2, field.ConsoleCol / 2 - 5);
             while (true)
             {
-                Visualizer.WriteOnConsole("*", direction, field.ConsoleCol / 2 - 5, ConsoleColor.Yellow);
+                var currentCursorPossition = test[cursor];
+
+                foreach (var item in currentCursorPossition)
+                {
+                    Visualizer.WriteOnConsole(item, cursor.Row + 2, cursor.Col, ConsoleColor.Yellow);
+                }
+                Visualizer.WriteOnConsole("*", cursor.Row, cursor.Col, ConsoleColor.Yellow);
                 // var key = UserKeyInput.KeyPressed();
 
                 if (Console.KeyAvailable)
@@ -53,14 +83,15 @@ namespace Snake
                     {
                         move = 1;
                     }
-                    Visualizer.WriteOnConsole(" ", direction, field.ConsoleCol / 2 - 5);
-                    direction += move;
+                    if (key.Key == ConsoleKey.Enter) break;
+                    Visualizer.WriteOnConsole(" ", cursor.Row, cursor.Col);
+                    cursor.Row += move;
                 }
 
-                if (direction < field.ConsoleRow / 2) 
-                    direction = field.ConsoleRow / 2;
-                if(direction > field.ConsoleRow / 2 + mainMenuOptions.Length -1) 
-                    direction = field.ConsoleRow / 2 + mainMenuOptions.Length - 1;
+                if (cursor.Row < field.ConsoleRow / 2)
+                    cursor.Row = field.ConsoleRow / 2;
+                if(cursor.Row > field.ConsoleRow / 2 + mainMenuOptions.Length -1)
+                    cursor.Row = field.ConsoleRow / 2 + mainMenuOptions.Length - 1;
             }
         }
         public void WellcomeScreen()
