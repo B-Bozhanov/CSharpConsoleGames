@@ -8,7 +8,7 @@ namespace Snake
     {
         private Queue<Coordinates> snakeElements;
         private Coordinates[] directions;
-        private Coordinates nextHead;
+        private Coordinates nextHead = new Coordinates();
         private int direction = 0;  // Right by default
 
 
@@ -44,45 +44,30 @@ namespace Snake
         }
         private int GetSnakeDirection(int direction)
         {
-            if (Console.KeyAvailable)
+            var key = UserKeyInput.KeyPressed();
+
+            switch (key)
             {
-                ConsoleKeyInfo key = Console.ReadKey();
-                if (key.Key == ConsoleKey.RightArrow)
-                {
-                    if (direction == 1)
-                    {
-                        direction = 1;
-                        return direction;
-                    }
-                    direction = 0;
-                }
-                else if (key.Key == ConsoleKey.LeftArrow)
-                {
-                    if (direction == 0)
-                    {
-                        direction = 0;
-                        return direction;
-                    }
-                    direction = 1;
-                }
-                else if (key.Key == ConsoleKey.DownArrow)
-                {
-                    if (direction == 3)
-                    {
-                        direction = 3;
-                        return direction;
-                    }
-                    direction = 2;
-                }
-                else if (key.Key == ConsoleKey.UpArrow)
-                {
-                    if (direction == 2)
-                    {
-                        direction = 2;
-                        return direction;
-                    }
-                    direction = 3;
-                }
+                case "Right":
+
+                    if (direction == 1) direction =  1; 
+                    else direction =  0;
+                    break;
+                case "Left":
+
+                    if (direction == 0) direction = 0; 
+                    else direction =  1;
+                    break;
+                case "Down":
+
+                    if (direction == 3) direction =  3;
+                    else direction = 2;
+                    break;
+                case "Up":
+
+                    if (direction == 2) direction = 2; 
+                    else direction = 3;
+                    break;
             }
             return direction;
         }
