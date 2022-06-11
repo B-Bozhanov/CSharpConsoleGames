@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Snake.UserInput;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,8 +11,7 @@ namespace Snake
         private Coordinates nextHead = new Coordinates();
         private int direction = 0;  // Right by default
 
-
-        public Snake(int snakeLenght = 6)
+        public Snake(int snakeLenght)
         {
             this.SnakeLenght = snakeLenght;
             snakeElements = new Queue<Coordinates>();
@@ -32,8 +31,7 @@ namespace Snake
             set => this.nextHead = value;
         }
         public int Direction { get => direction; }
-        public int SnakeLenght { get; set; }
-
+        public int SnakeLenght { get; private set; }
 
         public void SnakeCreation(int infoWindow)
         {
@@ -44,30 +42,32 @@ namespace Snake
         }
         private int GetSnakeDirection(int direction)
         {
-            var key = UserKeyInput.KeyPressed();
-
+           
+            var key = UserKeyInput.GetInput();
             switch (key)
             {
-                case "Right":
+                case KeyPressed.Right:
 
-                    if (direction == 1) direction =  1; 
-                    else direction =  0;
+                    if (direction == 1) direction = 1;
+                    else direction = 0;
                     break;
-                case "Left":
+                case KeyPressed.Left:
 
-                    if (direction == 0) direction = 0; 
-                    else direction =  1;
+                    if (direction == 0) direction = 0;
+                    else direction = 1;
                     break;
-                case "Down":
+                case KeyPressed.Down:
 
-                    if (direction == 3) direction =  3;
+                    if (direction == 3) direction = 3;
                     else direction = 2;
                     break;
-                case "Up":
+                case KeyPressed.Up:
 
-                    if (direction == 2) direction = 2; 
+                    if (direction == 2) direction = 2;
                     else direction = 3;
                     break;
+                    //case KeyPressed.Exit:TODO: exit from the game
+
             }
             return direction;
         }

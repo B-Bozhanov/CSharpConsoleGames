@@ -56,7 +56,6 @@ namespace Snake
         public static void GameOver(int score)
         {
             WriteOnConsole($"Game over!\n Your Score is: {score}\n", 1, 1, ConsoleColor.DarkRed);
-            Environment.Exit(0);
         }
         public static void WriteOnConsole(string text, int row, int col, ConsoleColor color = ConsoleColor.Black)
         {
@@ -65,7 +64,7 @@ namespace Snake
             Console.Write(text);
             Console.ResetColor();
         }
-        public static void DrowingSnake(Queue<Coordinates> elements, int direction, Coordinates nextElementPossition) 
+        public static void DrowingSnake(Queue<Coordinates> elements, int direction, Coordinates nextElementPossition)
         {
             int colorCount = 0;
             foreach (var element in elements)
@@ -95,12 +94,25 @@ namespace Snake
         }
         public static void DrowingGameInfo(int score, int level)
         {
-           WriteOnConsole($"Score: {score}", 1, 1, ConsoleColor.Yellow);
-           WriteOnConsole($"Level: {level}", 2, 1, ConsoleColor.Yellow);
+            WriteOnConsole($"Score: {score}", 1, 1, ConsoleColor.Yellow);
+            WriteOnConsole($"Level: {level}", 2, 1, ConsoleColor.Yellow);
         }
         public static void FoodDrowing(Coordinates food)
         {
             WriteOnConsole("@", food.Row, food.Col, ConsoleColor.Green);
+        }
+        public static void DrowingMenu(string item, int row, int col)
+        {
+                WriteOnConsole(item, row, col, ConsoleColor.Yellow);
+            
+        }
+        public static void DrowingCursor(char item, int row, int col)
+        {
+            WriteOnConsole(item.ToString(), row, col, ConsoleColor.Yellow);
+        }
+        public static void Exit()
+        {
+            Environment.Exit(0); // TODO: Fix this
         }
     }
 }

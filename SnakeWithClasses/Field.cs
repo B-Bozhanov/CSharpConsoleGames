@@ -27,10 +27,10 @@ namespace Snake
             food = new Coordinates();
             obstacles = new List<Coordinates>()
             {
-               new Coordinates(6, 30),    // TODO: Fix coordinates abaut the consoleSize
-               new Coordinates(15, 23),
-               new Coordinates(25, 100),
-               new Coordinates(17, 93),
+               //new Coordinates(6, 30),    // TODO: Fix coordinates abaut the consoleSize
+               //new Coordinates(15, 23),
+               //new Coordinates(25, 100),
+               //new Coordinates(17, 93),
             };
 
             SetConsoleSettings();

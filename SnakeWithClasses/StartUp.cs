@@ -10,7 +10,6 @@ namespace Snake
             Field field = new Field(new Coordinates(30, 120));
             GameMenu menu = new GameMenu(field);
             menu.WellcomeScreen();
-            //Engine.Start(field);
         }
     }
 }
