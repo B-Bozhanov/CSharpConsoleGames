@@ -8,17 +8,14 @@ namespace Snake
 {
     internal class GameMenu
     {
-        private readonly Field field;       // TODO: May be only Coordinates for ConsoleRow and ConsoleCol
-        private Coordinates cursorPossition;
         private readonly string[] mainMenu;
         private readonly string[] subDificult;
         private readonly string[] subSettings;
         private int consoleRow;
         private int consoleCol;
-        private char cursorSymbol;
         private int snakeLength = 6;   // By default
 
-        public GameMenu(Field field)
+        public GameMenu(int consoleRow, int consoleCol)
         {
             this.mainMenu = new string[]
             {
@@ -42,13 +39,9 @@ namespace Snake
                "Snake Length",
                "Back"
             };
-            this.field = field;
-            this.consoleRow = field.ConsoleRow / 2 - 3;
-            this.consoleCol = field.ConsoleCol / 2 - 4;
-            this.cursorPossition = new Coordinates(this.consoleRow, this.consoleCol - 2);
-            this.cursorSymbol = '*';
+            this.consoleRow = consoleRow / 2 - 3;
+            this.consoleCol = consoleCol / 2 - 4;
         }
-
 
         public string[] MainMenu { get => this.mainMenu; }
 
@@ -80,19 +73,22 @@ namespace Snake
         }
         public void Menu(string[] menu)
         {
-            MenuItems screen = new MenuItems(menu, this.consoleRow, this.consoleCol);
+            MenuPositions currentMenu = new MenuPositions(menu, this.consoleRow, this.consoleCol);
             Cursor cursor = new Cursor(this.consoleRow, this.consoleCol);
 
+            currentMenu.SetPositions();
+            Visualizer.DrowingMenu(menu, consoleRow, consoleCol);
             cursor.Move(menu.Length, consoleRow);
             Console.Clear();
 
-            int currentElementIndex = screen.GetElementIndex(cursor.Position); // Get index of current array
+            int index = currentMenu.GetPositionIndex(cursor.Position); // Get index of current array
             cursor.Position.Row = consoleRow; // restore Cursor row position.
+
             if (mainMenu == menu)
             {
-                switch (currentElementIndex)
+                switch (index)
                 {
-                    case 0: Engine.Start(field, snakeLength); break;       // New Game
+                    case 0: GetSnakeLength(); break;     // New Game
                     case 1: Menu(this.subDificult); break;                 // Dificult
                     case 2: Menu(this.subSettings); break;                 // Settings
                     case 3: Environment.Exit(0); break;                    // Exit   -->  TODO: fix this
@@ -100,7 +96,7 @@ namespace Snake
             }
             else if (this.subDificult == menu)
             {
-                switch (currentElementIndex)
+                switch (index)
                 {
                     case 0:; break;  // Easy
                     case 1:; break; // Medium
@@ -110,7 +106,7 @@ namespace Snake
             }
             else if (this.subSettings == menu)
             {
-                switch (currentElementIndex)
+                switch (index)
                 {
                     case 0:; break;  // Screen size
                     case 1:; break; // Field Color
@@ -141,6 +137,10 @@ namespace Snake
             Console.Clear();
 
             Menu(this.mainMenu); //Go back in the main menu window.
+        }
+        public int GetSnakeLength()
+        {
+            return this.snakeLength;
         }
     }
 }

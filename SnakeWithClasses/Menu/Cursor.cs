@@ -10,10 +10,6 @@ namespace Snake.Menu
             Position.Col -= 2;   // decreese cols by two possitions, to visualized left on menu;
             this.Symbol = '*';
         }
-        public Cursor()
-        {
-
-        }
 
         public Coordinates Position { get; private set; }
         public char Symbol { get; private set; }
