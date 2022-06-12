@@ -13,7 +13,7 @@ namespace Snake
         private readonly string[] subSettings;
         private readonly int consoleRow;
         private readonly int consoleCol;
-        private int snakeLength = 6;   // By default
+        private int snakeLength;   
 
         public GameMenu(int consoleRow, int consoleCol)
         {
@@ -41,11 +41,12 @@ namespace Snake
             };
             this.consoleRow = consoleRow;
             this.consoleCol = consoleCol;
+            this.snakeLength = 6;               // By default
         }
 
-        public string[] MainMenu { get => this.mainMenu; }
+        public string[] MainMenu { get => this.mainMenu; } // If GameOver, but may be fix this!
 
-       
+
         public void Menu(string[] menu)
         {
             MenuPositions currentMenu = new MenuPositions(menu, this.consoleRow, this.consoleCol);
@@ -64,18 +65,18 @@ namespace Snake
                 switch (index)
                 {
                     case 0: GetSnakeLengthByUser(); break;     // New Game
-                    case 1: Menu(this.subDificult); break;                 // Dificult
-                    case 2: Menu(this.subSettings); break;                 // Settings
-                    case 3: Environment.Exit(0); break;                    // Exit   -->  TODO: fix this
+                    case 1: Menu(this.subDificult); break;     // Dificult
+                    case 2: Menu(this.subSettings); break;     // Settings
+                    case 3: Environment.Exit(0); break;        // Exit   -->  TODO: fix this
                 }
             }
             else if (this.subDificult == menu)
             {
                 switch (index)
                 {
-                    case 0:; break;  // Easy
-                    case 1:; break; // Medium
-                    case 2:; break; // Hard
+                    case 0:; break;                  // Easy
+                    case 1:; break;                  // Medium
+                    case 2:; break;                  // Hard
                     case 3: Menu(mainMenu); break;   // Back
                 }
             }
@@ -83,10 +84,10 @@ namespace Snake
             {
                 switch (index)
                 {
-                    case 0:; break;  // Screen size
-                    case 1:; break; // Field Color
-                    case 2:; break; // Snake Color
-                    case 3: SetSnakeLength(); break;   // Snake Length
+                    case 0:; break;                       // Screen size
+                    case 1:; break;                       // Field Color
+                    case 2:; break;                       // Snake Colors
+                    case 3: SetSnakeLength(); break;      // Snake Length
                     case 4: Menu(this.mainMenu); break;   // Back
                 }
             }

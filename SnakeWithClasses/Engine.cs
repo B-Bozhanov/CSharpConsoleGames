@@ -8,8 +8,7 @@ namespace Snake
     {
         public static void Start(Field field, int snakeLength)
         {
-            Snake snake = new Snake(snakeLength);
-            snake.SnakeCreation(field.InfoWindow);
+            Snake snake = new Snake(snakeLength, field.InfoWindow);
             bool wallsApear = false;
 
             Stopwatch foodDisapearTimer = new Stopwatch();
@@ -38,24 +37,23 @@ namespace Snake
                 snake.Move();
                 Visualizer.DrowingSnake(snake.SnakeElements, snake.Direction, snake.NextHead);
 
-                //if (snake.NextHead.Row == field.Food.Row && snake.NextHead.Col == field.Food.Col)
-                //{
-                //    snake.Eat(field.Food);
-                //    food.FoodGenerator(snake.SnakeElements);
-                //    Visualizer.FoodDrowing(food.Symbol, field.Food);
-                //    field.Score += snake.SnakeElements.Count / 5;
-                //}
-                //else if (foodDisapearTimer.ElapsedTicks % 100 == 0) // TODO: Something else with this.
-                //{
-                //    Visualizer.WriteOnConsole(" ",field.Food.Row, field.Food.Col);
-                //    food.FoodGenerator(snake.SnakeElements);
-                //   // foodDisapearTimer.Restart();
-                //}
+                if (snake.NextHead.Row == field.Food.Row && snake.NextHead.Col == field.Food.Col)
+                {
+                    snake.Eat(field.Food);
+                    food.FoodGenerator(snake.SnakeElements);
+                    Visualizer.FoodDrowing(food.Symbol, field.Food);
+                    field.Score += snake.SnakeElements.Count / 5;
+                }
+                else if (foodDisapearTimer.ElapsedTicks % 100 == 0) // TODO: Something else with this.
+                {
+                    Visualizer.WriteOnConsole(" ", field.Food.Row, field.Food.Col);
+                    food.FoodGenerator(snake.SnakeElements);
+                    // foodDisapearTimer.Restart();
+                }
 
-               // Visualizer.FoodDrowing(food.Symbol, field.Food);
-                
+                Visualizer.FoodDrowing(food.Symbol, field.Food);
+
                 Thread.Sleep(100);
-                //Console.Clear();
             }
         }
     }
