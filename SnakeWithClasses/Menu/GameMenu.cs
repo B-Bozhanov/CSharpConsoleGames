@@ -11,8 +11,8 @@ namespace Snake
         private readonly string[] mainMenu;
         private readonly string[] subDificult;
         private readonly string[] subSettings;
-        private int consoleRow;
-        private int consoleCol;
+        private readonly int consoleRow;
+        private readonly int consoleCol;
         private int snakeLength = 6;   // By default
 
         public GameMenu(int consoleRow, int consoleCol)
@@ -39,38 +39,13 @@ namespace Snake
                "Snake Length",
                "Back"
             };
-            this.consoleRow = consoleRow / 2 - 3;
-            this.consoleCol = consoleCol / 2 - 4;
+            this.consoleRow = consoleRow;
+            this.consoleCol = consoleCol;
         }
 
         public string[] MainMenu { get => this.mainMenu; }
 
-        public void WellcomeScreen()
-        {
-            var generator = new Random();
-            //var screen = $"Wellcome";
-            var loading = "loading...";
-            var loadingTime = 1;//generator.Next(5, 15);
-            var wellcomeText = new Coordinates(this.consoleRow, this.consoleCol); // TODO: something
-            var timer = new Stopwatch();
-
-            timer.Start();
-            while (true)
-            {
-                TimeSpan seconds = timer.Elapsed;
-                // Visualizer.WriteOnConsole(screen, wellcomeText.Row, wellcomeText.Col, ConsoleColor.Yellow);
-                Visualizer.WriteOnConsole(loading, wellcomeText.Row + 1, wellcomeText.Col, ConsoleColor.Yellow);
-
-                if (seconds.Seconds == loadingTime)
-                {
-                    timer.Reset();
-                    Console.Clear();
-                    break;
-                }
-            }
-
-            Menu(this.mainMenu);
-        }
+       
         public void Menu(string[] menu)
         {
             MenuPositions currentMenu = new MenuPositions(menu, this.consoleRow, this.consoleCol);
@@ -141,6 +116,10 @@ namespace Snake
         public int GetSnakeLength()
         {
             return this.snakeLength;
+        }
+        public void StartMainMenu()
+        {
+            Menu(this.mainMenu);
         }
     }
 }
