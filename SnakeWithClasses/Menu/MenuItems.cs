@@ -21,11 +21,11 @@ namespace Snake
 
         public string[] Elements { get => this.elements; }
 
-        public int GetElement(Coordinates cursorPossition)
+        public int GetElementIndex(Coordinates cursorPossition)
         {
             for (int i = 0; i < coordinates.Count; i++)
             {
-                if (this.coordinates[i].Row == cursorPossition.Row && this.coordinates[i].Col == cursorPossition.Col + 2)
+                if (this.coordinates[i].Row == cursorPossition.Row && this.coordinates[i].Col == cursorPossition.Col)
                 {
                     return i;
                 }
