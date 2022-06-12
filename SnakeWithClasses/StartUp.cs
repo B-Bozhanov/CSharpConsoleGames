@@ -10,7 +10,7 @@
 
             wellcome.Wellcome(true);
             menu.StartMainMenu();
-            int snakeLength = menu.GetSnakeLength();
+            int snakeLength = menu.GetSnakeLengthByUser();
 
             Engine.Start(field, snakeLength);
 

@@ -63,7 +63,7 @@ namespace Snake
             {
                 switch (index)
                 {
-                    case 0: GetSnakeLength(); break;     // New Game
+                    case 0: GetSnakeLengthByUser(); break;     // New Game
                     case 1: Menu(this.subDificult); break;                 // Dificult
                     case 2: Menu(this.subSettings); break;                 // Settings
                     case 3: Environment.Exit(0); break;                    // Exit   -->  TODO: fix this
@@ -113,7 +113,7 @@ namespace Snake
 
             Menu(this.mainMenu); //Go back in the main menu window.
         }
-        public int GetSnakeLength()
+        public int GetSnakeLengthByUser()
         {
             return this.snakeLength;
         }
