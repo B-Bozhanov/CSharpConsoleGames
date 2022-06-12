@@ -97,18 +97,20 @@ namespace Snake
             WriteOnConsole($"Score: {score}", 1, 1, ConsoleColor.Yellow);
             WriteOnConsole($"Level: {level}", 2, 1, ConsoleColor.Yellow);
         }
-        public static void FoodDrowing(Coordinates food)
+        public static void FoodDrowing(char symbol, Coordinates food)
         {
-            WriteOnConsole("@", food.Row, food.Col, ConsoleColor.Green);
+            WriteOnConsole(symbol.ToString(), food.Row, food.Col, ConsoleColor.Green);
         }
-        public static void DrowingMenu(string item, int row, int col)
+        public static void DrowingMenu(string[] items, int row, int col)
         {
-                WriteOnConsole(item, row, col, ConsoleColor.Yellow);
-            
+            for (int i = 0; i < items.Length; i++)
+            {
+                WriteOnConsole(items[i], row + i, col, ConsoleColor.Yellow);
+            }
         }
-        public static void DrowingCursor(char item, int row, int col)
+        public static void DrowingCursor(char item, Coordinates position)
         {
-            WriteOnConsole(item.ToString(), row, col, ConsoleColor.Yellow);
+            WriteOnConsole(item.ToString(), position.Row, position.Col, ConsoleColor.Yellow);
         }
         public static void Exit()
         {

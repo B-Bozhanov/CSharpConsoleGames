@@ -1,4 +1,5 @@
-﻿using Snake.UserInput;
+﻿using Snake.Menu;
+using Snake.UserInput;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -43,7 +44,8 @@ namespace Snake
         private int GetSnakeDirection(int direction)
         {
            
-            var key = UserKeyInput.GetInput();
+            var userInput = new UserKeyInput();
+            var key = userInput.GetInput();
             switch (key)
             {
                 case KeyPressed.Right:

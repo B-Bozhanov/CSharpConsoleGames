@@ -15,7 +15,9 @@ namespace Snake
             Stopwatch foodDisapearTimer = new Stopwatch();
             foodDisapearTimer.Start();
             
-            field.FoodGenerator(snake.SnakeElements);
+            var food = new Food();
+            food.FoodGenerator(snake.SnakeElements);
+            Visualizer.FoodDrowing(food.Symbol, food.FoodCords);
             while (true)
             {
                 Visualizer.DrowingInfoWindow(field.ConsoleCol, field.InfoWindow);
@@ -25,7 +27,7 @@ namespace Snake
                 if (snake.IsDeath(field.ConsoleRow, field.ConsoleCol, field.InfoWindow, wallsApear, field.Obstacles))
                 {
                     Visualizer.GameOver(field.Score);
-                    GameMenu menu = new GameMenu(field);
+                    var menu = new GameMenu(field.ConsoleRow, field.ConsoleCol);
                     Thread.Sleep(3000);
                     Console.Clear();
                     snake = null;
@@ -36,21 +38,21 @@ namespace Snake
                 snake.Move();
                 Visualizer.DrowingSnake(snake.SnakeElements, snake.Direction, snake.NextHead);
 
-                if (snake.NextHead.Row == field.Food.Row && snake.NextHead.Col == field.Food.Col)
-                {
-                    snake.Eat(field.Food);
-                    field.FoodGenerator(snake.SnakeElements);
-                    Visualizer.FoodDrowing(field.Food);
-                    field.Score += snake.SnakeElements.Count / 5;
-                }
-                else if (foodDisapearTimer.ElapsedTicks % 100 == 0) // TODO: Something else with this.
-                {
-                    Visualizer.WriteOnConsole(" ",field.Food.Row, field.Food.Col);
-                    field.FoodGenerator(snake.SnakeElements);
-                   // foodDisapearTimer.Restart();
-                }
+                //if (snake.NextHead.Row == field.Food.Row && snake.NextHead.Col == field.Food.Col)
+                //{
+                //    snake.Eat(field.Food);
+                //    food.FoodGenerator(snake.SnakeElements);
+                //    Visualizer.FoodDrowing(food.Symbol, field.Food);
+                //    field.Score += snake.SnakeElements.Count / 5;
+                //}
+                //else if (foodDisapearTimer.ElapsedTicks % 100 == 0) // TODO: Something else with this.
+                //{
+                //    Visualizer.WriteOnConsole(" ",field.Food.Row, field.Food.Col);
+                //    food.FoodGenerator(snake.SnakeElements);
+                //   // foodDisapearTimer.Restart();
+                //}
 
-                Visualizer.FoodDrowing(field.Food);
+               // Visualizer.FoodDrowing(food.Symbol, field.Food);
                 
                 Thread.Sleep(100);
                 //Console.Clear();

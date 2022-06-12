@@ -3,7 +3,7 @@ using System;
 // Delete NameSpace
 class UserKeyInput
 {
-    public static  KeyPressed GetInput()
+    public  KeyPressed GetInput()
     {
         if (Console.KeyAvailable)
         {
