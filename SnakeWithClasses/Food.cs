@@ -4,17 +4,18 @@ using System.Linq;
 
 namespace Snake
 {
-    internal class Food : Field
+    internal class Food : Obstacles
     {
         private Coordinates foodCords;
         private char symbol;
-       
+
 
         public Food()
         {
             this.symbol = '@';
             this.foodCords = new Coordinates();
-           // int row = this.test;
+            // int row = this.test;
+            int a =  this.consoleRow;
         }
 
         public char Symbol { get => this.symbol; }
@@ -22,14 +23,14 @@ namespace Snake
 
         public void FoodGenerator(Queue<Coordinates> snakeElements)
         {
-            Random generator = new Random();
-            foodCords.Row = generator.Next(this.InfoWindow + 2, this.ConsoleRow - 1);
-            foodCords.Col = generator.Next(0, this.ConsoleCol - 2);
+            //Random generator = new Random();
+            //foodCords.Row = generator.Next(this.infoWindow + 2, this.ConsoleRow - 1);
+            //foodCords.Col = generator.Next(0, this.ConsoleCol - 2);
 
-            if (snakeElements.Any(s => s.Row == this.foodCords.Row && s.Col == this.foodCords.Col))
-            {
-                FoodGenerator(snakeElements);
-            }
+            //if (snakeElements.Any(s => s.Row == this.foodCords.Row && s.Col == this.foodCords.Col))
+            //{
+            //    FoodGenerator(snakeElements);
+            //}
         }
     }
 }

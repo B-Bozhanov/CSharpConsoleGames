@@ -21,13 +21,13 @@ namespace Snake
             level = 1;
 
             SetConsoleSettings();
-            foreach (var item in obstacles) // TODO: move this from here.
-            {
-                Visualizer.WriteOnConsole("=", item.Row, item.Col, ConsoleColor.Cyan);
-            }
+            //foreach (var item in obstacles) // TODO: move this from here.
+            //{
+            //    Visualizer.WriteOnConsole("=", item.Row, item.Col, ConsoleColor.Cyan);
+            //}
         }
 
-        public List<Coordinates> Obstacles
+        public List<Coordinates> Obstacless
         {
             get => this.obstacles;
             set => this.obstacles = value;

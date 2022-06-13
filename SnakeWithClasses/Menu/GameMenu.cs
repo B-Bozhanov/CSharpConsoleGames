@@ -1,7 +1,5 @@
 ﻿using Snake.Menu;
-using Snake.UserInput;
 using System;
-using System.Diagnostics;
 using System.Threading;
 
 namespace Snake
@@ -44,10 +42,7 @@ namespace Snake
             this.snakeLength = 6;               // By default
         }
 
-        public string[] MainMenu { get => this.mainMenu; } // If GameOver, but may be fix this!
-
-
-        public void Menu(string[] menu)
+        private void Menu(string[] menu)
         {
             MenuPositions currentMenu = new MenuPositions(menu, this.consoleRow, this.consoleCol);
             Cursor cursor = new Cursor(this.consoleRow, this.consoleCol);

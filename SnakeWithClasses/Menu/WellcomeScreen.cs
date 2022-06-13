@@ -12,17 +12,17 @@ namespace Snake
         private readonly string loading;
         private readonly int loadingTime;
 
-        public WellcomeScreen(int consoleRow, int consoleCol)
+        internal WellcomeScreen(int consoleRow, int consoleCol)
         {
             this.generator = new Random();
-            this.wellcome = $"Wellcome";
-            this.loading = "loading...";
             this.loadingTime = 1;//generator.Next(5, 15);
             this.text = new Coordinates(consoleRow, consoleCol);
             this.timer = new Stopwatch();
+            this.wellcome = $"Wellcome";
+            this.loading = "loading...";
         }
 
-        public void Wellcome(bool IsNewGame)
+        internal void Wellcome(bool IsNewGame)
         {
             this.timer.Start();
             while (true)

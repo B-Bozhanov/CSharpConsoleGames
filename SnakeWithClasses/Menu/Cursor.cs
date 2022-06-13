@@ -4,17 +4,18 @@ namespace Snake.Menu
 {
     internal class Cursor : UserKeyInput
     {
-        public Cursor(int row, int col)
+        private readonly char symbol;
+
+        internal Cursor(int row, int col)
         {
             this.Position = new Coordinates(row, col);
-            Position.Col -= 2;   // decreese cols by two possitions, to visualized left on menu;
-            this.Symbol = '*';
+            this.Position.Col -= 2;   // decreese cols by two possitions, to visualized left on menu;
+            this.symbol = '*';
         }
 
-        public Coordinates Position { get; private set; }
-        public char Symbol { get; private set; }
+        internal Coordinates Position { get; private set; }
 
-        public void Move(int menuLength, int consoleRow)
+        internal void Move(int menuLength, int consoleRow)
         {
             while (true)
             {
@@ -23,10 +24,10 @@ namespace Snake.Menu
 
                 if (key == KeyPressed.Up) move = -1;
                 if (key == KeyPressed.Down) move = 1;
-                if (key != KeyPressed.None) Visualizer.DrowingCursor(' ', Position);
+                if (key != KeyPressed.None) Visualizer.DrowingCursor(' ', this.Position);
                 if (key == KeyPressed.Enter) break;
 
-                Position.Row += move;
+                this.Position.Row += move;
 
                 if (this.Position.Row < consoleRow)
                 {
@@ -36,9 +37,9 @@ namespace Snake.Menu
                 {
                     this.Position.Row = consoleRow + menuLength - 1;
                 }
-                Visualizer.DrowingCursor(Symbol, Position);
+                Visualizer.DrowingCursor(this.symbol, this.Position);
             }
-            Position.Col += 2; //restore origin col position
+            this.Position.Col += 2; //restore origin col position
         }
     }
 }

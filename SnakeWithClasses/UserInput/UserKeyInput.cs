@@ -1,6 +1,5 @@
 ﻿using Snake.UserInput;
 using System;
-// Delete NameSpace
 class UserKeyInput
 {
     public  KeyPressed GetInput()
