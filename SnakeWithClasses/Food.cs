@@ -14,8 +14,6 @@ namespace Snake
         {
             this.symbol = '@';
             this.foodCords = new Coordinates();
-            // int row = this.test;
-            int a =  this.consoleRow;
         }
 
         public char Symbol { get => this.symbol; }

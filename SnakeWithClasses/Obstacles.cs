@@ -6,14 +6,14 @@ namespace Snake
 {
     internal class Obstacles
     {
-        public readonly int consoleRow;
+        protected int consoleRow;
         private readonly int consoleCol;
         private readonly int infoWindow;
         private readonly char symbol;
         private List<Coordinates> obstacles;
         private Random random;
 
-        public Obstacles()
+        protected Obstacles()
         {
 
         }

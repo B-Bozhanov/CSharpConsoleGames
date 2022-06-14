@@ -8,8 +8,8 @@ namespace Snake
     {
         public static void Start(Field field, int snakeLength)
         {
-            Snake snake = new Snake(snakeLength, field.InfoWindow);
-            Obstacles obstacles = new Obstacles(field.ConsoleRow, field.ConsoleCol, field.InfoWindow);
+            Snake snake = new Snake(snakeLength);
+            Obstacles obstacles = new Obstacles();
             Food food = new Food();
             Stopwatch foodDisapearTimer = new Stopwatch();
 

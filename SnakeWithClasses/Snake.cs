@@ -5,12 +5,12 @@ using System.Linq;
 
 namespace Snake
 {
-    internal class Snake : UserKeyInput
+    internal class Snake : Field
     {
         private Coordinates[] directions;
         private int direction = 0;  // Right by default
 
-        public Snake(int snakeLenght, int infoWindow)
+        public Snake(int snakeLenght)
         {
             this.SnakeElements = new Queue<Coordinates>();
             this.SnakeLenght = snakeLenght;
@@ -71,7 +71,7 @@ namespace Snake
             this.SnakeElements.Enqueue(NextHead);
             this.SnakeElements.Dequeue();
         }
-        public bool IsDeath(int row, int col, int infoWindow, bool wallsAppear, List<Coordinates> obstacles)  // TODO: Не ми се струва добре.... даже не е!
+        public bool IsDeath(int row, int col, bool wallsAppear, List<Coordinates> obstacles)  // TODO: Не ми се струва добре.... даже не е!
         {
             if (wallsAppear)
             {
