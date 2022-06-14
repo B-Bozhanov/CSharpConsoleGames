@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace Snake
 {
-    internal class WellcomeScreen
+    internal class WellcomeScreen 
     {
         private readonly Coordinates text;
         private readonly Random generator;
@@ -16,7 +16,7 @@ namespace Snake
         {
             this.generator = new Random();
             this.loadingTime = 1;//generator.Next(5, 15);
-            this.text = new Coordinates(consoleRow, consoleCol);
+            this.text = new Coordinates();
             this.timer = new Stopwatch();
             this.wellcome = $"Wellcome";
             this.loading = "loading...";

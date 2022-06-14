@@ -1,38 +1,39 @@
-﻿using Snake.UserInput;
-using System;
-class UserKeyInput
+﻿using System;
+namespace Snake
 {
-    public  KeyPressed GetInput()
+    public class UserKeyInput
     {
-        if (Console.KeyAvailable)
+        public KeyPressed GetInput()
         {
-            ConsoleKeyInfo key = Console.ReadKey();
-            if (key.Key == ConsoleKey.RightArrow)
+            if (Console.KeyAvailable)
             {
-                return KeyPressed.Right;
+                ConsoleKeyInfo key = Console.ReadKey();
+                switch (key.Key)
+                {
+                    case ConsoleKey.RightArrow: return KeyPressed.Right;
+                    case ConsoleKey.LeftArrow: return KeyPressed.Left;
+                    case ConsoleKey.UpArrow: return KeyPressed.Up;
+                    case ConsoleKey.DownArrow: return KeyPressed.Down;
+                    case ConsoleKey.Enter: return KeyPressed.Enter;
+                    case ConsoleKey.Escape: return KeyPressed.Exit;
+                }
             }
-            else if (key.Key == ConsoleKey.LeftArrow)
-            {
-                return KeyPressed.Left;
-            }
-            else if (key.Key == ConsoleKey.DownArrow)
-            {
-                return KeyPressed.Down;
-            }
-            else if (key.Key == ConsoleKey.UpArrow)
-            {
-                return KeyPressed.Up;
-            }
-            else if (key.Key == ConsoleKey.Enter)
-            {
-                return KeyPressed.Enter;
-            }
-            else if (key.Key == ConsoleKey.Escape)
-            {
-                return KeyPressed.Exit;
-            }
+            return KeyPressed.None;
         }
-        return KeyPressed.None;
+        public enum KeyPressed
+        {
+            None,
+            Left,
+            Right,
+            Up,
+            Down,
+            Enter,
+            Back,
+            Exit
+        }
     }
 }
+
+
+
 

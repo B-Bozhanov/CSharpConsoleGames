@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Snake.Menu;
+using System.Collections.Generic;
 
 namespace Snake
 {
-    internal class MenuPositions
+    public class MenuPositions : Cursor
     {
         private readonly List<Coordinates> possitions;
         private readonly string[] elements;

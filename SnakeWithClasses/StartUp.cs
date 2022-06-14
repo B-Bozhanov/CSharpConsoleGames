@@ -14,6 +14,9 @@
 
             Engine.Start(field, snakeLength);
 
+            Snake snake = new Snake();
+            snake.sna
+
             //Test test = new Test();
         }
     }

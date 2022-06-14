@@ -4,7 +4,7 @@ using System;
 
 namespace Snake
 {
-    internal class Engine
+    internal class Engine : Food
     {
         public static void Start(Field field, int snakeLength)
         {

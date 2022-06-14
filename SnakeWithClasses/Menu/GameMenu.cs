@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace Snake
 {
-    internal class GameMenu
+    internal class GameMenu : Field
     {
         private readonly string[] mainMenu;
         private readonly string[] subDificult;

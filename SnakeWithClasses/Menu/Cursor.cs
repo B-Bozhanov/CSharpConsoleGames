@@ -2,13 +2,13 @@
 
 namespace Snake.Menu
 {
-    internal class Cursor : UserKeyInput
+    internal class Cursor : GameMenu
     {
         private readonly char symbol;
 
-        internal Cursor(int row, int col)
+        internal Cursor(int consoleRow, int consolecOL)
         {
-            this.Position = new Coordinates(row, col);
+            this.Position = new Coordinates(consoleRow, consolecOL);
             this.Position.Col -= 2;   // decreese cols by two possitions, to visualized left on menu;
             this.symbol = '*';
         }

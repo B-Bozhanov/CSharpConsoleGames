@@ -4,24 +4,14 @@ using System.Linq;
 
 namespace Snake
 {
-    internal class Obstacles
+    internal class Obstacles : Snake
     {
-        protected int consoleRow;
-        private readonly int consoleCol;
-        private readonly int infoWindow;
+        private readonly List<Coordinates> obstacles;
+        private readonly Random random;
         private readonly char symbol;
-        private List<Coordinates> obstacles;
-        private Random random;
 
         protected Obstacles()
         {
-
-        }
-        internal Obstacles(int consoleRow, int consoleCol, int infoWindow)
-        {
-            this.infoWindow = infoWindow;
-            this.consoleRow = consoleRow;
-            this.consoleCol = consoleCol;
             this.random = new Random();
             this.obstacles = new List<Coordinates>();
             this.symbol = '=';
@@ -36,15 +26,15 @@ namespace Snake
         {
             for (int i = 0; i < 7; i++)
             {
-                int row = random.Next(infoWindow + 2 + 1, consoleRow - 1);
-                int col = random.Next(0, consoleCol - 2);
+                int row = random.Next(InfoWindow + 2 + 1, ConsoleRow - 1);
+                int col = random.Next(0, ConsoleCol - 2);
                 obstacles.Add(new Coordinates(row, col));
             }
         }
         internal void Generate(Queue<Coordinates> snakeElements, Coordinates food)
         {
-            int row = random.Next(infoWindow + 2, consoleRow - 1);
-            int col = random.Next(0, consoleCol - 2);
+            int row = random.Next(InfoWindow + 2, ConsoleRow - 1);
+            int col = random.Next(0, ConsoleCol - 2);
 
             if (snakeElements.Any(x => x.Row == row && x.Col == col) ||
                 food.Row == row && food.Col == col)
