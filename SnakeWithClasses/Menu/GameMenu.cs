@@ -9,11 +9,9 @@ namespace Snake
         private readonly string[] mainMenu;
         private readonly string[] subDificult;
         private readonly string[] subSettings;
-        private readonly int consoleRow;
-        private readonly int consoleCol;
         private int snakeLength;   
 
-        public GameMenu(int consoleRow, int consoleCol)
+        public GameMenu(int row, int col) : base(row, col)
         {
             this.mainMenu = new string[]
             {
@@ -37,23 +35,25 @@ namespace Snake
                "Snake Length",
                "Back"
             };
-            this.consoleRow = consoleRow;
-            this.consoleCol = consoleCol;
             this.snakeLength = 6;               // By default
+        }
+        public GameMenu()
+        {
+
         }
 
         private void Menu(string[] menu)
         {
-            MenuPositions currentMenu = new MenuPositions(menu, this.consoleRow, this.consoleCol);
-            Cursor cursor = new Cursor(this.consoleRow, this.consoleCol);
+            MenuPositions currentMenu = new MenuPositions(menu, base.ConsoleRow, base.ConsoleCol);
+            Cursor cursor = new Cursor(base.ConsoleRow, base.ConsoleCol);
 
             currentMenu.SetPositions();
-            Visualizer.DrowingMenu(menu, consoleRow, consoleCol);
-            cursor.Move(menu.Length, consoleRow);
+            Visualizer.DrowingMenu(menu, base.ConsoleRow, base.ConsoleCol);
+            cursor.Move(menu.Length, base.ConsoleRow);
             Console.Clear();
 
             int index = currentMenu.GetPositionIndex(cursor.Position); // Get index of current array
-            cursor.Position.Row = consoleRow; // restore Cursor row position.
+            cursor.Position.Row = base.ConsoleRow; // restore Cursor row position.
 
             if (mainMenu == menu)
             {

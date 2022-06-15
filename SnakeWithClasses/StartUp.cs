@@ -5,7 +5,8 @@
         static void Main(string[] args)
         {
             Field field = new Field(new Coordinates(30, 120));
-            GameMenu menu = new GameMenu(field.consoleRow / 2 -4 , field.ConsoleCol / 2 -3 ); // TODO: something with this!!
+            GameMenu menu = new GameMenu(field.ConsoleRow / 2 -4 , field.ConsoleCol / 2 -3 ); // TODO: something with this!!
+            //GameMenu menu = new GameMenu(field.ConsoleRow, field.ConsoleCol);
             WellcomeScreen wellcome = new WellcomeScreen(field.ConsoleRow / 2 - 3, field.ConsoleCol / 2 - 4);
 
             wellcome.Wellcome(true);
@@ -14,8 +15,6 @@
 
             Engine.Start(field, snakeLength);
 
-            Snake snake = new Snake();
-            snake.sna
 
             //Test test = new Test();
         }

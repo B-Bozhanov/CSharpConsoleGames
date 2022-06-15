@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Snake
 {
-    public class MenuPositions : Cursor
+    public class MenuPositions //: Cursor
     {
         private readonly List<Coordinates> possitions;
         private readonly string[] elements;

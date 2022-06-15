@@ -15,28 +15,28 @@ namespace Snake
 
             bool wallsApear = false;
             foodDisapearTimer.Start();
-            
-            food.FoodGenerator(snake.SnakeElements);
+
+            obstacles.Generate(food.FoodCords);
             Visualizer.FoodDrowing(food.Symbol, food.FoodCords);
             while (true)
             {
-                Visualizer.DrowingInfoWindow(field.ConsoleCol, field.InfoWindow);
-                Visualizer.DrowingGameInfo(field.Score, field.Level);
+                //Visualizer.DrowingInfoWindow(ConsoleCol, InfoWindow);
+                //Visualizer.DrowingGameInfo(field.Score, field.Level);
 
                 snake.NextPossition();
-                if (snake.IsDeath(field.ConsoleRow, field.ConsoleCol, field.InfoWindow, wallsApear, obstacles.ObstaclesList))
-                {
-                    Visualizer.GameOver(field.Score);
-                    var menu = new GameMenu(field.ConsoleRow, field.ConsoleCol);
-                    Thread.Sleep(3000);
-                    Console.Clear();
-                    snake = null;
-                    field = null;
-                    menu.StartMainMenu();
-                }
+                //if (snake.IsDeath(ConsoleRow, ConsoleCol, InfoWindow, wallsApear, obstacles.ObstaclesList))
+                //{
+                //    Visualizer.GameOver(field.Score);
+                //    var menu = new GameMenu(field.ConsoleRow, field.ConsoleCol);
+                //    Thread.Sleep(3000);
+                //    Console.Clear();
+                //    snake = null;
+                //    field = null;
+                //    menu.StartMainMenu();
+                //}
 
-                snake.Move();
-                Visualizer.DrowingSnake(snake.SnakeElements, snake.Direction, snake.NextHead);
+                //snake.Move();
+                //Visualizer.DrowingSnake(snake.SnakeElements, snake.Direction, snake.NextHead);
 
                 //if (snake.NextHead.Row == field.Food.Row && snake.NextHead.Col == field.Food.Col)
                 //{

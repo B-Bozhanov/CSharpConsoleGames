@@ -1,16 +1,19 @@
-﻿using Snake.UserInput;
-
+﻿
 namespace Snake.Menu
 {
     internal class Cursor : GameMenu
     {
         private readonly char symbol;
 
-        internal Cursor(int consoleRow, int consolecOL)
+        public Cursor(int consoleRow, int consolecOL)
         {
             this.Position = new Coordinates(consoleRow, consolecOL);
             this.Position.Col -= 2;   // decreese cols by two possitions, to visualized left on menu;
             this.symbol = '*';
+        }
+        public Cursor()
+        {
+
         }
 
         internal Coordinates Position { get; private set; }

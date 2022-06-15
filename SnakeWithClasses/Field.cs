@@ -5,27 +5,33 @@ namespace Snake
 {
     internal class Field : UserKeyInput
     {
-        private static int consoleRow;
-        private static int consoleCol;
-        private static int infoWindow;
+        protected readonly  int consoleRow;
+        protected readonly  int consoleCol;
+        protected readonly  int infoWindow;
 
-        protected Field()
+        public Field()
         {
+
+        }
+        public Field(int row, int col)
+        {
+            this.consoleRow = row;
+            this.consoleCol = col;
+            this.infoWindow = infoWindow;
 
         }
         public Field(Coordinates fieldSize)
         {
-            infoWindow = 2;                                           // Two Rows by default
-            consoleRow = 1 + infoWindow + 1 + fieldSize.Row + 1; // One is borders size.
-            consoleCol = 1 + fieldSize.Col + 1;
+            this.infoWindow = 2;                                      // Two Rows by default
+            this.consoleRow = 1 + infoWindow + 1 + fieldSize.Row + 1; // One is borders size.
+            this.consoleCol = 1 + fieldSize.Col + 1;
 
             SetConsoleSettings();
         }
        
-        protected static int ConsoleRow { get => consoleRow; }
-        protected static int ConsoleCol { get => consoleCol; }
-        protected static int InfoWindow { get => infoWindow; }
-
+        public  int ConsoleRow { get => consoleRow; }
+        public  int ConsoleCol { get => consoleCol; }
+        public  int InfoWindow { get => infoWindow; }
 
         private void SetConsoleSettings()
         {

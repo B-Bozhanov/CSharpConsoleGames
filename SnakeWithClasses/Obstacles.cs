@@ -10,7 +10,7 @@ namespace Snake
         private readonly Random random;
         private readonly char symbol;
 
-        protected Obstacles()
+        public Obstacles()
         {
             this.random = new Random();
             this.obstacles = new List<Coordinates>();
@@ -31,15 +31,15 @@ namespace Snake
                 obstacles.Add(new Coordinates(row, col));
             }
         }
-        internal void Generate(Queue<Coordinates> snakeElements, Coordinates food)
+        internal void Generate(Coordinates food)
         {
             int row = random.Next(InfoWindow + 2, ConsoleRow - 1);
             int col = random.Next(0, ConsoleCol - 2);
 
-            if (snakeElements.Any(x => x.Row == row && x.Col == col) ||
+            if (SnakeElements.Any(x => x.Row == row && x.Col == col) ||
                 food.Row == row && food.Col == col)
             {
-                Generate(snakeElements, food);
+                Generate(food);
             }
             obstacles.Add(new Coordinates(row, col));
         }
