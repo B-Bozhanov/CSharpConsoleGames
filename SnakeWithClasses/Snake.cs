@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Snake
 {
-    internal class Snake : Field
+    internal class Snake : UserKeyInput
     {
         private Coordinates[] directions; // May be ReadOnly!
         private static Queue<Coordinates> snakeCoords;
@@ -11,11 +11,6 @@ namespace Snake
         private readonly int snakeLength;
         private Coordinates snakeNextHead;
 
-
-        public Snake()
-        {
-
-        }
         internal Snake(int snakeLenght)
         {
             this.snakeLength = snakeLenght;
@@ -23,7 +18,7 @@ namespace Snake
 
             for (int i = 1; i <= this.snakeLength; i++)   // create the snake:
             {
-                snakeCoords.Enqueue(new Coordinates(InfoWindow + 2, i));   // InfoWindow will be always set by develepor.
+               // snakeCoords.Enqueue(new Coordinates(InfoWindow + 2, i));   // InfoWindow will be always set by develepor.
             }
             this.snakeNextHead = new Coordinates();
             this.directions = new Coordinates[]
@@ -81,21 +76,21 @@ namespace Snake
         }
         public bool IsDeath(int row, int col, bool wallsAppear, List<Coordinates> obstacles)  // TODO: Не ми се струва добре.... даже не е!
         {
-            if (wallsAppear)
-            {
-                if (this.NextHead.Row >= row + 2 || this.NextHead.Row < InfoWindow + 2   // Die
-                  || this.NextHead.Col >= col - 1 || this.NextHead.Col < 1)
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                if (NextHead.Row == row - 1) NextHead.Row = InfoWindow + 2;    // Goes through the walls
-                if (NextHead.Row < InfoWindow + 2) NextHead.Row = row - 1;
-                if (NextHead.Col >= col - 1) NextHead.Col = 1;
-                if (NextHead.Col < 1) NextHead.Col = col - 1;
-            }
+            //if (wallsAppear)
+            //{
+            //    if (this.NextHead.Row >= row + 2 || this.NextHead.Row < InfoWindow + 2   // Die
+            //      || this.NextHead.Col >= col - 1 || this.NextHead.Col < 1)
+            //    {
+            //        return true;
+            //    }
+            //}
+            //else
+            //{
+            //    if (NextHead.Row == row - 1) NextHead.Row = InfoWindow + 2;    // Goes through the walls
+            //   // if (NextHead.Row < InfoWindow + 2) NextHead.Row = row - 1;
+            //    if (NextHead.Col >= col - 1) NextHead.Col = 1;
+            //    if (NextHead.Col < 1) NextHead.Col = col - 1;
+            //}
 
             foreach (var element in SnakeElements)
             {

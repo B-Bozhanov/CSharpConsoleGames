@@ -4,11 +4,10 @@ using System;
 
 namespace Snake
 {
-    internal class Engine : Food
+    internal class Engine
     {
         public static void Start(Field field, int snakeLength)
         {
-            Snake snake = new Snake(snakeLength);
             Obstacles obstacles = new Obstacles();
             Food food = new Food();
             Stopwatch foodDisapearTimer = new Stopwatch();
@@ -16,14 +15,14 @@ namespace Snake
             bool wallsApear = false;
             foodDisapearTimer.Start();
 
-            obstacles.Generate(food.FoodCords);
+           // obstacles.Generate(food.FoodCords);
             Visualizer.FoodDrowing(food.Symbol, food.FoodCords);
             while (true)
             {
                 //Visualizer.DrowingInfoWindow(ConsoleCol, InfoWindow);
                 //Visualizer.DrowingGameInfo(field.Score, field.Level);
 
-                snake.NextPossition();
+                //snake.NextPossition();
                 //if (snake.IsDeath(ConsoleRow, ConsoleCol, InfoWindow, wallsApear, obstacles.ObstaclesList))
                 //{
                 //    Visualizer.GameOver(field.Score);

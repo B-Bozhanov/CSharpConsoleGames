@@ -12,11 +12,11 @@ namespace Snake
         private readonly string loading;
         private readonly int loadingTime;
 
-        internal WellcomeScreen(int consoleRow, int consoleCol)
+        internal WellcomeScreen(int row, int col)
         {
             this.generator = new Random();
             this.loadingTime = 1;//generator.Next(5, 15);
-            this.text = new Coordinates();
+            this.text = new Coordinates(row, col);
             this.timer = new Stopwatch();
             this.wellcome = $"Wellcome";
             this.loading = "loading...";

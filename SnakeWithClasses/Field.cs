@@ -3,21 +3,12 @@ using System.Text;
 
 namespace Snake
 {
-    internal class Field : UserKeyInput
+    internal class Field 
     {
-        protected readonly  Coordinates consoleCoords;
-        protected readonly  int infoWindow;
+       private readonly  int consoleRow;
+       private readonly  int consoleCol;
+       private readonly  int infoWindow;
 
-        public Field()
-        {
-
-        }
-        public Field(int row, int col)
-        {
-            this.consoleCoords = new Coordinates(row, col);
-            this.infoWindow = infoWindow;
-
-        }
         public Field(Coordinates fieldSize)
         {
             this.infoWindow = 2;                                      // Two Rows by default
