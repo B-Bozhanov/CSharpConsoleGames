@@ -1,7 +1,6 @@
 ﻿using Snake.Menu;
 using System;
 using System.Threading;
-
 namespace Snake
 {
     internal class GameMenu : Field
@@ -37,23 +36,22 @@ namespace Snake
             };
             this.snakeLength = 6;               // By default
         }
-        public GameMenu()
+        public GameMenu() 
         {
-
         }
 
         private void Menu(string[] menu)
         {
-            MenuPositions currentMenu = new MenuPositions(menu, base.ConsoleRow, base.ConsoleCol);
-            Cursor cursor = new Cursor(base.ConsoleRow, base.ConsoleCol);
+            var currentMenu = new MenuPositions(menu, base.Row, base.Col);
+            var cursor = new  Cursor(this.Row, this.Col);
 
             currentMenu.SetPositions();
-            Visualizer.DrowingMenu(menu, base.ConsoleRow, base.ConsoleCol);
-            cursor.Move(menu.Length, base.ConsoleRow);
+            Visualizer.DrowingMenu(menu, base.Row, base.Col);
+            cursor.Move(menu.Length, base.Row);
             Console.Clear();
 
-            int index = currentMenu.GetPositionIndex(cursor.Position); // Get index of current array
-            cursor.Position.Row = base.ConsoleRow; // restore Cursor row position.
+            int index = currentMenu.GetPositionIndex(cursor); // Get index of current array
+            cursor.Position.Row = base.ConsoleCords.Row; // restore Cursor row position.
 
             if (mainMenu == menu)
             {
