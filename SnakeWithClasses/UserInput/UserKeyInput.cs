@@ -15,7 +15,7 @@ namespace Snake
                     case ConsoleKey.UpArrow: return KeyPressed.Up;
                     case ConsoleKey.DownArrow: return KeyPressed.Down;
                     case ConsoleKey.Enter: return KeyPressed.Enter;
-                    case ConsoleKey.Escape: return KeyPressed.Exit;
+                   // case ConsoleKey.Escape: return KeyPressed.Exit;
                 }
             }
             return KeyPressed.None;

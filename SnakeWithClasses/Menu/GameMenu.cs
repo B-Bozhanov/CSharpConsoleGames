@@ -4,14 +4,16 @@ using System.Threading;
 
 namespace Snake
 {
-    internal class GameMenu : Field
+    internal class GameMenu 
     {
         private readonly string[] mainMenu;
         private readonly string[] subDificult;
         private readonly string[] subSettings;
+        private readonly int row;
+        private readonly int col;
         private int snakeLength;   
 
-        public GameMenu(int row, int col) : base(row, col)
+        public GameMenu(int row, int col)
         {
             this.mainMenu = new string[]
             {
@@ -36,36 +38,34 @@ namespace Snake
                "Back"
             };
             this.snakeLength = 6;               // By default
-        }
-        public GameMenu()
-        {
-
+            this.row = row; 
+            this.col = col;
         }
 
         private void Menu(string[] menu)
         {
-            MenuPositions currentMenu = new MenuPositions(menu, base.ConsoleRow, base.ConsoleCol);
-            Cursor cursor = new Cursor(base.ConsoleRow, base.ConsoleCol);
+            var currentMenu = new MenuPositions(menu, this.row, this.col);
+            var cursor = new Cursor(this.row, this.col);
 
             currentMenu.SetPositions();
-            Visualizer.DrowingMenu(menu, base.ConsoleRow, base.ConsoleCol);
-            cursor.Move(menu.Length, base.ConsoleRow);
+            Visualizer.DrowingMenu(menu, this.row, this.col);
+            cursor.Move(menu.Length, this.row);
             Console.Clear();
 
             int index = currentMenu.GetPositionIndex(cursor.Position); // Get index of current array
-            cursor.Position.Row = base.ConsoleRow; // restore Cursor row position.
+            cursor.Position.Row = this.row;                            // restore Cursor row position.
 
-            if (mainMenu == menu)
+            if (menu == mainMenu)
             {
                 switch (index)
                 {
-                    case 0: GetSnakeLengthByUser(); break;     // New Game
-                    case 1: Menu(this.subDificult); break;     // Dificult
-                    case 2: Menu(this.subSettings); break;     // Settings
-                    case 3: Environment.Exit(0); break;        // Exit   -->  TODO: fix this
+                    case 0: GetSnakeLengthByUserOrDefault(); break;     // New Game
+                    case 1: Menu(this.subDificult); break;              // Dificult
+                    case 2: Menu(this.subSettings); break;              // Settings
+                    case 3: Environment.Exit(0); break;                 // Exit   -->  TODO: fix this
                 }
             }
-            else if (this.subDificult == menu)
+            else if (menu == this.subDificult)
             {
                 switch (index)
                 {
@@ -75,7 +75,7 @@ namespace Snake
                     case 3: Menu(mainMenu); break;   // Back
                 }
             }
-            else if (this.subSettings == menu)
+            else if (menu == this.subSettings)
             {
                 switch (index)
                 {
@@ -109,7 +109,7 @@ namespace Snake
 
             Menu(this.mainMenu); //Go back in the main menu window.
         }
-        public int GetSnakeLengthByUser()
+        public int GetSnakeLengthByUserOrDefault()
         {
             return this.snakeLength;
         }

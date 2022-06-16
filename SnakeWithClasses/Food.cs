@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Snake
 {
-    internal class Food : Obstacles
+    internal class Food 
     {
         private Coordinates foodCords;
         private char symbol;
