@@ -5,7 +5,7 @@ namespace Snake
 {
     internal class WellcomeScreen 
     {
-        private readonly Coordinates text;
+        private readonly Coordinates consoleCoords;
         private readonly Random generator;
         private readonly Stopwatch timer;
         private readonly string wellcome;
@@ -16,7 +16,7 @@ namespace Snake
         {
             this.generator = new Random();
             this.loadingTime = 1;//generator.Next(5, 15);
-            this.text = new Coordinates(row, col);
+            this.consoleCoords = new Coordinates(row, col);
             this.timer = new Stopwatch();
             this.wellcome = $"Wellcome";
             this.loading = "loading...";
@@ -30,10 +30,10 @@ namespace Snake
                 TimeSpan seconds = timer.Elapsed;
                 if (IsNewGame)
                 {
-                    Visualizer.WriteOnConsole(this.wellcome, this.text.Row, this.text.Col, ConsoleColor.Yellow);
+                    Visualizer.WriteOnConsole(this.wellcome, this.consoleCoords.Row, this.consoleCoords.Col, ConsoleColor.Yellow);
                 }
 
-                Visualizer.WriteOnConsole(this.loading, this.text.Row + 1, this.text.Col, ConsoleColor.Yellow);
+                Visualizer.WriteOnConsole(this.loading, this.consoleCoords.Row + 1, this.consoleCoords.Col, ConsoleColor.Yellow);
 
                 if (seconds.Seconds == loadingTime)
                 {

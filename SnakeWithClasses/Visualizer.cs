@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Snake
 {
-    internal static class Visualizer
+    internal  class Visualizer
     {
         public static void DrowingInfoWindow(int col, int infoWindow)
         {
