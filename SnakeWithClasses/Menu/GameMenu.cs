@@ -9,11 +9,11 @@ namespace Snake
         private readonly string[] mainMenu;
         private readonly string[] subDificult;
         private readonly string[] subSettings;
-        private readonly int row;
-        private readonly int col;
+        private readonly int consoleRow;
+        private readonly int consoleCol;
         private int snakeLength;   
 
-        public GameMenu(int row, int col)
+        public GameMenu(int consoleRow, int consoleCol)
         {
             this.mainMenu = new string[]
             {
@@ -38,22 +38,25 @@ namespace Snake
                "Back"
             };
             this.snakeLength = 6;               // By default
-            this.row = row; 
-            this.col = col;
+            this.consoleRow = consoleRow; 
+            this.consoleCol = consoleCol;
+            this.WellcomeScreen = new WellcomeScreen(consoleRow, consoleCol);
         }
+
+        internal WellcomeScreen WellcomeScreen { get; private set; }
 
         private void Menu(string[] menu)
         {
-            var currentMenu = new MenuPositions(menu, this.row, this.col);
-            var cursor = new Cursor(this.row, this.col);
+            var currentMenu = new MenuPositions(menu, this.consoleRow, this.consoleCol);
+            var cursor = new Cursor(this.consoleRow, this.consoleCol);
 
             currentMenu.SetPositions();
-            Visualizer.DrowingMenu(menu, this.row, this.col);
-            cursor.Move(menu.Length, this.row);
+            Visualizer.DrowingMenu(menu, this.consoleRow, this.consoleCol);
+            cursor.Move(menu.Length, this.consoleRow);  // may be return from While Looop and with escape.....
             Console.Clear();
 
-            int index = currentMenu.GetPositionIndex(cursor.Position); // Get index of current array
-            cursor.Position.Row = this.row;                            // restore Cursor row position.
+            int index = currentMenu.GetPositionIndex(cursor.Position);        // Get index of current array
+            cursor.Position.Row = this.consoleRow;                            // Restore Cursor row position.
 
             if (menu == mainMenu)
             {
@@ -87,6 +90,10 @@ namespace Snake
                 }
             }
         }
+        public void StartMainMenu()
+        {
+            Menu(this.mainMenu);
+        }
         private void SetSnakeLength()
         {
             Visualizer.WriteOnConsole($"Enter length -> min 3 - max 20 -> ", 14, 40, ConsoleColor.Yellow); //TODO: fix coordinates.
@@ -100,7 +107,7 @@ namespace Snake
             {
                 Console.Clear();
                 Visualizer.WriteOnConsole($"Incorect Length! Try again!", 14, 50, ConsoleColor.Red); //TODO: fix coordinates.
-                Thread.Sleep(1500);
+                Thread.Sleep(2000);
                 Console.Clear();
                 SetSnakeLength(); // Invoke the method again.
             }
@@ -112,10 +119,6 @@ namespace Snake
         public int GetSnakeLengthByUserOrDefault()
         {
             return this.snakeLength;
-        }
-        public void StartMainMenu()
-        {
-            Menu(this.mainMenu);
         }
     }
 }

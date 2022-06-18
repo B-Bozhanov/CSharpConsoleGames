@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Snake
 {
-    internal  class Visualizer
+    internal static class Visualizer
     {
         public static void DrowingInfoWindow(int col, int infoWindow)
         {
@@ -100,6 +100,13 @@ namespace Snake
         public static void FoodDrowing(char symbol, Coordinates food)
         {
             WriteOnConsole(symbol.ToString(), food.Row, food.Col, ConsoleColor.Green);
+        }
+        public static void ObstaclesDrowing(Obstacles obstacles)
+        {
+            foreach (var o in obstacles.ObstaclesList)
+            {
+                WriteOnConsole(obstacles.Symbol.ToString(), o.Row, o.Col, ConsoleColor.Cyan);
+            }
         }
         public static void DrowingMenu(string[] items, int row, int col)
         {

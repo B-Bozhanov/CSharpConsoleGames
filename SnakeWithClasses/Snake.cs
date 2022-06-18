@@ -5,22 +5,19 @@ namespace Snake
 {
     internal class Snake : UserKeyInput
     {
-        private Coordinates[] directions; // May be ReadOnly!
-        private static Queue<Coordinates> snakeCoords;
-        private int snakeDirection = 0;  // Right by default
-        private readonly int snakeLength;
-        private Coordinates snakeNextHead;
+        private readonly Coordinates[] directions; // May be ReadOnly!
+        private readonly int infoWindow;
 
-        internal Snake(int snakeLenght)
+        internal Snake(int snakeLenght, int infoWindow)
         {
-            this.snakeLength = snakeLenght;
-            snakeCoords = new Queue<Coordinates>();
+            this.SnakeElements = new Queue<Coordinates>();
+            this.SnakeLenght = snakeLenght;
+            this.infoWindow = infoWindow;
 
-            for (int i = 1; i <= this.snakeLength; i++)   // create the snake:
+            for (int i = 1; i <= this.SnakeLenght; i++)   // create the snake:
             {
-               // snakeCoords.Enqueue(new Coordinates(InfoWindow + 2, i));   // InfoWindow will be always set by develepor.
+                this.SnakeElements.Enqueue(new Coordinates(infoWindow + 2, i));   // InfoWindow will be always set by develepor.
             }
-            this.snakeNextHead = new Coordinates();
             this.directions = new Coordinates[]
                {
                 new Coordinates(0, 1),  // Right/ index 0
@@ -28,21 +25,22 @@ namespace Snake
                 new Coordinates(1, 0),  // Down / index 2
                 new Coordinates(-1, 0)  // Up   / index 3
                };
-            this.snakeNextHead = new Coordinates();
+            this.NextHead = new Coordinates();
+            this.Direction = 0; // Right by default;
         }
 
-        protected static Queue<Coordinates> SnakeElements { get => snakeCoords; }
-        internal Coordinates NextHead { get => snakeNextHead; }
-        internal int Direction { get => snakeDirection; }
-        internal int SnakeLenght { get => snakeLength; }
+        internal Queue<Coordinates> SnakeElements { get; private set; }
+        internal Coordinates NextHead { get; private set; }
+        internal int Direction { get; private set; }
+        internal int SnakeLenght { get; }
 
 
         internal void NextPossition()
         {
-            this.snakeDirection = GetDirection(this.snakeDirection);
-            Coordinates snakeHead = snakeCoords.Last();
-            Coordinates nextHeadDirection = this.directions[this.snakeDirection];
-            this.snakeNextHead = new Coordinates(snakeHead.Row + nextHeadDirection.Row, snakeHead.Col + nextHeadDirection.Col);
+            this.Direction = GetDirection(this.Direction);
+            Coordinates snakeHead = this.SnakeElements.Last();
+            Coordinates nextHeadDirection = this.directions[this.Direction];
+            this.NextHead = new Coordinates(snakeHead.Row + nextHeadDirection.Row, snakeHead.Col + nextHeadDirection.Col);
         }
         private int GetDirection(int direction)
         {
@@ -71,37 +69,37 @@ namespace Snake
         }
         public void Move()   // May be not necessarily:
         {
-            snakeCoords.Enqueue(NextHead);
-            snakeCoords.Dequeue();
+            this.SnakeElements.Enqueue(NextHead);
+            this.SnakeElements.Dequeue();
         }
         public bool IsDeath(int row, int col, bool wallsAppear, List<Coordinates> obstacles)  // TODO: Не ми се струва добре.... даже не е!
         {
-            //if (wallsAppear)
-            //{
-            //    if (this.NextHead.Row >= row + 2 || this.NextHead.Row < InfoWindow + 2   // Die
-            //      || this.NextHead.Col >= col - 1 || this.NextHead.Col < 1)
-            //    {
-            //        return true;
-            //    }
-            //}
-            //else
-            //{
-            //    if (NextHead.Row == row - 1) NextHead.Row = InfoWindow + 2;    // Goes through the walls
-            //   // if (NextHead.Row < InfoWindow + 2) NextHead.Row = row - 1;
-            //    if (NextHead.Col >= col - 1) NextHead.Col = 1;
-            //    if (NextHead.Col < 1) NextHead.Col = col - 1;
-            //}
-
-            foreach (var element in SnakeElements)
+            if (wallsAppear)
             {
-                if (NextHead.Row == element.Row && NextHead.Col == element.Col)
+                if (this.NextHead.Row >= row + 2 || this.NextHead.Row < this.infoWindow + 2   // Die
+                  || this.NextHead.Col >= col - 1 || this.NextHead.Col < 1)
                 {
                     return true;
                 }
             }
+            else
+            {
+                if (NextHead.Row == row - 1) NextHead.Row = this.infoWindow + 2;    // Goes through the walls
+                if (NextHead.Row < this.infoWindow + 2) NextHead.Row = row - 1;
+                if (NextHead.Col >= col - 1) NextHead.Col = 1;
+                if (NextHead.Col < 1) NextHead.Col = col - 1;
+            }
+
+            //foreach (var element in this.SnakeElements)
+            //{
+            //    if (NextHead.Row == element.Row && NextHead.Col == element.Col)
+            //    {
+            //        return true;
+            //    }
+            //}
             foreach (var obstacle in obstacles)
             {
-                if (SnakeElements.Any(s => s.Row == obstacle.Row && s.Col == obstacle.Col))
+                if (this.SnakeElements.Any(s => s.Row == obstacle.Row && s.Col == obstacle.Col))
                 {
                     return true;
                 }
@@ -110,9 +108,9 @@ namespace Snake
         }
         public void Eat(Coordinates food)
         {
-            this.snakeNextHead.Row = food.Row;
-            this.snakeNextHead.Col = food.Col;
-            snakeCoords.Enqueue(this.NextHead);
+            this.NextHead.Row = food.Row;
+            this.NextHead.Col = food.Col;
+            this.SnakeElements.Enqueue(this.NextHead);
         }
     }
 }

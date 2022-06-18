@@ -12,14 +12,17 @@ namespace Snake
         private readonly string loading;
         private readonly int loadingTime;
 
-        internal WellcomeScreen(int row, int col)
+        internal WellcomeScreen(int consoleRow, int consoleCol)
         {
+            this.consoleCoords = new Coordinates(consoleRow, consoleCol);
             this.generator = new Random();
-            this.loadingTime = 1;//generator.Next(5, 15);
-            this.consoleCoords = new Coordinates(row, col);
             this.timer = new Stopwatch();
+            this.loadingTime = 1;//generator.Next(5, 15);
+
             this.wellcome = $"Wellcome";
             this.loading = "loading...";
+
+            Wellcome(true); // TODO: Fix boolean;
         }
 
         internal void Wellcome(bool IsNewGame)
@@ -42,7 +45,6 @@ namespace Snake
                     break;
                 }
             }
-            this.timer.Stop();
         }
     }
 }
