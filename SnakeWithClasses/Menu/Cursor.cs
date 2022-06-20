@@ -1,4 +1,7 @@
 ﻿
+using Snake.Interfaces;
+using Snake.UserInput;
+
 namespace Snake.Menu
 {
     internal class Cursor : UserKeyInput
@@ -19,7 +22,8 @@ namespace Snake.Menu
             while (true)
             {
                 int move = 0;
-                var key = GetInput();
+                IUserInput input = new UserKeyInput();
+                var key = input.GetInput();
 
                 if (key == KeyPressed.Up) move = -1;
                 if (key == KeyPressed.Down) move = 1;

@@ -43,7 +43,7 @@ namespace Snake
 
                 if (secconds.Seconds % 5 == 0)
                 {
-                    obstacles.Disapear();
+                   // obstacles.Disapear();
                 }
                 else if (secconds.Seconds % 10 == 0)
                 {
