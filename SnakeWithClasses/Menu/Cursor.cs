@@ -4,7 +4,7 @@ using Snake.UserInput;
 
 namespace Snake.Menu
 {
-    internal class Cursor : UserKeyInput
+    internal class Cursor 
     {
         private readonly char symbol;
 

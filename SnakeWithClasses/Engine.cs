@@ -10,6 +10,7 @@ namespace Snake
         private Obstacles obstacles;
         private Food food;
         private Stopwatch timer;
+        private Random generator;
         private readonly int consoleRow;
         private readonly int consoleCol;
         private readonly int infoWindow;
@@ -20,6 +21,7 @@ namespace Snake
             this.obstacles = new Obstacles();
             this.food = new Food();
             this.timer = new Stopwatch();
+            this.generator = new Random();
             this.snake = snake;
             this.consoleRow = consoleRow;
             this.consoleCol = consoleCol;
@@ -30,27 +32,25 @@ namespace Snake
 
         internal void Start()
         {
-            //TODO: Obstacles and food;
-            //Visualizer.FoodDrowing(food.Symbol, food.FoodCords);
-
-            obstacles.FirsObstacles(consoleRow, consoleCol, infoWindow);
-            Visualizer.ObstaclesDrowing(obstacles);
+            Visualizer.DrowingInfoWindow(this.consoleCol, this.infoWindow);
+            Visualizer.ObstaclesDrowing(this.obstacles.ObstaclesList, null, this.obstacles.Symbol);
+            this.obstacles.FirsObstacles(this.consoleRow, this.consoleCol, this.infoWindow);
+            int interval = 7;
 
             timer.Start();
             while (true)
             {
                 TimeSpan secconds = timer.Elapsed;
 
-                if (secconds.Seconds % 5 == 0)
+                if (secconds.Seconds == interval)
                 {
-                   // obstacles.Disapear();
-                }
-                else if (secconds.Seconds % 10 == 0)
-                {
+                    var removed = obstacles.Disapear();
                     obstacles.GenerateNew(consoleCol, consoleRow, infoWindow, snake, food);
+                    interval = generator.Next(5, 20);
+                    timer.Restart();
+                    Visualizer.ObstaclesDrowing(this.obstacles.ObstaclesList, removed, this.obstacles.Symbol);
                 }
-                Visualizer.ObstaclesDrowing(obstacles);
-                Visualizer.DrowingInfoWindow(this.consoleCol, this.infoWindow);
+
 
                 this.snake.NextPossition();
                 if (snake.IsDeath(this.consoleRow, this.consoleCol, wallsApear, obstacles.ObstaclesList))

@@ -6,29 +6,27 @@ namespace Snake
 {
     internal class Obstacles 
     {
-        private readonly List<Coordinates> obstacles;
         private readonly Random random;
-        private readonly char symbol;
+        private  int obsCount = 7; 
 
         public Obstacles()
         {
             this.random = new Random();
-            this.obstacles = new List<Coordinates>();
-            this.symbol = '=';
-
-           // FirsObstacles();
+            this.ObstaclesList = new List<Coordinates>();
+            this.Symbol = '=';
         }
 
-        internal List<Coordinates> ObstaclesList { get => this.obstacles; }
-        public char Symbol { get => this.symbol; }
+        internal List<Coordinates> ObstaclesList { get; private set; }
+        public char Symbol { get; private set; }
+        public  int ObsCount { get => obsCount; set => obsCount = value; }
 
         internal void FirsObstacles(int consoleRow , int consoleCol, int infoWindol)
         {
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < this.ObsCount; i++)
             {
                 int row = random.Next(infoWindol + 2 + 1, consoleRow - 1);
                 int col = random.Next(0, consoleCol - 2);
-                obstacles.Add(new Coordinates(row, col));
+                this.ObstaclesList.Add(new Coordinates(row, col));
             }
         }
         internal void GenerateNew(int consoleCol, int consoleRow, int infoWindol, Snake snake, Food food)
@@ -41,12 +39,14 @@ namespace Snake
             {
                 GenerateNew(consoleCol, consoleRow, infoWindol, snake, food);
             }
-            obstacles.Add(new Coordinates(row, col));
+            ObstaclesList.Add(new Coordinates(row, col));
         }
-        internal void Disapear()
+        internal Coordinates Disapear()
         {
-            int index = random.Next(0, obstacles.Count - 1);
-            obstacles.RemoveAt(index);
+            int index = random.Next(0, ObstaclesList.Count - 1);
+            var obsForRemove = ObstaclesList[index];
+            ObstaclesList.RemoveAt(index);
+            return obsForRemove;
         }
     }
 }
