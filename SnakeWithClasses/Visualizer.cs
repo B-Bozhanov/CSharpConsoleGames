@@ -101,6 +101,13 @@ namespace Snake
         {
             WriteOnConsole(symbol.ToString(), food.Row, food.Col, ConsoleColor.Green);
         }
+        public static void ObstaclesDrowing(Obstacles obstacles)
+        {
+            foreach (var o in obstacles.ObstaclesList)
+            {
+                WriteOnConsole(obstacles.Symbol.ToString(), o.Row, o.Col, ConsoleColor.Cyan);
+            }
+        }
         public static void DrowingMenu(string[] items, int row, int col)
         {
             for (int i = 0; i < items.Length; i++)

@@ -6,18 +6,17 @@ namespace Snake
 {
     internal class Food 
     {
-        private Coordinates foodCords;
         private char symbol;
 
 
         public Food()
         {
             this.symbol = '@';
-            this.foodCords = new Coordinates();
+            this.FoodCords = new Coordinates();
         }
+        public Coordinates FoodCords { get; private set; }
 
         public char Symbol { get => this.symbol; }
-        public Coordinates FoodCords { get => foodCords; }
 
         public void FoodGenerator(Queue<Coordinates> snakeElements)
         {

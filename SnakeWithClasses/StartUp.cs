@@ -2,18 +2,26 @@
 {
     internal class StartUp
     {
-        static void Main(string[] args)
-        {
-            var field = new Field(new Coordinates(30, 120));
-            var menu = new GameMenu(field.ConsoleRow / 2 -4 , field.ConsoleCol / 2 -3 ); // TODO: something with this!!
-            var wellcome = new WellcomeScreen(field.ConsoleRow / 2 - 4, field.ConsoleCol / 2 - 3);
-            int snakeLength = menu.GetSnakeLengthByUserOrDefault(); // Default is 6:
-            var snake = new Snake(snakeLength);
-            var engine = new Engine(field.ConsoleRow, field.ConsoleCol, snake);
+        const int fieldRow = 30;
+        const int fieldCol = 120;
+        const int infoWindow = 2; // Is zero by default! 
 
-            wellcome.Wellcome(true);
+        private static void Main()
+        {
+            var field = new Field(new Coordinates(fieldRow, fieldCol), infoWindow);
+            int menuRow = field.ConsoleRow / 2 - 4; //TODO: Get numbers from arrays.Length(from menues)
+            int menuCol = field.ConsoleCol / 2 - 3;
+
+            var menu = new GameMenu(menuRow, menuCol); // TODO: something with this!!
             menu.StartMainMenu();
+
+            int snakeLength = menu.GetSnakeLengthByUserOrDefault(); // Default is 6:
+            var snake = new Snake(snakeLength, infoWindow);
+            var engine = new Engine(field.ConsoleRow, field.ConsoleCol, snake, menu.WellcomeScreen, infoWindow);
+
             engine.Start();
+
+            Main();
         }
     }
 }

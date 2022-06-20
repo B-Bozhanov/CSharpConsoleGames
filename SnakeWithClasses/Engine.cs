@@ -6,38 +6,65 @@ namespace Snake
 {
     internal class Engine
     {
-        public static void Start(Field field, int snakeLength)
+        private Snake snake;
+        private Obstacles obstacles;
+        private Food food;
+        private Stopwatch timer;
+        private readonly int consoleRow;
+        private readonly int consoleCol;
+        private readonly int infoWindow;
+        private bool wallsApear;
+
+        public Engine(int consoleRow, int consoleCol, Snake snake, WellcomeScreen wellcome, int infoWindow)
         {
-            Obstacles obstacles = new Obstacles();
-            Food food = new Food();
-            Stopwatch foodDisapearTimer = new Stopwatch();
+            this.obstacles = new Obstacles();
+            this.food = new Food();
+            this.timer = new Stopwatch();
+            this.snake = snake;
+            this.consoleRow = consoleRow;
+            this.consoleCol = consoleCol;
+            this.infoWindow = infoWindow;
+            this.wallsApear = false;
+        }
 
-            bool wallsApear = false;
-            foodDisapearTimer.Start();
 
-           // obstacles.Generate(food.FoodCords);
-            Visualizer.FoodDrowing(food.Symbol, food.FoodCords);
+        internal void Start()
+        {
+            //TODO: Obstacles and food;
+            //Visualizer.FoodDrowing(food.Symbol, food.FoodCords);
+
+            obstacles.FirsObstacles(consoleRow, consoleCol, infoWindow);
+            Visualizer.ObstaclesDrowing(obstacles);
+
+            timer.Start();
             while (true)
             {
-                //Visualizer.DrowingInfoWindow(ConsoleCol, InfoWindow);
-                //Visualizer.DrowingGameInfo(field.Score, field.Level);
+                TimeSpan secconds = timer.Elapsed;
 
-                //snake.NextPossition();
-                //if (snake.IsDeath(ConsoleRow, ConsoleCol, InfoWindow, wallsApear, obstacles.ObstaclesList))
-                //{
-                //    Visualizer.GameOver(field.Score);
-                //    var menu = new GameMenu(field.ConsoleRow, field.ConsoleCol);
-                //    Thread.Sleep(3000);
-                //    Console.Clear();
-                //    snake = null;
-                //    field = null;
-                //    menu.StartMainMenu();
-                //}
+                if (secconds.Seconds % 5 == 0)
+                {
+                    obstacles.Disapear();
+                }
+                else if (secconds.Seconds % 10 == 0)
+                {
+                    obstacles.GenerateNew(consoleCol, consoleRow, infoWindow, snake, food);
+                }
+                Visualizer.ObstaclesDrowing(obstacles);
+                Visualizer.DrowingInfoWindow(this.consoleCol, this.infoWindow);
 
-                //snake.Move();
-                //Visualizer.DrowingSnake(snake.SnakeElements, snake.Direction, snake.NextHead);
+                this.snake.NextPossition();
+                if (snake.IsDeath(this.consoleRow, this.consoleCol, wallsApear, obstacles.ObstaclesList))
+                {
+                    //Visualizer.GameOver(field.Score);
+                    Thread.Sleep(3000);
+                    Console.Clear();
+                    break;
+                }
 
-                //if (snake.NextHead.Row == field.Food.Row && snake.NextHead.Col == field.Food.Col)
+                snake.Move();
+                Visualizer.DrowingSnake(snake.SnakeElements, snake.Direction, snake.NextHead);
+
+                //if (snake.NextHead.Row == this.food.Row && snake.NextHead.Col == field.Food.Col)
                 //{
                 //    snake.Eat(field.Food);
                 //    food.FoodGenerator(snake.SnakeElements);
