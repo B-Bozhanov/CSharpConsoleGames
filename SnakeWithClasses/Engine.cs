@@ -4,7 +4,7 @@ using System;
 
 namespace Snake
 {
-    internal class Engine
+    internal class Engine : Field
     {
         private Snake snake;
         private Obstacles obstacles;
@@ -16,22 +16,22 @@ namespace Snake
         private readonly int infoWindow;
         private bool wallsApear;
 
-        public Engine(int consoleRow, int consoleCol, Snake snake, WellcomeScreen wellcome, int infoWindow)
+
+       
+        public Engine(int consoleRow, int consoleCol, int infoWindow, Snake snake)
+            : base(consoleRow, consoleCol, infoWindow)
         {
-            this.obstacles = new Obstacles(consoleRow, consoleCol, infoWindow, snake);
             this.food = new Food();
             this.timer = new Stopwatch();
             this.generator = new Random();
             this.snake = snake;
-            this.consoleRow = consoleRow;
-            this.consoleCol = consoleCol;
-            this.infoWindow = infoWindow;
             this.wallsApear = false;
         }
 
 
         internal void Start()
         {
+            this.obstacles = new Obstacles(consoleRow, consoleCol, InfoWindow, snake);
             Visualizer.DrowingInfoWindow(this.consoleCol, this.infoWindow);
            
             while (true)

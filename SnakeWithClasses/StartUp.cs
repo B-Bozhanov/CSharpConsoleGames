@@ -17,7 +17,7 @@
 
             int snakeLength = menu.GetSnakeLengthByUserOrDefault(); // Default is 6:
             var snake = new Snake(snakeLength, infoWindow);
-            var engine = new Engine(field.ConsoleRow, field.ConsoleCol, snake, menu.WellcomeScreen, infoWindow);
+            var engine = new Engine(field.ConsoleRow, field.ConsoleCol, infoWindow, snake);
 
             engine.Start();
 

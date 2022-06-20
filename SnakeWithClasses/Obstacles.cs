@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace Snake
 {
-    internal class Obstacles
+    internal class Obstacles : Engine
     {
         private readonly Random random;
         private Stopwatch timer;
@@ -17,17 +17,12 @@ namespace Snake
         private Snake snake;
         private Food food;
 
-        public Obstacles(int consoleRow, int consoleCol, int infoWindow, Snake snake)
+        public Obstacles(int consoleRow, int consoleCol, int infoWindow, Snake snake) : 
+            base(consoleRow, consoleCol, infoWindow, snake)
         {
-            this.random = new Random();
             this.ObstaclesList = new List<Coordinates>();
             this.Symbol = '=';
-            this.timer = new Stopwatch();
-            this.snake = snake;
-            this.consoleRow = consoleRow;
-            this.consoleCol = consoleCol;
-            this.infoWindow = infoWindow;
-            this.food = new Food();
+
             GenerateFirstObs();
             new Thread(Test).Start();
         }
@@ -50,15 +45,15 @@ namespace Snake
                 this.ObstaclesList.Add(new Coordinates(row, col));
             }
         }
-        internal void GenerateNew(int consoleCol, int consoleRow, int infoWindol, Snake snake, Food food)
+        internal void GenerateNew()
         {
-            int row = random.Next(infoWindol + 2, consoleRow - 1);
+            int row = random.Next(infoWindow + 2, consoleRow - 1);
             int col = random.Next(0, consoleCol - 2);
 
             if (snake.SnakeElements.Any(x => x.Row == row && x.Col == col) ||
                 food.FoodCords.Row == row && food.FoodCords.Col == col)
             {
-                GenerateNew(consoleCol, consoleRow, infoWindol, snake, food);
+                GenerateNew();
             }
             ObstaclesList.Add(new Coordinates(row, col));
         }
@@ -81,7 +76,7 @@ namespace Snake
                 if (secconds.Seconds == interval)
                 {
                     var removed = Disapear();
-                    GenerateNew(consoleCol, consoleRow, infoWindow, snake, food);
+                    GenerateNew();
                     interval = random.Next(5, 20);
                     timer.Restart();
                     Visualizer.ObstaclesDrowing(this.ObstaclesList, removed, this.Symbol);

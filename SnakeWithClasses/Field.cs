@@ -9,6 +9,12 @@ namespace Snake
         private readonly int consoleCol;
         private readonly int infoWindow;
 
+        protected Field(int consoleRow, int consoleCol, int infoWindow)
+        {
+            this.consoleRow = consoleRow;
+            this.consoleCol = consoleCol;
+            this.infoWindow = infoWindow;
+        }
         public Field(Coordinates fieldSize, int infoWindow)
         {
             this.consoleRow = 1 + infoWindow + 1 + fieldSize.Row + 1; // One is borders size.
