@@ -8,7 +8,7 @@
 
         private static void Main()
         {
-            var field = new Field(new Coordinates(fieldRow, fieldCol), infoWindow);
+            IField field = new Field(new Coordinates(fieldRow, fieldCol), infoWindow);
             int menuRow = field.ConsoleRow / 2 - 4; //TODO: Get numbers from arrays.Length(from menues)
             int menuCol = field.ConsoleCol / 2 - 3;
 

@@ -18,7 +18,7 @@ namespace Snake
 
         public Engine(int consoleRow, int consoleCol, Snake snake, WellcomeScreen wellcome, int infoWindow)
         {
-            this.obstacles = new Obstacles();
+            this.obstacles = new Obstacles(consoleRow, consoleCol, infoWindow, snake);
             this.food = new Food();
             this.timer = new Stopwatch();
             this.generator = new Random();
@@ -33,23 +33,10 @@ namespace Snake
         internal void Start()
         {
             Visualizer.DrowingInfoWindow(this.consoleCol, this.infoWindow);
-            Visualizer.ObstaclesDrowing(this.obstacles.ObstaclesList, null, this.obstacles.Symbol);
-            this.obstacles.FirsObstacles(this.consoleRow, this.consoleCol, this.infoWindow);
-            int interval = 7;
-
-            timer.Start();
+           
             while (true)
             {
-                TimeSpan secconds = timer.Elapsed;
-
-                if (secconds.Seconds == interval)
-                {
-                    var removed = obstacles.Disapear();
-                    obstacles.GenerateNew(consoleCol, consoleRow, infoWindow, snake, food);
-                    interval = generator.Next(5, 20);
-                    timer.Restart();
-                    Visualizer.ObstaclesDrowing(this.obstacles.ObstaclesList, removed, this.obstacles.Symbol);
-                }
+               
 
 
                 this.snake.NextPossition();
