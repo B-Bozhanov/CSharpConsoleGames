@@ -73,7 +73,7 @@ namespace Snake
             this.SnakeElements.Enqueue(NextHead);
             this.SnakeElements.Dequeue();
         }
-        public bool IsDeath(int row, int col, bool wallsAppear, List<Coordinates> obstacles)  // TODO: Не ми се струва добре.... даже не е!
+        public bool IsDeath(int row, int col, bool wallsAppear)  // TODO: Не ми се струва добре.... даже не е!
         {
             if (wallsAppear)
             {
@@ -98,13 +98,13 @@ namespace Snake
             //        return true;
             //    }
             //}
-            foreach (var obstacle in obstacles)
-            {
-                if (this.SnakeElements.Any(s => s.Row == obstacle.Row && s.Col == obstacle.Col))
-                {
-                    return true;
-                }
-            }
+            //foreach (var obstacle in obstacles)
+            //{
+            //    if (this.SnakeElements.Any(s => s.Row == obstacle.Row && s.Col == obstacle.Col))
+            //    {
+            //        return true;
+            //    }
+            //}
             return false;
         }
         public void Eat(Coordinates food)

@@ -22,11 +22,11 @@ namespace Snake
             SetConsoleSettings();
         }
 
-        public static int ConsoleRow { get => consoleRow; }
-        public static int ConsoleCol { get => consoleCol; }
-        public static int InfoWindow { get => infoWindow; }
-        public static int MenuRow { get => menuRow; }
-        public static int MenuCol { get => menuCol; }
+        internal static int ConsoleRow { get => consoleRow; }
+        internal static int ConsoleCol { get => consoleCol; }
+        internal static int InfoWindow { get => infoWindow; }
+        internal static int MenuRow { get => menuRow; }
+        internal static int MenuCol { get => menuCol; }
 
         private void SetConsoleSettings()
         {

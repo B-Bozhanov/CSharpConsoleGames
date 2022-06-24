@@ -101,7 +101,7 @@ namespace Snake
         {
             WriteOnConsole(symbol.ToString(), food.Row, food.Col, ConsoleColor.Green);
         }
-        public static void ObstaclesDrowing(Obstacles obstacles, Coordinates deletedObs)
+        public static void ObstaclesDrowing(Items obstacles, Coordinates deletedObs)
         {
             foreach (var o in obstacles)
             {

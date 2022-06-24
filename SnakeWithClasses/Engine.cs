@@ -4,26 +4,13 @@ using System;
 
 namespace Snake
 {
-    internal class Engine : Field
+    internal class Engine
     {
         private Snake snake;
-        private Obstacles obstacles;
-        private Food food;
-        private Stopwatch timer;
-        private Random generator;
-        private readonly int consoleRow;
-        private readonly int consoleCol;
-        private readonly int infoWindow;
         private bool wallsApear;
 
-
-       
-        public Engine(int consoleRow, int consoleCol, int infoWindow, Snake snake)
-            : base(consoleRow, consoleCol, infoWindow)
+        public Engine(Snake snake)
         {
-            this.food = new Food();
-            this.timer = new Stopwatch();
-            this.generator = new Random();
             this.snake = snake;
             this.wallsApear = false;
         }
@@ -31,8 +18,7 @@ namespace Snake
 
         internal void Start()
         {
-            this.obstacles = new Obstacles(consoleRow, consoleCol, InfoWindow, snake);
-            Visualizer.DrowingInfoWindow(this.consoleCol, this.infoWindow);
+            Visualizer.DrowingInfoWindow(Field.ConsoleCol, Field.InfoWindow);
            
             while (true)
             {
@@ -40,10 +26,10 @@ namespace Snake
 
 
                 this.snake.NextPossition();
-                if (snake.IsDeath(this.consoleRow, this.consoleCol, wallsApear, obstacles.ObstaclesList))
+                if (snake.IsDeath(Field.ConsoleRow, Field.ConsoleCol))
                 {
                     //Visualizer.GameOver(field.Score);
-                    wellcome.Wellcome(false);
+                    //wellcome.Wellcome(false);
                     Thread.Sleep(3000);
                     Console.Clear();
                     break;
@@ -69,7 +55,6 @@ namespace Snake
                 //Visualizer.FoodDrowing(food.Symbol, field.Food);
                
                 Thread.Sleep(100);
-                secconds++;
             }
         }
     }
