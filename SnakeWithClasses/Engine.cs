@@ -4,57 +4,40 @@ using System;
 
 namespace Snake
 {
-    internal class Engine
+    internal class Engine : Field
     {
         private Snake snake;
         private Obstacles obstacles;
         private Food food;
         private Stopwatch timer;
-        private WellcomeScreen wellcome;
+        private Random generator;
         private readonly int consoleRow;
         private readonly int consoleCol;
         private readonly int infoWindow;
         private bool wallsApear;
 
-        public Engine(int consoleRow, int consoleCol, Snake snake, WellcomeScreen wellcome, int infoWindow)
+
+       
+        public Engine(int consoleRow, int consoleCol, int infoWindow, Snake snake)
+            : base(consoleRow, consoleCol, infoWindow)
         {
-            this.obstacles = new Obstacles();
             this.food = new Food();
             this.timer = new Stopwatch();
-            this.wellcome = wellcome;
+            this.generator = new Random();
             this.snake = snake;
-            this.consoleRow = consoleRow;
-            this.consoleCol = consoleCol;
-            this.infoWindow = infoWindow;
             this.wallsApear = false;
         }
 
 
         internal void Start()
         {
-            //TODO: Obstacles and food;
-            //Visualizer.FoodDrowing(food.Symbol, food.FoodCords);
-
-            obstacles.FirsObstacles(consoleRow, consoleCol, infoWindow);
-                int secconds = 1;
-
-            timer.Start();
+            this.obstacles = new Obstacles(consoleRow, consoleCol, InfoWindow, snake);
+            Visualizer.DrowingInfoWindow(this.consoleCol, this.infoWindow);
+           
             while (true)
             {
-                Coordinates deletedObs = new Coordinates();
-                //TimeSpan secconds = timer.Elapsed;
-                
-                if (secconds % 50 == 0)
-                {
-                    deletedObs = obstacles.Disapear();
-                }
-                else if (secconds % 100 == 0)
-                {
-                    obstacles.GenerateNew(consoleCol, consoleRow, infoWindow, snake, food);
-                }
-                Visualizer.ObstaclesDrowing(obstacles, deletedObs);
-                deletedObs = null;
-                Visualizer.DrowingInfoWindow(this.consoleCol, this.infoWindow);
+               
+
 
                 this.snake.NextPossition();
                 if (snake.IsDeath(this.consoleRow, this.consoleCol, wallsApear, obstacles.ObstaclesList))

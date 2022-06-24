@@ -8,7 +8,6 @@ namespace Snake
     {
         private char symbol;
 
-
         public Food()
         {
             this.symbol = '@';

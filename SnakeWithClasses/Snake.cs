@@ -1,23 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using Snake.Interfaces;
+using Snake.UserInput;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Snake
 {
-    internal class Snake : UserKeyInput
+    internal class Snake 
     {
-        private readonly Coordinates[] directions; // May be ReadOnly!
+        private readonly Coordinates[] directions;
         private readonly int infoWindow;
 
         internal Snake(int snakeLenght, int infoWindow)
         {
             this.SnakeElements = new Queue<Coordinates>();
-            this.SnakeLenght = snakeLenght;
-            this.infoWindow = infoWindow;
-
-            for (int i = 1; i <= this.SnakeLenght; i++)   // create the snake:
-            {
-                this.SnakeElements.Enqueue(new Coordinates(infoWindow + 2, i));   // InfoWindow will be always set by develepor.
-            }
             this.directions = new Coordinates[]
                {
                 new Coordinates(0, 1),  // Right/ index 0
@@ -26,7 +21,14 @@ namespace Snake
                 new Coordinates(-1, 0)  // Up   / index 3
                };
             this.NextHead = new Coordinates();
+            this.SnakeLenght = snakeLenght;
+            this.infoWindow = infoWindow;
             this.Direction = 0; // Right by default;
+
+            for (int i = 1; i <= this.SnakeLenght; i++)   // create the snake:
+            {
+                this.SnakeElements.Enqueue(new Coordinates(infoWindow + 2, i));   // InfoWindow will be always set by develepor.
+            }
         }
 
         internal Queue<Coordinates> SnakeElements { get; private set; }
@@ -35,16 +37,10 @@ namespace Snake
         internal int SnakeLenght { get; }
 
 
-        internal void NextPossition()
-        {
-            this.Direction = GetDirection(this.Direction);
-            Coordinates snakeHead = this.SnakeElements.Last();
-            Coordinates nextHeadDirection = this.directions[this.Direction];
-            this.NextHead = new Coordinates(snakeHead.Row + nextHeadDirection.Row, snakeHead.Col + nextHeadDirection.Col);
-        }
         private int GetDirection(int direction)
         {
-            KeyPressed key = GetInput();
+            IUserInput input = new UserKeyInput();
+            var key = input.GetInput();
             switch (key)
             {
                 case KeyPressed.Right:
@@ -66,6 +62,13 @@ namespace Snake
                     //case KeyPressed.Exit:TODO: exit from the game
             }
             return direction;
+        }
+        internal void NextPossition()
+        {
+            this.Direction = GetDirection(this.Direction);
+            Coordinates snakeHead = this.SnakeElements.Last();
+            Coordinates nextHeadDirection = this.directions[this.Direction];
+            this.NextHead = new Coordinates(snakeHead.Row + nextHeadDirection.Row, snakeHead.Col + nextHeadDirection.Col);
         }
         public void Move()   // May be not necessarily:
         {

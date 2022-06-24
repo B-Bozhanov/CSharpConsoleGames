@@ -103,9 +103,9 @@ namespace Snake
         }
         public static void ObstaclesDrowing(Obstacles obstacles, Coordinates deletedObs)
         {
-            foreach (var o in obstacles.ObstaclesList)
+            foreach (var o in obstacles)
             {
-                WriteOnConsole(obstacles.Symbol.ToString(), o.Row, o.Col, ConsoleColor.Cyan);
+                WriteOnConsole(symbol.ToString(), o.Row, o.Col, ConsoleColor.Cyan);
             }
            
             
