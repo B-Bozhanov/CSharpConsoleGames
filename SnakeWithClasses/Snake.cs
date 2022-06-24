@@ -8,9 +8,8 @@ namespace Snake
     internal class Snake 
     {
         private readonly Coordinates[] directions;
-        private readonly int infoWindow;
 
-        internal Snake(int snakeLenght, int infoWindow)
+        internal Snake(int snakeLenght)
         {
             this.SnakeElements = new Queue<Coordinates>();
             this.directions = new Coordinates[]
@@ -22,12 +21,11 @@ namespace Snake
                };
             this.NextHead = new Coordinates();
             this.SnakeLenght = snakeLenght;
-            this.infoWindow = infoWindow;
             this.Direction = 0; // Right by default;
 
             for (int i = 1; i <= this.SnakeLenght; i++)   // create the snake:
             {
-                this.SnakeElements.Enqueue(new Coordinates(infoWindow + 2, i));   // InfoWindow will be always set by develepor.
+                this.SnakeElements.Enqueue(new Coordinates(Field.InfoWindow + 2, i));   // InfoWindow will be always set by develepor.
             }
         }
 
@@ -79,7 +77,7 @@ namespace Snake
         {
             if (wallsAppear)
             {
-                if (this.NextHead.Row >= row + 2 || this.NextHead.Row < this.infoWindow + 2   // Die
+                if (this.NextHead.Row >= row + 2 || this.NextHead.Row < Field.InfoWindow + 2   // Die
                   || this.NextHead.Col >= col - 1 || this.NextHead.Col < 1)
                 {
                     return true;
@@ -87,8 +85,8 @@ namespace Snake
             }
             else
             {
-                if (NextHead.Row == row - 1) NextHead.Row = this.infoWindow + 2;    // Goes through the walls
-                if (NextHead.Row < this.infoWindow + 2) NextHead.Row = row - 1;
+                if (NextHead.Row == row - 1) NextHead.Row = Field.InfoWindow + 2;    // Goes through the walls
+                if (NextHead.Row < Field.InfoWindow + 2) NextHead.Row = row - 1;
                 if (NextHead.Col >= col - 1) NextHead.Col = 1;
                 if (NextHead.Col < 1) NextHead.Col = col - 1;
             }

@@ -9,11 +9,11 @@ namespace Snake
         private readonly string[] mainMenu;
         private readonly string[] subDificult;
         private readonly string[] subSettings;
-        private readonly int consoleRow;
-        private readonly int consoleCol;
+        private readonly int menuRow;
+        private readonly int menuCol;
         private int snakeLength;   
 
-        public GameMenu(int consoleRow, int consoleCol)
+        public GameMenu(int menuRow, int menuCol)
         {
             this.mainMenu = new string[]
             {
@@ -38,25 +38,25 @@ namespace Snake
                "Back"
             };
             this.snakeLength = 6;               // By default
-            this.consoleRow = consoleRow; 
-            this.consoleCol = consoleCol;
-            this.WellcomeScreen = new WellcomeScreen(consoleRow, consoleCol);
+            this.menuRow = menuRow; 
+            this.menuCol = menuCol;
+            this.WellcomeScreen = new WellcomeScreen(menuRow, menuCol);
         }
 
         internal WellcomeScreen WellcomeScreen { get; private set; }
 
         private void Menu(string[] menu)
         {
-            var currentMenu = new MenuPositions(menu, this.consoleRow, this.consoleCol);
-            var cursor = new Cursor(this.consoleRow, this.consoleCol);
+            var currentMenu = new MenuPositions(menu, this.menuRow, this.menuCol);
+            var cursor = new Cursor(this.menuRow, this.menuCol);
 
             currentMenu.SetPositions();
-            Visualizer.DrowingMenu(menu, this.consoleRow, this.consoleCol);
-            cursor.Move(menu.Length, this.consoleRow);  // may be return from While Looop and with escape.....
+            Visualizer.DrowingMenu(menu, this.menuRow, this.menuCol);
+            cursor.Move(menu.Length, this.menuRow);  // may be return from While Looop and with escape.....
             Console.Clear();
 
             int index = currentMenu.GetPositionIndex(cursor.Position);        // Get index of current array
-            cursor.Position.Row = this.consoleRow;                            // Restore Cursor row position.
+            cursor.Position.Row = this.menuRow;                            // Restore Cursor row position.
 
             if (menu == mainMenu)
             {
