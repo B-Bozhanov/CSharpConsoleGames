@@ -10,6 +10,7 @@ namespace Snake
         private Obstacles obstacles;
         private Food food;
         private Stopwatch timer;
+        private WellcomeScreen wellcome;
         private readonly int consoleRow;
         private readonly int consoleCol;
         private readonly int infoWindow;
@@ -20,6 +21,7 @@ namespace Snake
             this.obstacles = new Obstacles();
             this.food = new Food();
             this.timer = new Stopwatch();
+            this.wellcome = wellcome;
             this.snake = snake;
             this.consoleRow = consoleRow;
             this.consoleCol = consoleCol;
@@ -34,28 +36,31 @@ namespace Snake
             //Visualizer.FoodDrowing(food.Symbol, food.FoodCords);
 
             obstacles.FirsObstacles(consoleRow, consoleCol, infoWindow);
-            Visualizer.ObstaclesDrowing(obstacles);
+                int secconds = 1;
 
             timer.Start();
             while (true)
             {
-                TimeSpan secconds = timer.Elapsed;
-
-                if (secconds.Seconds % 5 == 0)
+                Coordinates deletedObs = new Coordinates();
+                //TimeSpan secconds = timer.Elapsed;
+                
+                if (secconds % 50 == 0)
                 {
-                    obstacles.Disapear();
+                    deletedObs = obstacles.Disapear();
                 }
-                else if (secconds.Seconds % 10 == 0)
+                else if (secconds % 100 == 0)
                 {
                     obstacles.GenerateNew(consoleCol, consoleRow, infoWindow, snake, food);
                 }
-                Visualizer.ObstaclesDrowing(obstacles);
+                Visualizer.ObstaclesDrowing(obstacles, deletedObs);
+                deletedObs = null;
                 Visualizer.DrowingInfoWindow(this.consoleCol, this.infoWindow);
 
                 this.snake.NextPossition();
                 if (snake.IsDeath(this.consoleRow, this.consoleCol, wallsApear, obstacles.ObstaclesList))
                 {
                     //Visualizer.GameOver(field.Score);
+                    wellcome.Wellcome(false);
                     Thread.Sleep(3000);
                     Console.Clear();
                     break;
@@ -79,8 +84,9 @@ namespace Snake
                 //}
 
                 //Visualizer.FoodDrowing(food.Symbol, field.Food);
-
+               
                 Thread.Sleep(100);
+                secconds++;
             }
         }
     }
