@@ -4,11 +4,10 @@ using System;
 
 namespace Snake
 {
-    internal class Engine : Field
+    internal class Engine
     {
         private Snake snake;
-        private Obstacles obstacles;
-        private Food food;
+        private Items obstacles;
         private Stopwatch timer;
         private Random generator;
         private readonly int consoleRow;
@@ -19,11 +18,10 @@ namespace Snake
 
        
         public Engine(int consoleRow, int consoleCol, int infoWindow, Snake snake)
-            : base(consoleRow, consoleCol, infoWindow)
         {
-            this.food = new Food();
             this.timer = new Stopwatch();
             this.generator = new Random();
+            this.snake = snake;
             this.snake = snake;
             this.wallsApear = false;
         }
@@ -31,14 +29,11 @@ namespace Snake
 
         internal void Start()
         {
-            this.obstacles = new Obstacles(consoleRow, consoleCol, InfoWindow, snake);
+            Items items = new Items(consoleRow, consoleCol, infoWindow, snake.SnakeElements);
             Visualizer.DrowingInfoWindow(this.consoleCol, this.infoWindow);
            
             while (true)
             {
-               
-
-
                 this.snake.NextPossition();
                 if (snake.IsDeath(this.consoleRow, this.consoleCol, wallsApear, obstacles.ObstaclesList))
                 {
