@@ -7,20 +7,10 @@ namespace Snake
     internal class Engine
     {
         private Snake snake;
-        private Items obstacles;
-        private Stopwatch timer;
-        private Random generator;
-        private readonly int consoleRow;
-        private readonly int consoleCol;
-        private readonly int infoWindow;
         private bool wallsApear;
 
-
-       
-        public Engine(int consoleRow, int consoleCol, int infoWindow, Snake snake)
+        public Engine(Snake snake)
         {
-            this.timer = new Stopwatch();
-            this.generator = new Random();
             this.snake = snake;
             this.snake = snake;
             this.wallsApear = false;
@@ -29,15 +19,15 @@ namespace Snake
 
         internal void Start()
         {
-            Items items = new Items(consoleRow, consoleCol, infoWindow, snake.SnakeElements);
-            Visualizer.DrowingInfoWindow(this.consoleCol, this.infoWindow);
+            Visualizer.DrowingInfoWindow(Field.ConsoleCol, Field.InfoWindow);
            
             while (true)
             {
                 this.snake.NextPossition();
-                if (snake.IsDeath(this.consoleRow, this.consoleCol, wallsApear, obstacles.ObstaclesList))
+                if (snake.IsDeath(Field.ConsoleRow, Field.ConsoleCol))
                 {
                     //Visualizer.GameOver(field.Score);
+                    //wellcome.Wellcome(false);
                     Thread.Sleep(3000);
                     Console.Clear();
                     break;
@@ -61,7 +51,7 @@ namespace Snake
                 //}
 
                 //Visualizer.FoodDrowing(food.Symbol, field.Food);
-
+               
                 Thread.Sleep(100);
             }
         }

@@ -101,16 +101,16 @@ namespace Snake
         {
             WriteOnConsole(symbol.ToString(), food.Row, food.Col, ConsoleColor.Green);
         }
-        public static void ObstaclesDrowing(List<Coordinates> obstacles, Coordinates obsForRemove, char symbol)
+        public static void ObstaclesDrowing(Items obstacles, Coordinates deletedObs)
         {
             foreach (var o in obstacles)
             {
                 WriteOnConsole(symbol.ToString(), o.Row, o.Col, ConsoleColor.Cyan);
             }
-            if (obsForRemove != null)
-            {
-                WriteOnConsole(" ", obsForRemove.Row, obsForRemove.Col);
-            }
+           
+            
+                WriteOnConsole(" ", deletedObs.Row, deletedObs.Col);
+            
         }
         public static void DrowingMenu(string[] items, int row, int col)
         {

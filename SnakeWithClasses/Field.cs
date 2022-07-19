@@ -3,30 +3,30 @@ using System.Text;
 
 namespace Snake
 {
-    internal class Field : IField
+    internal class Field
     {
-        private readonly int consoleRow;
-        private readonly int consoleCol;
-        private readonly int infoWindow;
+        private static int consoleRow;
+        private static int consoleCol;
+        private static int infoWindow;
+        private static int menuRow;
+        private static int menuCol;
 
-        protected Field(int consoleRow, int consoleCol, int infoWindow)
+        public Field(Coordinates fieldSize)
         {
-            this.consoleRow = consoleRow;
-            this.consoleCol = consoleCol;
-            this.infoWindow = infoWindow;
-        }
-        public Field(Coordinates fieldSize, int infoWindow)
-        {
-            this.consoleRow = 1 + infoWindow + 1 + fieldSize.Row + 1; // One is borders size.
-            this.consoleCol = 1 + fieldSize.Col + 1;
-            this.infoWindow = infoWindow;
+            infoWindow = 2;
+            consoleRow = 1 + infoWindow + 1 + fieldSize.Row + 1; // One is borders size.
+            consoleCol = 1 + fieldSize.Col + 1;
+            menuRow = consoleRow / 2 - 4; //TODO: Get numbers from arrays.Length(from menues)
+            menuCol = consoleCol / 2 - 3;
 
             SetConsoleSettings();
         }
 
-        public int ConsoleRow { get => consoleRow; }
-        public int ConsoleCol { get => consoleCol; }
-        public int InfoWindow { get => this.infoWindow; }
+        internal static int ConsoleRow { get => consoleRow; }
+        internal static int ConsoleCol { get => consoleCol; }
+        internal static int InfoWindow { get => infoWindow; }
+        internal static int MenuRow { get => menuRow; }
+        internal static int MenuCol { get => menuCol; }
 
         private void SetConsoleSettings()
         {
