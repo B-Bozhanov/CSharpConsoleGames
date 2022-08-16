@@ -12,6 +12,7 @@ namespace Snake
         public Engine(Snake snake)
         {
             this.snake = snake;
+            this.snake = snake;
             this.wallsApear = false;
         }
 
@@ -22,10 +23,6 @@ namespace Snake
            
             while (true)
             {
-
-                // if level..... n
-                Items items = new Items(snake.SnakeElements);
-
                 this.snake.NextPossition();
                 if (snake.IsDeath(Field.ConsoleRow, Field.ConsoleCol, false, items.ObstaclesList))
                 {
