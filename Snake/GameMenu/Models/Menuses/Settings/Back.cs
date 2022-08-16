@@ -7,12 +7,6 @@
         public Back(int row, int col)
             : base(Number, row, col)
         {
-
-        }
-
-        public override string Execute()
-        {
-            return base.BackCommand();
         }
     }
 }

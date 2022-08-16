@@ -9,6 +9,8 @@
         Down,
         Enter,
         Back,
+        Yes,
+        No,
         Exit
     }
 }

@@ -42,7 +42,10 @@
 
         public Coordinates MenuCoordinates { get; private set; }
 
-        public abstract string Execute();
+        public virtual string Execute()
+        {
+            return this.BackCommand();
+        }
 
         public virtual string GetName()
         {
