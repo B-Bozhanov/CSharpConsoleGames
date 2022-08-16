@@ -22,11 +22,12 @@ namespace Snake
            
             while (true)
             {
-               
 
+                // if level..... n
+                Items items = new Items(snake.SnakeElements);
 
                 this.snake.NextPossition();
-                if (snake.IsDeath(Field.ConsoleRow, Field.ConsoleCol))
+                if (snake.IsDeath(Field.ConsoleRow, Field.ConsoleCol, false, items.ObstaclesList))
                 {
                     //Visualizer.GameOver(field.Score);
                     //wellcome.Wellcome(false);

@@ -12,6 +12,7 @@ namespace Snake
         {
             Field field = new Field(new Coordinates(fieldRow, fieldCol));
             GameMenu menu = new GameMenu();
+            Snake snake = new Snake(6);
             var engine = new Engine(snake);
 
             engine.Start();
