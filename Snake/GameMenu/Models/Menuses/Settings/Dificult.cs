@@ -1,4 +1,4 @@
-﻿namespace GameMenu.Models.Menuses.MainMenu
+﻿namespace GameMenu.Models.Menuses.Settings
 {
     internal class Dificult : Menu
     {

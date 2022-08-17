@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Snake\Snake.csproj" />
+    <Compile Remove="Models\Menuses\Dificult\**" />
+    <Compile Remove="Models\Menuses\NewGame\**" />
+    <EmbeddedResource Remove="Models\Menuses\Dificult\**" />
+    <EmbeddedResource Remove="Models\Menuses\NewGame\**" />
+    <None Remove="Models\Menuses\Dificult\**" />
+    <None Remove="Models\Menuses\NewGame\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Menuses\Dificult\" />
-    <Folder Include="Models\Menuses\NewGame\" />
+    <ProjectReference Include="..\Snake\Snake.csproj" />
   </ItemGroup>
 
 </Project>

@@ -10,7 +10,7 @@
     {
         private const string QuestionMessage = "Are you sure ? --> Y / N";
         private const string GoodByeMessage = "Good bye !";
-        private const int Number = 4;
+        private const int Number = 3;
         private readonly IWriter writer;
         private readonly IUserInput input;
 
