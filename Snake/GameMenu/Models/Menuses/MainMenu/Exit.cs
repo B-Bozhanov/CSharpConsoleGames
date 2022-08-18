@@ -6,7 +6,7 @@
     using GameMenu.UserInputHandle.Interfaces;
     using Interfaces;
 
-    internal class Exit : Menu
+    internal class Exit : Menu, IMainMenu
     {
         private const string QuestionMessage = "Are you sure ? --> Y / N";
         private const string GoodByeMessage = "Good bye !";
@@ -21,7 +21,7 @@
             this.input = new UserInput();
         }
 
-        public override string Execute()
+        public override Type Execute()
         {
             this.writer.Clear();
             this.writer.Write(QuestionMessage, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
@@ -34,7 +34,7 @@
                     this.writer.Clear();
                     this.writer.Write(GoodByeMessage, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                     Thread.Sleep(3000);
-                    NameSpaces.Pop();
+                    InterfaceRepository<Type>.Pop();
                     Environment.Exit(0);
                 }
                 else if (key == KeyPressed.No)
@@ -43,7 +43,7 @@
                 }
             }
 
-            return NameSpaces.Peek();
+            return InterfaceRepository<Type>.Peek();
         }
     }
 }

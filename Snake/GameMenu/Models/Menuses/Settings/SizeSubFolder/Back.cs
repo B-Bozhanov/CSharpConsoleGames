@@ -1,6 +1,8 @@
-﻿namespace GameMenu.Models.Menuses.Settings.SizeSubFolder
+﻿using GameMenu.Models.Menuses.Settings.Interfaces;
+
+namespace GameMenu.Models.Menuses.Settings.SizeSubFolder
 {
-    internal class Back : Menu
+    internal class Back : Menu, ISize
     {
         private const int Number = 4;
 

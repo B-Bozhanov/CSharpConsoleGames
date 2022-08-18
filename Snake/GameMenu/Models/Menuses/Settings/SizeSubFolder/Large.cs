@@ -1,6 +1,8 @@
-﻿namespace GameMenu.Models.Menuses.Settings.SizeSubFolder
+﻿using GameMenu.Models.Menuses.Settings.Interfaces;
+
+namespace GameMenu.Models.Menuses.Settings.SizeSubFolder
 {
-    internal class Large : Menu
+    internal class Large : Menu, ISize
     {
         private const int Number = 3;
         private readonly int ConsoleRows = Console.LargestWindowHeight;
@@ -11,7 +13,7 @@
         {
         }
 
-        public override string Execute()
+        public override Type Execute()
         {
             ConsoleField.WindowResizer(ConsoleRows, ConsoleCols);
             return base.BackCommand();

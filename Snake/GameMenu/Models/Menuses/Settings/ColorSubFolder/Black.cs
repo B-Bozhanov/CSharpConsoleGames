@@ -1,8 +1,11 @@
-﻿namespace GameMenu.Models.Menuses.Settings.ColorSubFolder
+﻿using GameMenu.Models.Menuses.Settings.Interfaces;
+
+namespace GameMenu.Models.Menuses.Settings.ColorSubFolder
 {
-    internal class Black : Menu
+    internal class Black : Menu, IColor
     {
         private const int Number = 2;
+        private const ConsoleColor TextColor = ConsoleColor.Yellow;
 
         public Black(int row, int col)
             : base(Number, row, col)
@@ -13,9 +16,10 @@
         {
             return base.GetName();
         }
-        public override string Execute()
+        public override Type Execute()
         {
-            Console.ResetColor();
+            ConsoleField.ResetColor();
+            ConsoleField.SetTextColor(TextColor);
             return base.BackCommand();
         }
     }

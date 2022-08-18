@@ -11,11 +11,11 @@
 
         protected Menu()
         {
-            string currNamespace = this.GetType().Namespace;
+            var _interface = this.GetType();
 
-            if (!NameSpaces.Namespaces.Contains(currNamespace))
+            if (!InterfaceRepository<Type>.Interfaces.Contains(_interface))
             {
-                NameSpaces.Namespaces.Push(currNamespace);
+                InterfaceRepository<Type>.Interfaces.Push(_interface);
             }
         }
         protected Menu(int menuNumber, int row, int col)
@@ -42,9 +42,10 @@
 
         public Coordinates MenuCoordinates { get; private set; }
 
-        public virtual string Execute()
+        public virtual Type Execute()
         {
-            return this.BackCommand();
+            return this.GetType();
+           // return this.BackCommand();
         }
 
         public virtual string GetName()
@@ -52,10 +53,10 @@
             return this.GetType().Name;
         }
 
-        protected string BackCommand()
+        protected Type BackCommand()
         {
-            NameSpaces.Pop();
-            return NameSpaces.Peek();
+            InterfaceRepository<Type>.Pop();
+            return InterfaceRepository<Type>.Peek();
         }
     }
 }

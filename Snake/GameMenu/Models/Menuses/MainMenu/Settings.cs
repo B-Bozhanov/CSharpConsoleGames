@@ -1,21 +1,22 @@
 ﻿namespace GameMenu.Models.Menuses.MainMenu
 {
+    using GameMenu.Models.Menuses.Settings.Interfaces;
     using Interfaces;
 
-    internal class Settings : Menu
+    internal class Settings : Menu, IMainMenu
     {
         private const int Number = 2;
-        private const string SubFolder = "GameMenu.Models.Menuses.Settings";
 
         public Settings(int row, int col)
             : base(Number, row, col)
         {
         }
 
-        public override string Execute()
+        public override Type Execute()
         {
-            NameSpaces.Push(SubFolder);
-            return NameSpaces.Peek();
+            var type = typeof(ISettings);
+            InterfaceRepository<Type>.Push(type);
+            return InterfaceRepository<Type>.Peek();
         }
     }
 }

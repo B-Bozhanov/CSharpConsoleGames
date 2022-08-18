@@ -39,6 +39,10 @@
         {
             Console.ForegroundColor = color;
         }
+        public static void ResetColor()
+        {
+            Console.ResetColor();
+        }
         private static void SetDefaultSettings()
         {
             Console.Title = "Snake v2.0";

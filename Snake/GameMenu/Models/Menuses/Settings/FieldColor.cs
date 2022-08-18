@@ -1,8 +1,9 @@
 ﻿namespace GameMenu.Models.Menuses.Settings
 {
+    using GameMenu.Models.Menuses.Settings.Interfaces;
     using Interfaces;
 
-    internal class FieldColor : Menu
+    internal class FieldColor : Menu, ISettings
     {
         private const int Number = 2;
         private const string ColorSubfolder = "GameMenu.Models.Menuses.Settings.ColorSubFolder";
@@ -16,10 +17,10 @@
         {
             return "Field Color";
         }
-        public override string Execute()
+        public override Type Execute()
         {
-            NameSpaces.Push(ColorSubfolder);
-            return NameSpaces.Peek();;
+            InterfaceRepository<Type>.Push(typeof(IColor));
+            return InterfaceRepository<Type>.Peek(); 
         }
     }
 }

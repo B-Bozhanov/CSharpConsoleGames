@@ -15,18 +15,16 @@
             assembly = Assembly.GetExecutingAssembly();
         }
 
-        public HashSet<IMenu> GetMenues(string namespaces, ICoordinates menuCoords)
+        public HashSet<IMenu> GetMenues(Type type, ICoordinates menuCoords)
         {
             var menues = new HashSet<IMenu>();
-
-            Type[] types = assembly
+            var types = assembly
                 .GetTypes()
-                .Where(t => t.Namespace == namespaces)
-                .ToArray();
+                .Where(t => t.GetInterfaces().Contains(type));
 
-            foreach (var type in types)
+            foreach (var interfacesType in types)
             {
-                object currentMenu = Activator.CreateInstance(type, menuCoords.Row, menuCoords.Col);
+                object currentMenu = Activator.CreateInstance(interfacesType, menuCoords.Row, menuCoords.Col);
                 menues.Add((IMenu)currentMenu);
             }
 

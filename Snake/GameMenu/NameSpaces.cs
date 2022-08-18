@@ -1,29 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GameMenu
+﻿namespace GameMenu
 {
-    internal static class NameSpaces
+    internal static class InterfaceRepository<T>
     {
-        private static Stack<string> namespaces = new Stack<string>();
+        private readonly static Stack<T> interfaces = new();
 
-        public static Stack<string> Namespaces { get => namespaces; }
+        public static Stack<T> Interfaces { get => interfaces; }
 
 
-        public static void Push(string value)
+        public static void Push(T value)
         {
-            namespaces.Push(value);
+            interfaces.Push(value);
         }
         public static void Pop()
         {
-            namespaces.Pop();
+            interfaces.Pop();
         }
-        public static string Peek()
+        public static T Peek()
         {
-            return namespaces.Peek();
+            return interfaces.Peek();
         }
     }
 }

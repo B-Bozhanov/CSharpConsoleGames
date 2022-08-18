@@ -5,6 +5,6 @@ namespace GameMenu.Core.Interfaces
 {
     internal interface IInterpretor
     {
-        HashSet<IMenu> GetMenues(string namespaces, ICoordinates coordinates);
+        HashSet<IMenu> GetMenues(Type type, ICoordinates coordinates);
     }
 }
