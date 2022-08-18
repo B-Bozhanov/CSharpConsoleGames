@@ -1,6 +1,8 @@
-﻿namespace GameMenu.Models.Menuses.Settings
+﻿using GameMenu.Models.Menuses.Settings.Interfaces;
+
+namespace GameMenu.Models.Menuses.Settings
 {
-    internal class Back : Menu
+    internal class Back : Menu, ISettings
     {
         private const int Number = 4;
 

@@ -1,6 +1,8 @@
-﻿namespace GameMenu.Models.Menuses.Settings
+﻿using GameMenu.Models.Menuses.Settings.Interfaces;
+
+namespace GameMenu.Models.Menuses.Settings
 {
-    internal class ScreenSize : Menu
+    internal class ScreenSize : Menu, ISettings
     {
         private const int Number = 1;
         private const string SizeSubFolder = "GameMenu.Models.Menuses.Settings.SizeSubFolder";
@@ -13,9 +15,9 @@
         {
             return "Screen Size";
         }
-        public override string Execute()
+        public override Type Execute()
         {
-            return SizeSubFolder;
+            return typeof(ISize);
         }
     }
 }

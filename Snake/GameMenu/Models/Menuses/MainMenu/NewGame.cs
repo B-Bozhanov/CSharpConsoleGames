@@ -2,10 +2,11 @@
 {
     using GameMenu.IO;
     using GameMenu.IO.Interfaces;
+    using GameMenu.Models.Menuses.MainMenu.Interfaces;
     using Snake.Core;
     using Snake.Core.Interfaces;
 
-    internal class NewGame : Menu
+    internal class NewGame : Menu, IMainMenu
     {
         private const int Number = 1;
         private readonly ISnakeEngine engine;
@@ -23,7 +24,7 @@
         {
             return "New Game";
         }
-        public override string Execute()
+        public override Type Execute()
         {
             int timer = 5;
             writer.Clear();

@@ -1,6 +1,8 @@
-﻿namespace GameMenu.Models.Menuses.Settings.ColorSubFolder
+﻿using GameMenu.Models.Menuses.Settings.Interfaces;
+
+namespace GameMenu.Models.Menuses.Settings.ColorSubFolder
 {
-    internal class White : Menu
+    internal class White : Menu, IColor
     {
         private const int Number = 1;
         private const ConsoleColor FieldColor = ConsoleColor.White;
@@ -15,7 +17,7 @@
         {
             return base.GetName();
         }
-        public override string Execute()
+        public override Type Execute()
         {
             Console.ResetColor();
             ConsoleField.SetBackgroundColor(FieldColor);
