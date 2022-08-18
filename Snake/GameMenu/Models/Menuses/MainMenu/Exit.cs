@@ -10,7 +10,7 @@
     {
         private const string QuestionMessage = "Are you sure ? --> Y / N";
         private const string GoodByeMessage = "Good bye !";
-        private const int Number = 4;
+        private const int Number = 3;
         private readonly IWriter writer;
         private readonly IUserInput input;
 
@@ -35,6 +35,7 @@
                     this.writer.Write(GoodByeMessage, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                     Thread.Sleep(3000);
                     NameSpaces.Pop();
+                    this.writer.Clear();
                     Environment.Exit(0);
                 }
                 else if (key == KeyPressed.No)
