@@ -7,56 +7,62 @@
     using GameMenu.Models.Interfaces;
     using Snake.Utilities;
     using Snake.Utilities.Interfaces;
-    using GameMenu.Models.Menuses.MainMenu.Interfaces;
+    using GameMenu.Repository;
+    using GameMenu.Repository.Interfaces;
+    using GameMenu.Utilities;
 
-    public class Engine : IEngine
+    public class GameMenuEngine : IGameMenuEngine
     {
-        private const int CursorDistance = 3;
-
-        private HashSet<IMenu> menues;
+        private const int CursorDistance = 2;
+        private readonly IRepository<string> namespaces;
         private readonly IWriter writer;
         private readonly IField field;
-        private readonly IInterpretor interpretor;
+        private readonly IInterpretor<string, ICoordinates> interpretor;
         private readonly ICursor cursor;
-        private Type currentType;
+        private readonly ICoordinates currentMenuCoords;
+        private HashSet<IMenu> menues;
 
-        private Engine()
+
+        private GameMenuEngine()
         {
             this.menues = new HashSet<IMenu>();
             this.writer = new ConsoleWriter();
             this.field = new ConsoleField();
             this.interpretor = new Interpretor();
             this.cursor = new Cursor(this.writer);
+            this.currentMenuCoords = new Coordinates(ConsoleField.MenuRow, ConsoleField.MenuCol);
+            this.namespaces = new NameSpaceRepository();
 
-            InterfaceRepository<Type>.Push(typeof(IMainMenu));
-            this.currentType = InterfaceRepository<Type>.Peek();
-
-            this.currentType = typeof(IMainMenu);
+            this.namespaces.Push(NameSpacesInfo.MainMenu);
         }
-        public Engine(string test)
+        public GameMenuEngine(string test)
             : this()
         {
         }
 
         public void Start()
         {
-            ICoordinates currentMenuCoords = new Coordinates(ConsoleField.MenuRow, ConsoleField.MenuCol);
+            this.currentMenuCoords.Row = ConsoleField.MenuRow;
+            this.currentMenuCoords.Col = ConsoleField.MenuCol;
 
             this.menues = this.interpretor
-                .GetMenues(currentType, currentMenuCoords);
-
+                .GetMenues(this.namespaces, currentMenuCoords);
             this.writer.Write(this.menues);
 
-            ICoordinates currentCursorCoords = new Coordinates(currentMenuCoords.Row, currentMenuCoords.Col - CursorDistance);
-
+            ICoordinates currentCursorCoords = new Coordinates(ConsoleField.MenuRow, currentMenuCoords.Col - CursorDistance);
             ICoordinates cursorCoordinates = this.cursor
                 .Move(this.menues, currentCursorCoords);
 
             IMenu currentMenu = this.menues.First(m => m.MenuCoordinates.Row == cursorCoordinates.Row
                                                   && m.MenuCoordinates.Col == cursorCoordinates.Col + CursorDistance);
 
-            this.currentType = currentMenu.Execute();
+            if (currentMenu.Execute() == "NewGame")
+            {
+                return;
+            }
+
             this.writer.Clear();
+
             this.Start();
         }
     }

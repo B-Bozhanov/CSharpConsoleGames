@@ -5,8 +5,9 @@
     using Interfaces;
     using GameMenu.Models.Interfaces;
     using Snake.Utilities.Interfaces;
+    using GameMenu.Repository.Interfaces;
 
-    internal class Interpretor : IInterpretor
+    internal class Interpretor : IInterpretor<string, ICoordinates>
     {
         private readonly Assembly assembly;
 
@@ -15,17 +16,19 @@
             assembly = Assembly.GetExecutingAssembly();
         }
 
-        public HashSet<IMenu> GetMenues(Type type, ICoordinates menuCoords)
+        public HashSet<IMenu> GetMenues(IRepository<string> namespaces, ICoordinates menuCoords)
         {
             var menues = new HashSet<IMenu>();
-            var types = assembly
-                .GetTypes()
-                .Where(t => t.GetInterfaces().Contains(type));
 
-            foreach (var interfacesType in types)
+            Type[] types = assembly
+                .GetTypes()
+                .Where(t => t.Namespace == namespaces.Peek())
+                .ToArray();
+
+            foreach (var type in types)
             {
-                object currentMenu = Activator.CreateInstance(interfacesType, menuCoords.Row, menuCoords.Col);
-                menues.Add((IMenu)currentMenu);
+                IMenu currentMenu = (IMenu)Activator.CreateInstance(type, new object[] { menuCoords.Row, menuCoords.Col, namespaces });
+                menues.Add(currentMenu);
             }
 
             var sortedMenues = menues

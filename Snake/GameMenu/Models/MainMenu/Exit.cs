@@ -1,12 +1,15 @@
-﻿namespace GameMenu.Models.Menuses.MainMenu
+﻿namespace GameMenu.Models.MainMenu
 {
     using GameMenu.IO;
     using GameMenu.IO.Interfaces;
+    using GameMenu.Models;
+    using GameMenu.Repository;
+    using GameMenu.Repository.Interfaces;
     using GameMenu.UserInputHandle;
     using GameMenu.UserInputHandle.Interfaces;
     using Interfaces;
 
-    internal class Exit : Menu, IMainMenu
+    internal class Exit : Menu
     {
         private const string QuestionMessage = "Are you sure ? --> Y / N";
         private const string GoodByeMessage = "Good bye !";
@@ -14,14 +17,14 @@
         private readonly IWriter writer;
         private readonly IUserInput input;
 
-        public Exit(int row, int col)
-            : base(Number, row, col)
+        public Exit(int row, int col, IRepository<string> namespaces)
+            : base(Number, row, col, namespaces)
         {
             this.writer = new ConsoleWriter();
             this.input = new UserInput();
         }
 
-        public override Type Execute()
+        public override string Execute()
         {
             this.writer.Clear();
             this.writer.Write(QuestionMessage, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
@@ -34,8 +37,7 @@
                     this.writer.Clear();
                     this.writer.Write(GoodByeMessage, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                     Thread.Sleep(3000);
-                    InterfaceRepository<Type>.Pop();
-                    this.writer.Clear();
+                    this.namespaces.Pop();
                     Environment.Exit(0);
                 }
                 else if (key == KeyPressed.No)
@@ -44,7 +46,7 @@
                 }
             }
 
-            return InterfaceRepository<Type>.Peek();
+            return this.namespaces.Peek();
         }
     }
 }

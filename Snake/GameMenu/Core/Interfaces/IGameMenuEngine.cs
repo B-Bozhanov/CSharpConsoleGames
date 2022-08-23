@@ -1,6 +1,6 @@
 ﻿namespace GameMenu.Core.Interfaces
 {
-    public interface IEngine
+    public interface IGameMenuEngine
     {
         void Start();
     }

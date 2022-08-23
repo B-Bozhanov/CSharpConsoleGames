@@ -1,19 +1,19 @@
-﻿using GameMenu.Models.Menuses.Settings.Interfaces;
+﻿using GameMenu.Repository.Interfaces;
 
-namespace GameMenu.Models.Menuses.Settings.SizeSubFolder
+namespace GameMenu.Models.Settings.SizeSubFolder
 {
-    internal class Large : Menu, ISize
+    internal class Large : Menu
     {
         private const int Number = 3;
         private readonly int ConsoleRows = Console.LargestWindowHeight;
         private readonly int ConsoleCols = Console.LargestWindowWidth;
 
-        public Large(int row, int col)
-            : base(Number, row, col)
+        public Large(int row, int col, IRepository<string> namespaces)
+            : base(Number, row, col, namespaces)
         {
         }
 
-        public override Type Execute()
+        public override string Execute()
         {
             ConsoleField.WindowResizer(ConsoleRows, ConsoleCols);
             return base.BackCommand();

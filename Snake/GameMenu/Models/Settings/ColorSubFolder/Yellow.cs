@@ -1,14 +1,14 @@
-﻿using GameMenu.Models.Menuses.Settings.Interfaces;
+﻿using GameMenu.Repository.Interfaces;
 
-namespace GameMenu.Models.Menuses.Settings.ColorSubFolder
+namespace GameMenu.Models.Settings.ColorSubFolder
 {
-    internal class Yellow : Menu, IColor
+    internal class Yellow : Menu
     {
         private const int Number = 3;
         private const ConsoleColor FieldColor = ConsoleColor.Yellow;
         private const ConsoleColor TextColor = ConsoleColor.Black;
-        public Yellow(int row, int col) 
-            : base(Number, row, col)
+        public Yellow(int row, int col, IRepository<string> namespaces)
+            : base(Number, row, col, namespaces)
         {
         }
 
@@ -16,7 +16,7 @@ namespace GameMenu.Models.Menuses.Settings.ColorSubFolder
         {
             return base.GetName();
         }
-        public override Type Execute()
+        public override string Execute()
         {
             ConsoleField.SetBackgroundColor(FieldColor);
             ConsoleField.SetTextColor(TextColor);
