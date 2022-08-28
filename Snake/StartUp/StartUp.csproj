@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GameMenu\GameMenu.csproj" />
+    <ProjectReference Include="..\UsersDatabse\UsersDatabse.csproj" />
   </ItemGroup>
 
 </Project>

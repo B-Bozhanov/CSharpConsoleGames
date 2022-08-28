@@ -7,6 +7,6 @@ namespace GameMenu.Models.Interfaces
         int MenuNumber { get; }
         public Coordinates MenuCoordinates { get; }
         string GetName();
-        Type Execute();
+        string Execute();
     }
 }

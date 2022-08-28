@@ -6,9 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Snake\Snake.csproj" />
-    <ProjectReference Include="..\UsersDatabse\UsersDatabse.csproj" />
-  </ItemGroup>
-
 </Project>
