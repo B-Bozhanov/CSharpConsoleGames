@@ -30,11 +30,16 @@
 
             foreach (var type in types)
             {
-                if (type == typeof(Login))
+                IMenu currentMenu;
+                if (type == typeof(Login) || type == typeof(CreateAccount))
                 {
-                    IMenu currentMenu = (IMenu)Activator.CreateInstance(type, new object[] { menuCoords.Row, menuCoords.Col, namespaces, users });
+                    currentMenu = (IMenu)Activator.CreateInstance(type, new object[] { menuCoords.Row, menuCoords.Col, namespaces, users });
                 }
-                IMenu currentMenu = (IMenu)Activator.CreateInstance(type, new object[] { menuCoords.Row, menuCoords.Col, namespaces });
+                else
+                {
+                    currentMenu = (IMenu)Activator.CreateInstance(type, new object[] { menuCoords.Row, menuCoords.Col, namespaces });
+                }
+
                 menues.Add(currentMenu);
             }
 

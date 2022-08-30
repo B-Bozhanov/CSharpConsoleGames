@@ -1,7 +1,9 @@
-﻿namespace GameMenu.Core.Interfaces
+﻿using UserDatabase.Interfaces;
+
+namespace GameMenu.Core.Interfaces
 {
     public interface IMenuEngine
     {
-        void Start();
+        IUser Start();
     }
 }

@@ -11,6 +11,8 @@
     using GameMenu.Repository.Interfaces;
     using GameMenu.Utilities;
     using UserDatabase.Interfaces;
+    using GameMenu.Models.UserLoginMenu;
+    using GameMenu.Models.MainMenu;
 
     public class MenuEngine : IMenuEngine
     {
@@ -45,28 +47,41 @@
 
         public IUser Start()
         {
-            this.currentMenuCoords.Row = ConsoleField.MenuRow;
-            this.currentMenuCoords.Col = ConsoleField.MenuCol;
-
-            this.menues = this.interpretor
-                .GetMenues(this.namespaces, currentMenuCoords);
-            this.writer.Write(this.menues);
-
-            ICoordinates currentCursorCoords = new Coordinates(ConsoleField.MenuRow, currentMenuCoords.Col - CursorDistance);
-            ICoordinates cursorCoordinates = this.cursor
-                .Move(this.menues, currentCursorCoords);
-
-            IMenu currentMenu = this.menues.First(m => m.MenuCoordinates.Row == cursorCoordinates.Row
-                                                  && m.MenuCoordinates.Col == cursorCoordinates.Col + CursorDistance);
-
-            if (currentMenu.Execute() == "NewGame")
+            string username = string.Empty;
+            while (true)
             {
-                return null;
+                this.currentMenuCoords.Row = ConsoleField.MenuRow;
+                this.currentMenuCoords.Col = ConsoleField.MenuCol;
+
+                this.menues = this.interpretor
+                    .GetMenues(this.namespaces, currentMenuCoords, users);
+                this.writer.Write(this.menues);
+
+                ICoordinates currentCursorCoords = new Coordinates(ConsoleField.MenuRow, currentMenuCoords.Col - CursorDistance);
+                ICoordinates cursorCoordinates = this.cursor
+                    .Move(this.menues, currentCursorCoords);
+
+                IMenu currentMenu = this.menues.First(m => m.MenuCoordinates.Row == cursorCoordinates.Row
+                                                      && m.MenuCoordinates.Col == cursorCoordinates.Col + CursorDistance);
+
+                if (currentMenu is NewGame)
+                {
+                    currentMenu.Execute();
+                    break;
+                }
+                else if (currentMenu is Login || currentMenu is CreateAccount)
+                {
+                    username = currentMenu.Execute();
+                    this.namespaces.Add(NameSpacesInfo.MainMenu);
+                }
+                else
+                {
+                    currentMenu.Execute();
+                }
+                this.writer.Clear();
             }
 
-            this.writer.Clear();
-
-            this.Start();
+            return this.users.Get(username);
         }
     }
 }

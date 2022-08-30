@@ -13,10 +13,6 @@ namespace GameMenu.Models.UserLoginMenu
         private readonly IWriter writer;
         private readonly IReader reader;
 
-        //public CreateAccount(int row, int col, IRepository<string> namespaces) 
-        //    : base(MenuNumber, row, col, namespaces)
-        //{
-        //}
         public CreateAccount(int row, int col, IRepository<string> namespaces, IUserDatabase users)
            : base(MenuNumber, row, col, namespaces)
         {
@@ -55,6 +51,7 @@ namespace GameMenu.Models.UserLoginMenu
                 {
                     this.writer.Clear();
                     this.writer.Write(ex.Message, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                    Thread.Sleep(2000);
                 }
             }
             return username;

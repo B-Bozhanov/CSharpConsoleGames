@@ -46,6 +46,7 @@ namespace GameMenu.Models.UserLoginMenu
                 {
                     this.writer.Clear();
                     this.writer.Write(ex.Message, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                    Thread.Sleep(2000);
                 }
             }
             return username;
