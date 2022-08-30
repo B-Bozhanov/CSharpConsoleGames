@@ -61,7 +61,7 @@
 
             if (currentMenu.Execute() == "NewGame")
             {
-                return;
+                return null;
             }
 
             this.writer.Clear();

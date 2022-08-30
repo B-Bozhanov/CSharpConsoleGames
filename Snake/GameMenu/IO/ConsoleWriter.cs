@@ -21,7 +21,7 @@
         public void Write(string text, int consoleRow, int consoleCol)
         {
             Console.SetCursorPosition(consoleCol, consoleRow);
-            Console.WriteLine(text);
+            Console.Write(text);
         }
 
         public void Clear()

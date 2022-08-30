@@ -4,6 +4,7 @@
     using GameMenu.Repository.Interfaces;
     using Interfaces;
     using Snake.Utilities;
+    using UserDatabase.Interfaces;
 
     public abstract class Menu : IMenu
     {
@@ -45,6 +46,11 @@
         {
             this.namespaces.Remove();
             return this.namespaces.Get();
+        }
+
+        public virtual IUser Execute(IUser user)
+        {
+            throw new NotImplementedException();
         }
     }
 }
