@@ -10,6 +10,7 @@
     using GameMenu.Repository;
     using GameMenu.Repository.Interfaces;
     using GameMenu.Utilities;
+    using UserDatabase.Interfaces;
 
     public class MenuEngine : IMenuEngine
     {
@@ -19,6 +20,7 @@
         private readonly IField field;
         private readonly IInterpretor<string, ICoordinates> interpretor;
         private readonly ICursor<HashSet<IMenu>, ICoordinates> cursor;
+        private readonly IUserDatabase users;
         private readonly ICoordinates currentMenuCoords;
         private HashSet<IMenu> menues;
 
@@ -35,12 +37,13 @@
 
             this.namespaces.Add(NameSpacesInfo.UserLoginMenu);
         }
-        public MenuEngine(string test)
+        public MenuEngine(IUserDatabase users)
             : this()
         {
+            this.users = users;
         }
 
-        public void Start()
+        public IUser Start()
         {
             this.currentMenuCoords.Row = ConsoleField.MenuRow;
             this.currentMenuCoords.Col = ConsoleField.MenuCol;

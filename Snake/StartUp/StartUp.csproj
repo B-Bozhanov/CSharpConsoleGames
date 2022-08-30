@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GameMenu\GameMenu.csproj" />
+    <ProjectReference Include="..\Snake\Snake.csproj" />
+    <ProjectReference Include="..\UserDatabase\UserDatabase.csproj" />
   </ItemGroup>
 
 </Project>
