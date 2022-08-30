@@ -43,8 +43,8 @@
 
         protected string BackCommand()
         {
-            this.namespaces.Pop();
-            return this.namespaces.Peek();
+            this.namespaces.Remove();
+            return this.namespaces.Get();
         }
     }
 }

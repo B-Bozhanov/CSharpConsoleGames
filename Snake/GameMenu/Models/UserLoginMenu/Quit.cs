@@ -41,7 +41,7 @@
                     this.writer.Clear();
                     this.writer.Write(GoodByeMessage, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                     Thread.Sleep(3000);
-                    this.namespaces.Pop();
+                    this.namespaces.Remove();
                     Environment.Exit(0);
                 }
                 else if (key == KeyPressed.No)
@@ -50,7 +50,7 @@
                 }
             }
 
-            return this.namespaces.Peek();
+            return this.namespaces.Get();
         }
     }
 }

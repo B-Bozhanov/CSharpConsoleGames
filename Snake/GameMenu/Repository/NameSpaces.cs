@@ -1,10 +1,7 @@
-﻿using GameMenu.Models.Interfaces;
-using GameMenu.Repository.Interfaces;
-using Snake.Utilities;
-using Snake.Utilities.Interfaces;
-
-namespace GameMenu.Repository
+﻿namespace GameMenu.Repository
 {
+    using GameMenu.Repository.Interfaces;
+
     internal class NameSpaceRepository : IRepository<string>
     {
         private readonly HashSet<string> namespaces;
@@ -14,19 +11,19 @@ namespace GameMenu.Repository
             this.namespaces = new HashSet<string>();
         }
 
-        public void Push(string entity)
+        public void Add(string entity)
         {
             this.namespaces.Add(entity);
         }
 
-        public string Pop()
+        public string Remove()
         {
             var lastElement = this.namespaces.Last();
             this.namespaces.Remove(lastElement);
             return lastElement;
         }
 
-        public string Peek()
+        public string Get()
         {
             var lastElement = this.namespaces.Last();
             return lastElement;

@@ -18,8 +18,8 @@ namespace GameMenu.Models.UserLoginMenu
         }
         public override string Execute()
         {
-            this.namespaces.Push(NameSpacesInfo.MainMenu);
-            return this.namespaces.Peek();
+            this.namespaces.Add(NameSpacesInfo.MainMenu);
+            return this.namespaces.Get();
         }
     }
 }

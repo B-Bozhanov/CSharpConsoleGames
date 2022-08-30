@@ -19,8 +19,8 @@ namespace GameMenu.Models.Settings
         }
         public override string Execute()
         {
-            this.namespaces.Push(NameSpacesInfo.FieldColor);
-            return this.namespaces.Peek();;
+            this.namespaces.Add(NameSpacesInfo.FieldColor);
+            return this.namespaces.Get();;
         }
     }
 }

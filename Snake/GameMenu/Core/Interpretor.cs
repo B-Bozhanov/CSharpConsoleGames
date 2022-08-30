@@ -22,7 +22,7 @@
 
             Type[] types = assembly
                 .GetTypes()
-                .Where(t => t.Namespace == namespaces.Peek())
+                .Where(t => t.Namespace == namespaces.Get())
                 .ToArray();
             var test = types[0];
 

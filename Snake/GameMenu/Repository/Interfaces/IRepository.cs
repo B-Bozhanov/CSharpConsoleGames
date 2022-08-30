@@ -5,8 +5,8 @@ namespace GameMenu.Repository.Interfaces
 {
     public interface IRepository<T>
     {
-        public void Push(T entity);
-        public T Pop();
-        public T Peek();
+        public void Add(T entity);
+        public T Remove();
+        public T Get();
     }
 }

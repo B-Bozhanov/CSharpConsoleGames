@@ -17,8 +17,8 @@ namespace GameMenu.Models.Settings
         }
         public override string Execute()
         {
-            this.namespaces.Push(NameSpacesInfo.ScreenSize);
-            return this.namespaces.Peek(); 
+            this.namespaces.Add(NameSpacesInfo.ScreenSize);
+            return this.namespaces.Get(); 
         }
     }
 }

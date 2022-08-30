@@ -15,8 +15,8 @@
 
         public override string Execute()
         {
-            this.namespaces.Push(NameSpacesInfo.Settings);
-            return this.namespaces.Peek(); 
+            this.namespaces.Add(NameSpacesInfo.Settings);
+            return this.namespaces.Get(); 
         }
     }
 }

@@ -33,7 +33,7 @@
             this.currentMenuCoords = new Coordinates(ConsoleField.MenuRow, ConsoleField.MenuCol);
             this.namespaces = new NameSpaceRepository();
 
-            this.namespaces.Push(NameSpacesInfo.UserLoginMenu);
+            this.namespaces.Add(NameSpacesInfo.UserLoginMenu);
         }
         public MenuEngine(string test)
             : this()
