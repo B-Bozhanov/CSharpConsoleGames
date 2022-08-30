@@ -1,5 +1,6 @@
 ﻿namespace GameMenu.Models.MainMenu
 {
+    using GameMenu.Models.Interfaces;
     using GameMenu.Repository.Interfaces;
     using GameMenu.Utilities;
 

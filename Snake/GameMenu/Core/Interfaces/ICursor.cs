@@ -1,10 +1,7 @@
 ﻿namespace GameMenu.Core.Interfaces
 {
-    using GameMenu.Models.Interfaces;
-    using Snake.Utilities.Interfaces;
-
-    internal interface ICursor
+    internal interface ICursor<T1, T2>
     {
-        ICoordinates Move(HashSet<IMenu> menues, ICoordinates coordinates);
+        T2 Move(T1 menues, T2 coordinates);
     }
 }

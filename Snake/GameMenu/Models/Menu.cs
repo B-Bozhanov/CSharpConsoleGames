@@ -1,7 +1,6 @@
 ﻿namespace GameMenu.Models
 {
     using System;
-    using GameMenu.Repository;
     using GameMenu.Repository.Interfaces;
     using Interfaces;
     using Snake.Utilities;
@@ -13,11 +12,11 @@
 
         protected Menu(int menuNumber, int row, int col, IRepository<string> namespaces)
         {
-            MenuNumber = menuNumber;
-            MenuCoordinates = new Coordinates();
+            this.MenuNumber = menuNumber;
+            this.MenuCoordinates = new Coordinates();
             this.namespaces = namespaces;
-            MenuCoordinates.Row = row + MenuNumber - 1;
-            MenuCoordinates.Col = col;
+            this.MenuCoordinates.Row = row + MenuNumber - 1;
+            this.MenuCoordinates.Col = col;
         }
 
         public int MenuNumber
@@ -29,20 +28,17 @@
                 {
                     throw new ArgumentException("Menu number must be possitive!");
                 }
-                menuNumber = value;
+                this.menuNumber = value;
             }
         }
 
         public Coordinates MenuCoordinates { get; private set; }
 
-        public virtual string Execute()
-        {
-            return BackCommand();
-        }
+        public abstract string Execute();
 
         public virtual string GetName()
         {
-            return GetType().Name;
+            return this.GetType().Name;
         }
 
         protected string BackCommand()

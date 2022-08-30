@@ -11,7 +11,7 @@
 
     using Snake.Utilities.Interfaces;
 
-    internal class Cursor : ICursor
+    internal class Cursor : ICursor<HashSet<IMenu>, ICoordinates>
     {
         private readonly IUserInput input;
         private readonly IWriter writer;

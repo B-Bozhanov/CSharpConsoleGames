@@ -8,7 +8,7 @@
     internal class NewGame : Menu
     {
         private const int Number = 1;
-        private IWriter writer;
+        private readonly IWriter writer;
 
 
         public NewGame(int row, int col, IRepository<string> namespaces)

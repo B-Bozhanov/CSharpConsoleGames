@@ -10,5 +10,10 @@ namespace GameMenu.Models.Settings.SizeSubFolder
             : base(Number, row, col, namespaces)
         {
         }
+
+        public override string Execute()
+        {
+            return this.BackCommand();
+        }
     }
 }

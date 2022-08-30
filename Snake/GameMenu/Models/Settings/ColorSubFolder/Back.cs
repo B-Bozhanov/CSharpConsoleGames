@@ -9,5 +9,10 @@ namespace GameMenu.Models.Settings.ColorSubFolder
             : base(Number, row, col, namespaces)
         {
         }
+
+        public override string Execute()
+        {
+            return this.BackCommand();
+        }
     }
 }
