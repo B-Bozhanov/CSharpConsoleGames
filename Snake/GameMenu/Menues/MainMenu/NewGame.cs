@@ -8,12 +8,12 @@
 
     internal class NewGame : Menu
     {
-        private const int Number = 1;
+        private const int SequenceNumber = 1;
         private readonly IWriter writer;
 
 
         public NewGame(int row, int col, IRepository<string> namespaces)
-            : base(Number, row, col, namespaces)
+            : base(SequenceNumber, row, col, namespaces)
         {
             this.writer = new ConsoleWriter();
         }

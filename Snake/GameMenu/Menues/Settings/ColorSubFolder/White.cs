@@ -5,7 +5,7 @@ namespace GameMenu.Menues.Settings.ColorSubFolder
 
     internal class White : Menu, IColor
     {
-        private const int Number = 1;
+        private const int SequenceNumber = 1;
 
 
         public override int MenuNumber { get; protected set; }
@@ -15,7 +15,7 @@ namespace GameMenu.Menues.Settings.ColorSubFolder
         public Color TextColor { get; } = Color.Black;
 
         public White(int row, int col, IRepository<string> namespaces)
-            : base(Number, row, col, namespaces)
+            : base(SequenceNumber, row, col, namespaces)
         {
         }
 

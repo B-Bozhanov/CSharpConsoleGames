@@ -7,7 +7,6 @@
 
     public abstract class Menu : IMenu
     {
-        private int menuNumber;
         protected IRepository<string> namespaces;
 
         protected Menu(int menuNumber, int row, int col, IRepository<string> namespaces)

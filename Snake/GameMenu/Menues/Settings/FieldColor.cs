@@ -7,10 +7,10 @@ namespace GameMenu.Menues.Settings
 {
     internal class FieldColor : Menu
     {
-        private const int Number = 2;
+        private const int SequenceNumber = 2;
 
         public FieldColor(int row, int col, IRepository<string> namespaces)
-            : base(Number, row, col, namespaces)
+            : base(SequenceNumber, row, col, namespaces)
         {
         }
 

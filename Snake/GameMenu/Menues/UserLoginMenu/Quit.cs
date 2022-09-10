@@ -11,13 +11,13 @@
     {
         private const string QuestionMessage = "Are you sure ? --> Y / N";
         private const string GoodByeMessage = "Good bye !";
-        private const int Number = 5;
+        private const int SequenceNumber = 5;
 
         private readonly IWriter writer;
         private readonly IUserInput input;
 
         public Quit(int row, int col, IRepository<string> namespaces)
-            : base(Number, row, col, namespaces)
+            : base(SequenceNumber, row, col, namespaces)
         {
             this.writer = new ConsoleWriter();
             this.input = new UserInput();

@@ -5,9 +5,9 @@
 
     internal class Back : Menu
     {
-        private const int Number = 4;
+        private const int SequenceNumber = 4;
         public Back(int row, int col, IRepository<string> namespaces)
-            : base(Number, row, col, namespaces)
+            : base(SequenceNumber, row, col, namespaces)
         {
         }
 

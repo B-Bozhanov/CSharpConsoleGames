@@ -6,10 +6,10 @@ namespace GameMenu.Menues.UserLoginMenu
 {
     internal class ContinueWithoutAccount : Menu
     {
-        private const int Number = 3;
+        private const int SequenceNumber = 3;
 
         public ContinueWithoutAccount(int row, int col, IRepository<string> namespaces) 
-            : base(Number, row, col, namespaces)
+            : base(SequenceNumber, row, col, namespaces)
         {
         }
 

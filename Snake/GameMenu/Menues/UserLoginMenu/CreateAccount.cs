@@ -9,14 +9,14 @@ namespace GameMenu.Menues.UserLoginMenu
 {
     internal class CreateAccount : Menu
     {
-        private const int Number = 2;
+        private const int SequenceNumber = 2;
         private readonly IUserDatabase users;
         private readonly IWriter writer;
         private readonly IReader reader;
 
 
         public CreateAccount(int row, int col, IRepository<string> namespaces, IUserDatabase users)
-           : base(Number, row, col, namespaces)
+           : base(SequenceNumber, row, col, namespaces)
         {
             this.users = users;
             this.writer = new ConsoleWriter();

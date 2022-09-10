@@ -8,13 +8,13 @@
 
     internal class Login : Menu
     {
-        private const int Number = 1;
+        private const int SequenceNumber = 1;
         private readonly IUserDatabase users;
         private IWriter writer;
         private IReader reader;
 
         public Login(int row, int col, IRepository<string> namespaces, IUserDatabase users)
-            : base(Number, row, col, namespaces)
+            : base(SequenceNumber, row, col, namespaces)
         {
             this.users = users;
             this.writer = new ConsoleWriter();

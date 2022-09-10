@@ -4,10 +4,10 @@
     using GameMenu.Repository.Interfaces;
     internal class Exit : Quit
     {
-        private const int Number = 4!;
+        private const int SequenceNumber = 4!;
 
         public Exit(int row, int col, IRepository<string> namespaces) 
-            : base(Number, row, col, namespaces)
+            : base(SequenceNumber, row, col, namespaces)
         {
         }
     }

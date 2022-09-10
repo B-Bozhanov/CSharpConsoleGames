@@ -6,10 +6,10 @@
 
     internal class Settings : Menu
     {
-        private const int Number = 2;
+        private const int SequenceNumber = 2;
 
         public Settings(int row, int col, IRepository<string> namespaces)
-            : base(Number, row, col, namespaces)
+            : base(SequenceNumber, row, col, namespaces)
         {
         }
 

@@ -5,10 +5,10 @@ namespace GameMenu.Menues.MainMenu
 {
     internal class Back : Menu
     {
-        private const int Number = 3;
+        private const int SequenceNumber = 3;
 
         public Back(int row, int col, IRepository<string> namespaces) 
-            : base(Number, row, col, namespaces)
+            : base(SequenceNumber, row, col, namespaces)
         {
         }
 
