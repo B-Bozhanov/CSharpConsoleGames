@@ -3,16 +3,16 @@
     using Interfaces;
     using GameMenu.IO;
     using GameMenu.IO.Interfaces;
-    using GameMenu.Models;
-    using GameMenu.Models.Interfaces;
+    using GameMenu.Menues;
+    using GameMenu.Menues.Interfaces;
     using Snake.Utilities;
     using Snake.Utilities.Interfaces;
     using GameMenu.Repository;
     using GameMenu.Repository.Interfaces;
     using GameMenu.Utilities;
     using UserDatabase.Interfaces;
-    using GameMenu.Models.UserLoginMenu;
-    using GameMenu.Models.MainMenu;
+    using GameMenu.Menues.UserLoginMenu;
+    using GameMenu.Menues.MainMenu;
 
     public class MenuEngine : IMenuEngine
     {
@@ -31,18 +31,20 @@
         {
             this.menues = new HashSet<IMenu>();
             this.writer = new ConsoleWriter();
-            this.field = new ConsoleField();
+            //this.field = new ConsoleField();
             this.interpretor = new Interpretor();
-            this.cursor = new Cursor(this.writer);
-            this.currentMenuCoords = new Coordinates(ConsoleField.MenuRow, ConsoleField.MenuCol);
+           
             this.namespaces = new NameSpaceRepository();
 
             this.namespaces.Add(NameSpacesInfo.UserLoginMenu);
         }
-        public MenuEngine(IUserDatabase users)
+        public MenuEngine(IUserDatabase users, IField field)
             : this()
         {
             this.users = users;
+            this.field = field;
+            this.cursor = new Cursor(this.writer, this.field!);
+            this.currentMenuCoords = new Coordinates(this.field.MenuRow, this.field.MenuCol);
         }
 
         public IUser Start()
@@ -50,33 +52,33 @@
             string username = string.Empty;
             while (true)
             {
-                this.currentMenuCoords.Row = ConsoleField.MenuRow;
-                this.currentMenuCoords.Col = ConsoleField.MenuCol;
+                this.currentMenuCoords.Row = this.field.MenuRow;
+                this.currentMenuCoords.Col = this.field.MenuCol;
 
                 this.menues = this.interpretor
                     .GetMenues(this.namespaces, currentMenuCoords, users);
                 this.writer.Write(this.menues);
 
-                ICoordinates currentCursorCoords = new Coordinates(ConsoleField.MenuRow, currentMenuCoords.Col - CursorDistance);
+                ICoordinates currentCursorCoords = new Coordinates(this.field.MenuRow, currentMenuCoords.Col - CursorDistance);
                 ICoordinates cursorCoordinates = this.cursor
                     .Move(this.menues, currentCursorCoords);
 
                 IMenu currentMenu = this.menues.First(m => m.MenuCoordinates.Row == cursorCoordinates.Row
-                                                      && m.MenuCoordinates.Col == cursorCoordinates.Col + CursorDistance);
+                                                        && m.MenuCoordinates.Col == cursorCoordinates.Col + CursorDistance);
 
                 if (currentMenu is NewGame)
                 {
-                    currentMenu.Execute();
+                    currentMenu.Execute(this.field);
                     break;
                 }
                 else if (currentMenu is Login || currentMenu is CreateAccount)
                 {
-                    username = currentMenu.Execute();
+                    username = currentMenu.Execute(this.field);
                     this.namespaces.Add(NameSpacesInfo.MainMenu);
                 }
                 else
                 {
-                    currentMenu.Execute();
+                    currentMenu.Execute(this.field);
                 }
                 this.writer.Clear();
             }

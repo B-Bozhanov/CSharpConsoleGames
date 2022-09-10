@@ -1,13 +1,17 @@
-﻿using GameMenu.Models.Interfaces;
-using System.Collections;
-
-namespace GameMenu.IO.Interfaces
+﻿namespace GameMenu.IO.Interfaces
 {
+    using GameMenu.Menues.Interfaces;
+
     public interface IWriter
     {
         void Write(string message);
-        void Write(string message, int X, int Y);
+
+        void WriteLine(string message);
+
+        void Write(string text, int consoleRow, int consoleCol);
+
         void Write(HashSet<IMenu> menues);
+
         void Clear();
     }
 }

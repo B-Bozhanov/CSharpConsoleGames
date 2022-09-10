@@ -20,14 +20,14 @@
             this.users.Add(user.Username, user);
         }
 
-        public IUser Get(IUser user)
+        public IUser Get(string user)
         {
-            if (!this.users.ContainsKey(user.Username))
+            if (!this.users.ContainsKey(user))
             {
                 throw new ArgumentException("The username does not exist, try again!");
             }
 
-            return this.users[user.Username];
+            return this.users[user];
         }
     }
 }

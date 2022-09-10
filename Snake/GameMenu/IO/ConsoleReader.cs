@@ -6,7 +6,7 @@
     {
         public string ReadeLine()
         {
-            return Console.ReadLine();
+            return Console.ReadLine()!;
         }
     }
 }

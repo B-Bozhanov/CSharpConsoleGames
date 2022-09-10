@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snake", "Snake.csproj", "{A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StartUp", "..\StartUp\StartUp.csproj", "{90F51148-1B71-4126-9250-20269CF64572}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserDatabase", "..\UserDatabase\UserDatabase.csproj", "{4C6EFAB3-41BC-4C48-B6D5-A922E4EE8545}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserDatabase", "..\UserDatabase\UserDatabase.csproj", "{4C6EFAB3-41BC-4C48-B6D5-A922E4EE8545}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

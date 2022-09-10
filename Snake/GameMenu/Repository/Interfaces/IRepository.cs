@@ -1,4 +1,4 @@
-﻿using GameMenu.Models.Interfaces;
+﻿using GameMenu.Menues.Interfaces;
 using Snake.Utilities.Interfaces;
 
 namespace GameMenu.Repository.Interfaces

@@ -3,10 +3,10 @@
     using System.Reflection;
 
     using Interfaces;
-    using GameMenu.Models.Interfaces;
+    using GameMenu.Menues.Interfaces;
     using Snake.Utilities.Interfaces;
     using GameMenu.Repository.Interfaces;
-    using GameMenu.Models.UserLoginMenu;
+    using GameMenu.Menues.UserLoginMenu;
     using UserDatabase.Interfaces;
 
     internal class Interpretor : IInterpretor<string, ICoordinates>
@@ -33,11 +33,11 @@
                 IMenu currentMenu;
                 if (type == typeof(Login) || type == typeof(CreateAccount))
                 {
-                    currentMenu = (IMenu)Activator.CreateInstance(type, new object[] { menuCoords.Row, menuCoords.Col, namespaces, users });
+                    currentMenu = (IMenu)Activator.CreateInstance(type, new object[] { menuCoords.Row, menuCoords.Col, namespaces, users})!;
                 }
                 else
                 {
-                    currentMenu = (IMenu)Activator.CreateInstance(type, new object[] { menuCoords.Row, menuCoords.Col, namespaces });
+                    currentMenu = (IMenu)Activator.CreateInstance(type, new object[] { menuCoords.Row, menuCoords.Col, namespaces })!;
                 }
 
                 menues.Add(currentMenu);
