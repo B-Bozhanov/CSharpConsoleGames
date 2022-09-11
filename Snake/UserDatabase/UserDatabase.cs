@@ -39,7 +39,12 @@
             {
                 users.AppendLine($"{user.Username}, {user.Password}, {user.Score}, {user.BlockedTime.Elapsed.Minutes.ToString()}");
             }
-            File.WriteAllText("Users.txt", users.ToString().Trim());
+            string database = File.ReadAllText("Users.txt");
+
+            if (users.ToString() != database)
+            {
+                File.WriteAllText("Users.txt", users.ToString().Trim());
+            }
         }
 
         public void LoadDatabase()
@@ -75,20 +80,20 @@
             user.BlockedTime.Start();
         }
 
-        private void AutoSave()
-        {
-            while (true)
-            {
-                this.SaveDatabase();
-                Thread.Sleep(5000);
-            }
-        }
-
         public void StartAutoSave()
         {
 
             Thread autoSaveDatabase = new Thread(this.AutoSave);
             autoSaveDatabase.Start();
+        }
+
+        private void AutoSave()
+        {
+            while (true)
+            {
+                this.SaveDatabase();
+                Thread.Sleep(1000);
+            }
         }
     }
 }

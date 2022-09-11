@@ -19,6 +19,7 @@
         private const int CursorDistance = 2;
         private readonly IRepository<string> namespaces;
         private readonly IWriter writer;
+        private readonly IReader reader;
         private readonly IField field;
         private readonly IInterpretor<string, ICoordinates> interpretor;
         private readonly ICursor<HashSet<IMenu>, ICoordinates> cursor;
@@ -30,19 +31,19 @@
         private MenuEngine()
         {
             this.menues = new HashSet<IMenu>();
-            this.writer = new ConsoleWriter();
-            //this.field = new ConsoleField();
             this.interpretor = new Interpretor();
            
             this.namespaces = new NameSpaceRepository();
 
             this.namespaces.Add(NameSpacesInfo.UserLoginMenu);
         }
-        public MenuEngine(IUserDatabase users, IField field)
+        public MenuEngine(IUserDatabase users, IField field, IWriter writer, IReader reader)
             : this()
         {
             this.users = users;
             this.field = field;
+            this.writer = writer;
+            this.reader = reader;
             this.cursor = new Cursor(this.writer, this.field!);
             this.currentMenuCoords = new Coordinates(this.field.MenuRow, this.field.MenuCol);
         }
@@ -51,6 +52,7 @@
         {
             string username = string.Empty;
             bool isGuestPlayer = false;
+
             while (true)
             {
                 this.currentMenuCoords.Row = this.field.MenuRow;
@@ -59,7 +61,10 @@
                 this.menues = this.interpretor
                     .GetMenues(this.namespaces, currentMenuCoords, users);
 
-                this.writer.Write(this.menues);
+                foreach (var menu in this.menues)
+                {
+                    this.writer.Write(menu.GetName(), this.currentMenuCoords.Row, this.currentMenuCoords.Col);
+                }
 
                 ICoordinates currentCursorCoords = new Coordinates(this.field.MenuRow, currentMenuCoords.Col - CursorDistance);
                 ICoordinates cursorCoordinates = this.cursor
