@@ -26,7 +26,6 @@
                 .GetTypes()
                 .Where(t => t.Namespace == namespaces.Get())
                 .ToArray();
-            var test = types[0];
 
             foreach (var type in types)
             {

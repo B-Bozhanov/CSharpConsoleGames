@@ -50,6 +50,7 @@
         public IUser Start()
         {
             string username = string.Empty;
+            bool isGuestPlayer = false;
             while (true)
             {
                 this.currentMenuCoords.Row = this.field.MenuRow;
@@ -57,6 +58,7 @@
 
                 this.menues = this.interpretor
                     .GetMenues(this.namespaces, currentMenuCoords, users);
+
                 this.writer.Write(this.menues);
 
                 ICoordinates currentCursorCoords = new Coordinates(this.field.MenuRow, currentMenuCoords.Col - CursorDistance);
@@ -78,11 +80,19 @@
                 }
                 else
                 {
+                    if (currentMenu is ContinueWithoutAccount)
+                    {
+                        isGuestPlayer = true;
+                    }
                     currentMenu.Execute(this.field);
                 }
                 this.writer.Clear();
             }
 
+            if (isGuestPlayer)
+            {
+                return null;
+            }
             return this.users.Get(username);
         }
     }

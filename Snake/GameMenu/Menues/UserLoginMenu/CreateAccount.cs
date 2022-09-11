@@ -34,6 +34,7 @@ namespace GameMenu.Menues.UserLoginMenu
         {
             string username = string.Empty;
             string password = string.Empty;
+            int score = 0;
 
             while (true)
             {
@@ -47,7 +48,7 @@ namespace GameMenu.Menues.UserLoginMenu
 
                 try
                 {
-                    IUser user = new User(username, password);
+                    User user = new User(username, password, score);
                     this.users.Add(user);
                     break;
                 }

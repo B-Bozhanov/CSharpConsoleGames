@@ -69,14 +69,17 @@
         }
         private void SetDefaultSettings()
         {
-            Console.Title = "Snake v2.0";
-            Console.CursorVisible = false;
-            Console.WindowHeight = WindowHeight!;
-            Console.WindowWidth = WindowWidth;
-            Console.BufferHeight = WindowHeight;
-            Console.BufferWidth = WindowWidth;
-            Console.OutputEncoding = Encoding.UTF8;
-            Console.SetWindowPosition(0, 0);
+            if (OperatingSystem.IsWindows())
+            {
+                Console.Title = "Snake v2.0";
+                Console.CursorVisible = false;
+                Console.WindowHeight = WindowHeight!;
+                Console.WindowWidth = WindowWidth;
+                Console.BufferHeight = WindowHeight;
+                Console.BufferWidth = WindowWidth;
+                Console.OutputEncoding = Encoding.UTF8;
+                Console.SetWindowPosition(0, 0);
+            }
         }
     }
 }
