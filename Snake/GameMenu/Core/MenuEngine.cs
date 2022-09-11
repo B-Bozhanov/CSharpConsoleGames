@@ -76,7 +76,10 @@
                 else if (currentMenu is Login || currentMenu is CreateAccount)
                 {
                     username = currentMenu.Execute(this.field);
-                    this.namespaces.Add(NameSpacesInfo.MainMenu);
+                    if (username != null)
+                    {
+                        this.namespaces.Add(NameSpacesInfo.MainMenu);
+                    }
                 }
                 else
                 {
@@ -91,7 +94,7 @@
 
             if (isGuestPlayer)
             {
-                return null;
+                return this.users.Get("Guest");
             }
             return this.users.Get(username);
         }

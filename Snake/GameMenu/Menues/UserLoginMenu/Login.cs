@@ -21,7 +21,7 @@
             this.reader = new ConsoleReader();
         }
 
-        public override int MenuNumber { get; protected set ; }
+        public override int MenuNumber { get; protected set; }
 
         public override string Execute(IField field)
         {
@@ -29,29 +29,45 @@
             string password = string.Empty;
             IUser user;
 
-            while (true)
+            this.writer.Clear();
+            this.writer.Write("Enter username: ", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+            username = this.reader.ReadeLine();
+
+            this.writer.Clear();
+            this.writer.Write("Enter password: ", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+            password = this.reader.ReadeLine();
+
+            try
+            {
+                user = this.users.Get(username);
+                if (!this.PasswordValidator(user, password))
+                {
+                    Execute(field);
+                } 
+                this.writer.Clear();
+                this.writer.Write("Successful login!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                Thread.Sleep(2000);
+                return username;
+            }
+            catch (Exception ex)
             {
                 this.writer.Clear();
-                this.writer.Write("Enter username: ", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-                username = this.reader.ReadeLine();
-
-                this.writer.Clear();
-                this.writer.Write("Enter password: ", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-                password = this.reader.ReadeLine();
-
-                try
-                {
-                    user = this.users.Get(username);
-                    break;
-                }
-                catch (Exception ex)
-                {
-                    this.writer.Clear();
-                    this.writer.Write(ex.Message, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-                    Thread.Sleep(2000);
-                }
+                this.writer.Write(ex.Message, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                Thread.Sleep(2000);
+                return null!;
             }
-            return username;
+        }
+
+        private bool PasswordValidator(IUser user, string password)
+        {
+            if (user.Password != password)
+            {
+                this.writer.Clear();
+                this.writer.Write("Incorect password, try again!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                Thread.Sleep(2000);
+                return false;
+            }
+            return true;
         }
     }
 }

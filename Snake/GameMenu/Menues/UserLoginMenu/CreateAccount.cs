@@ -48,8 +48,9 @@ namespace GameMenu.Menues.UserLoginMenu
 
                 try
                 {
-                    User user = new User(username, password, score);
+                    IUser user = new User(username, password, score);
                     this.users.Add(user);
+                    this.users.SaveDatabase();
                     break;
                 }
                 catch (Exception ex)
@@ -59,6 +60,9 @@ namespace GameMenu.Menues.UserLoginMenu
                     Thread.Sleep(2000);
                 }
             }
+            this.writer.Clear();
+            this.writer.Write("Account is successful created!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+            Thread.Sleep(2000);
             return username;
         }
     }

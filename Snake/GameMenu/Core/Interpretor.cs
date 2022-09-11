@@ -30,7 +30,7 @@
             foreach (var type in types)
             {
                 IMenu currentMenu;
-                if (type == typeof(Login) || type == typeof(CreateAccount))
+                if (type == typeof(Login) || type == typeof(CreateAccount) || type == typeof(ContinueWithoutAccount))
                 {
                     currentMenu = (IMenu)Activator.CreateInstance(type, new object[] { menuCoords.Row, menuCoords.Col, namespaces, users})!;
                 }
