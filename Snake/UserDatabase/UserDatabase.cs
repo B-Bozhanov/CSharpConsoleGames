@@ -5,7 +5,7 @@
 
     public class UserDatabase : IUserDatabase
     {
-        private IDictionary<string, IUser> usersDatabase;
+        private readonly IDictionary<string, IUser> usersDatabase;
 
         public UserDatabase()
         {
@@ -37,7 +37,7 @@
             var users = new StringBuilder();
             foreach (var user in this.usersDatabase.Values)
             {
-                users.AppendLine($"{user.Username}, {user.Password}, {user.Score}");
+                users.AppendLine($"{user.Username}, {user.Password}, {user.Score}, {user.BlockedTime.Elapsed.Minutes.ToString()}");
             }
             File.WriteAllText("Users.txt", users.ToString().Trim());
         }
@@ -57,7 +57,9 @@
                     string password = userAtributes[1];
                     int score = int.Parse(userAtributes[2]);
 
-                    this.usersDatabase.Add(username, new User(username, password, score));
+                    IUser currentUser = new User(username, password, score);
+                    //currentUser.BlockedTime = int.TryParse(userAtributes[3])
+                    this.usersDatabase.Add(username, currentUser);
                 }
             }
         }
@@ -65,6 +67,28 @@
         public void RemoveAccount(string username)
         {
             this.usersDatabase.Remove(username);
+        }
+
+        public void BlockAccount(IUser user)
+        {
+            user.IsBlocked = true;
+            user.BlockedTime.Start();
+        }
+
+        private void AutoSave()
+        {
+            while (true)
+            {
+                this.SaveDatabase();
+                Thread.Sleep(5000);
+            }
+        }
+
+        public void StartAutoSave()
+        {
+
+            Thread autoSaveDatabase = new Thread(this.AutoSave);
+            autoSaveDatabase.Start();
         }
     }
 }

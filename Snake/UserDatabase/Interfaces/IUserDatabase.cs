@@ -11,5 +11,9 @@
         public void LoadDatabase();
 
         public void RemoveAccount(string username);
+
+        public void BlockAccount(IUser user);
+
+        public void StartAutoSave();
     }
 }

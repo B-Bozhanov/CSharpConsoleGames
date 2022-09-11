@@ -91,12 +91,11 @@
                 }
                 this.writer.Clear();
             }
-
             if (isGuestPlayer)
             {
                 return this.users.Get("Guest");
             }
-            return this.users.Get(username);
+            return this.users.Get(username!);
         }
     }
 }

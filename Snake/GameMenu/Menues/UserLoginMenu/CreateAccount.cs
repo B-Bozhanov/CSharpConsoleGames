@@ -50,7 +50,7 @@ namespace GameMenu.Menues.UserLoginMenu
                 {
                     IUser user = new User(username, password, score);
                     this.users.Add(user);
-                    this.users.SaveDatabase();
+                    //this.users.SaveDatabase();
                     break;
                 }
                 catch (Exception ex)

@@ -1,4 +1,6 @@
-﻿namespace UserDatabase.Interfaces
+﻿using System.Diagnostics;
+
+namespace UserDatabase.Interfaces
 {
     public interface IUser
     {
@@ -7,5 +9,9 @@
         public string Password { get;}
 
         public int Score { get; set; }
+
+        public bool IsBlocked { get; set; }
+
+        public Stopwatch BlockedTime { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace UserDatabase
 {
     using global::UserDatabase.Interfaces;
+    using System.Diagnostics;
 
     public class User : IUser
     {
@@ -13,6 +14,7 @@
             this.Username = username;
             this.Password = password;
             this.Score = score;
+            this.BlockedTime = new Stopwatch();
         }
 
 
@@ -51,5 +53,9 @@
             get => this.score;
             set => this.score = value;
         }
+
+        public bool IsBlocked { get; set; } = false;
+
+        public Stopwatch BlockedTime { get; set; }
     }
 }

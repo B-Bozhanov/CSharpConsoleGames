@@ -11,6 +11,7 @@ using UserDatabase.Interfaces;
 IField field = new ConsoleField();
 IUserDatabase usersDatabase = new UserDatabase.UserDatabase();
 usersDatabase.LoadDatabase();
+usersDatabase.StartAutoSave();
 usersDatabase.RemoveAccount("Guest");
 
 IMenuEngine engine = new MenuEngine(usersDatabase, field);
