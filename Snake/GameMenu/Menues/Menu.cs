@@ -1,6 +1,7 @@
 ﻿namespace GameMenu.Menues
 {
     using System;
+    using GameMenu.IO.Interfaces;
     using GameMenu.Repository.Interfaces;
     using Interfaces;
     using Snake.Utilities;
@@ -12,10 +13,8 @@
         protected Menu(int menuNumber, int row, int col, IRepository<string> namespaces)
         {
             this.MenuNumber = menuNumber;
-            this.MenuCoordinates = new Coordinates();
+            this.MenuCoordinates = new Coordinates(row + MenuNumber - 1, col);
             this.namespaces = namespaces;
-            this.MenuCoordinates.Row = row + MenuNumber - 1;
-            this.MenuCoordinates.Col = col;
         }
 
         public abstract int MenuNumber { get; protected set; }
@@ -23,7 +22,7 @@
         public Coordinates MenuCoordinates { get; private set; }
 
         
-        public abstract string Execute(IField field);
+        public abstract string Execute(IField field, IWriter writer, IReader reader);
 
         public virtual string GetName()
         {

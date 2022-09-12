@@ -13,36 +13,33 @@
         private const string GoodByeMessage = "Good bye !";
         private const int SequenceNumber = 5;
 
-        private readonly IWriter writer;
         private readonly IUserInput input;
 
         public Quit(int row, int col, IRepository<string> namespaces)
             : base(SequenceNumber, row, col, namespaces)
         {
-            this.writer = new ConsoleWriter();
             this.input = new UserInput();
         }
         public Quit(int menuNumber, int row, int col, IRepository<string> namespaces)
             : base(menuNumber, row, col, namespaces)
         {
-            this.writer = new ConsoleWriter();
             this.input = new UserInput();
         }
 
         public override int MenuNumber { get; protected set; }
 
-        public override string Execute(IField field)
+        public override string Execute(IField field, IWriter writer, IReader reader)
         {
-            this.writer.Clear();
-            this.writer.Write(QuestionMessage, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+            writer.Clear();
+            writer.Write(QuestionMessage, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
 
             while (true)
             {
                 var key = input.GetInput();
                 if (key == KeyPressed.Yes)
                 {
-                    this.writer.Clear();
-                    this.writer.Write(GoodByeMessage, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                    writer.Clear();
+                    writer.Write(GoodByeMessage, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                     Thread.Sleep(3000);
                     this.namespaces.Remove();
                     Environment.Exit(0);

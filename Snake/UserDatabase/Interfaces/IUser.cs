@@ -12,6 +12,6 @@ namespace UserDatabase.Interfaces
 
         public bool IsBlocked { get; set; }
 
-        public Stopwatch BlockedTime { get; set; }
+        public int BlockedTimeCount { get; set; }
     }
 }

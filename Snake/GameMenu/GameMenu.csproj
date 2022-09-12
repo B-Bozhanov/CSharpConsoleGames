@@ -7,13 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IO\IO.csproj" />
-    <ProjectReference Include="..\Snake\Snake.csproj" />
-    <ProjectReference Include="..\UserDatabase\UserDatabase.csproj" />
+    <Compile Remove="IO\**" />
+    <EmbeddedResource Remove="IO\**" />
+    <None Remove="IO\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="IO\" />
+    <ProjectReference Include="..\IO\IO.csproj" />
+    <ProjectReference Include="..\Snake\Snake.csproj" />
+    <ProjectReference Include="..\UserDatabase\UserDatabase.csproj" />
   </ItemGroup>
 
 </Project>

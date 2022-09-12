@@ -1,5 +1,6 @@
 ﻿namespace GameMenu.Menues.MainMenu
 {
+    using GameMenu.IO.Interfaces;
     using GameMenu.Menues.Interfaces;
     using GameMenu.Repository.Interfaces;
     using GameMenu.Utilities;
@@ -15,7 +16,7 @@
 
         public override int MenuNumber { get; protected set; }
 
-        public override string Execute(IField field)
+        public override string Execute(IField field, IWriter writer, IReader reader)
         {
             this.namespaces.Add(NameSpacesInfo.Settings);
             return this.namespaces.Get(); 

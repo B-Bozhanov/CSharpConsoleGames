@@ -2,6 +2,8 @@
 {
     public interface IUserDatabase
     {
+        public int RemaningBlockTime { get;}
+
         public void Add(IUser user);
 
         public IUser Get(string user);

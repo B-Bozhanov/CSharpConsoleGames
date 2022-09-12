@@ -1,7 +1,7 @@
 ﻿namespace GameMenu.Menues.Interfaces
 {
+    using GameMenu.IO.Interfaces;
     using Snake.Utilities;
-    using UserDatabase.Interfaces;
 
     public interface IMenu
     {
@@ -12,6 +12,6 @@
 
         string Execute();
 
-        string Execute(IField field);
+        string Execute(IField field, IWriter writer, IReader reader);
     }
 }

@@ -8,6 +8,7 @@
     using GameMenu.Repository.Interfaces;
     using GameMenu.Menues.UserLoginMenu;
     using UserDatabase.Interfaces;
+    using GameMenu.IO.Interfaces;
 
     internal class Interpretor : IInterpretor<string, ICoordinates>
     {
@@ -18,7 +19,8 @@
             assembly = Assembly.GetExecutingAssembly();
         }
 
-        public HashSet<IMenu> GetMenues(IRepository<string> namespaces, ICoordinates menuCoords, IUserDatabase users)
+        public HashSet<IMenu> GetMenues(IRepository<string> namespaces,
+                                        ICoordinates menuCoords, IUserDatabase users)
         {
             var menues = new HashSet<IMenu>();
 
@@ -27,16 +29,19 @@
                 .Where(t => t.Namespace == namespaces.Get())
                 .ToArray();
 
+            object[] constructorWithUsersArgs = new object[] { menuCoords.Row, menuCoords.Col, namespaces, users};
+            object[] defaultConstructorArgs = new object[] { menuCoords.Row, menuCoords.Col, namespaces};
+
             foreach (var type in types)
             {
                 IMenu currentMenu;
                 if (type == typeof(Login) || type == typeof(CreateAccount) || type == typeof(ContinueWithoutAccount))
                 {
-                    currentMenu = (IMenu)Activator.CreateInstance(type, new object[] { menuCoords.Row, menuCoords.Col, namespaces, users})!;
+                    currentMenu = (IMenu)Activator.CreateInstance(type, constructorWithUsersArgs)!;
                 }
                 else
                 {
-                    currentMenu = (IMenu)Activator.CreateInstance(type, new object[] { menuCoords.Row, menuCoords.Col, namespaces })!;
+                    currentMenu = (IMenu)Activator.CreateInstance(type, defaultConstructorArgs)!;
                 }
 
                 menues.Add(currentMenu);

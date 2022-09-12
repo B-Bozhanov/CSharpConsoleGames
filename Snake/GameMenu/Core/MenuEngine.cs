@@ -63,7 +63,7 @@
 
                 foreach (var menu in this.menues)
                 {
-                    this.writer.Write(menu.GetName(), this.currentMenuCoords.Row, this.currentMenuCoords.Col);
+                    this.writer.Write(menu.GetName(), menu.MenuCoordinates.Row, menu.MenuCoordinates.Col);
                 }
 
                 ICoordinates currentCursorCoords = new Coordinates(this.field.MenuRow, currentMenuCoords.Col - CursorDistance);
@@ -75,12 +75,12 @@
 
                 if (currentMenu is NewGame)
                 {
-                    currentMenu.Execute(this.field);
+                    currentMenu.Execute(this.field, this.writer, this.reader);
                     break;
                 }
                 else if (currentMenu is Login || currentMenu is CreateAccount)
                 {
-                    username = currentMenu.Execute(this.field);
+                    username = currentMenu.Execute(this.field, this.writer, this.reader);
                     if (username != null)
                     {
                         this.namespaces.Add(NameSpacesInfo.MainMenu);
@@ -92,7 +92,7 @@
                     {
                         isGuestPlayer = true;
                     }
-                    currentMenu.Execute(this.field);
+                    currentMenu.Execute(this.field, this.writer, this.reader);
                 }
                 this.writer.Clear();
             }
