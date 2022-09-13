@@ -1,12 +1,11 @@
-﻿using GameMenu.IO;
-using GameMenu.IO.Interfaces;
-using GameMenu.Menues.Interfaces;
-using GameMenu.Repository.Interfaces;
-using UserDatabase;
-using UserDatabase.Interfaces;
-
-namespace GameMenu.Menues.UserLoginMenu
+﻿namespace GameMenu.Menues.UserLoginMenu
 {
+    using GameMenu.IO.Interfaces;
+    using GameMenu.Menues.Interfaces;
+    using GameMenu.Repository.Interfaces;
+    using UserDatabase;
+    using UserDatabase.Interfaces;
+
     internal class CreateAccount : Menu
     {
         private const int SequenceNumber = 2;
@@ -19,7 +18,8 @@ namespace GameMenu.Menues.UserLoginMenu
             this.users = users;
         }
 
-        public override int MenuNumber { get ; protected set ; }
+        public override int MenuNumber { get; protected set; }
+
 
         public override string GetName()
         {

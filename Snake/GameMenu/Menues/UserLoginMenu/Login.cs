@@ -1,10 +1,10 @@
 ﻿namespace GameMenu.Menues.UserLoginMenu
 {
-    using GameMenu.IO;
     using GameMenu.IO.Interfaces;
     using GameMenu.Menues.Interfaces;
     using GameMenu.Repository.Interfaces;
     using UserDatabase.Interfaces;
+
 
     internal class Login : Menu
     {
@@ -38,6 +38,8 @@
                 writer.Clear();
                 writer.Write("Enter password: ", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                 password = reader.ReadeLine();
+
+
                 try
                 {
                     user = this.users.Get(username);
@@ -56,6 +58,7 @@
                         {
                             writer.Clear();
                             writer.Write("Account is blocked for 15 minutes!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                            user.LastBlockedTime = DateTime.Now;
                             users.BlockAccount(user);
                             Thread.Sleep(2000);
                             return null!;

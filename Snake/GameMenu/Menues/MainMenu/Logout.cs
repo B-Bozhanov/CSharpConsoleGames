@@ -1,10 +1,10 @@
-﻿using GameMenu.IO;
-using GameMenu.IO.Interfaces;
-using GameMenu.Menues.Interfaces;
-using GameMenu.Repository.Interfaces;
-
-namespace GameMenu.Menues.MainMenu
+﻿namespace GameMenu.Menues.MainMenu
 {
+    using GameMenu.IO.Interfaces;
+    using GameMenu.Menues.Interfaces;
+    using GameMenu.Repository.Interfaces;
+
+
     internal class Logout : Menu
     {
         private const int SequenceNumber = 3;

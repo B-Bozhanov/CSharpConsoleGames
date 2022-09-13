@@ -5,6 +5,7 @@
     using GameMenu.Menues.Interfaces;
     using GameMenu.Repository.Interfaces;
 
+
     internal class NewGame : Menu
     {
         private const int SequenceNumber = 1;

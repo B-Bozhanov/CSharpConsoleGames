@@ -2,6 +2,7 @@
 {
     using GameMenu.Menues.UserLoginMenu;
     using GameMenu.Repository.Interfaces;
+
     internal class Exit : Quit
     {
         private const int SequenceNumber = 4!;

@@ -13,6 +13,8 @@
     internal class Interpretor : IInterpretor<string, ICoordinates>
     {
         private readonly Assembly assembly;
+        private readonly IWriter writer;
+        private readonly IReader reader;
 
         public Interpretor()
         {

@@ -4,6 +4,10 @@ using GameMenu.Repository.Interfaces;
 
 namespace GameMenu.Menues.Settings.SizeSubFolder
 {
+    using GameMenu.IO.Interfaces;
+    using GameMenu.Menues.Interfaces;
+    using GameMenu.Repository.Interfaces;
+
     internal class Small : Menu
     {
         private const int Number = 1;
@@ -13,7 +17,7 @@ namespace GameMenu.Menues.Settings.SizeSubFolder
         public Small(int row, int col, IRepository<string> namespaces)
             : base(Number, row, col, namespaces)
         {
-            
+
         }
 
         public override int MenuNumber { get; protected set; }

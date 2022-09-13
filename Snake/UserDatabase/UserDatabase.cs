@@ -5,9 +5,10 @@
 
     public class UserDatabase : IUserDatabase
     {
-        private const int AccauntBlockTime = 60;
+        private const int AccauntBlockTime = 5 * 60;
         private Thread blockAccount;
         private readonly IDictionary<string, IUser> usersDatabase;
+        private IUser currentLogedUser;
 
         public UserDatabase()
         {
@@ -33,7 +34,8 @@
                 throw new ArgumentException("The username does not exist, try again!");
             }
 
-            return this.usersDatabase[user];
+            this.currentLogedUser = this.usersDatabase[user];
+            return currentLogedUser;
         }
 
         public void SaveDatabase()
@@ -42,7 +44,7 @@
             foreach (var user in this.usersDatabase.Values)
             {
                 users.AppendLine($"{user.Username}, {user.Password}, {user.Score}, " +
-                                 $"{user.BlockedTimeCount}, {user.IsBlocked}");
+                                 $"{user.IsBlocked.ToString()}, {user.BlockedTimeCount.ToString()}, {user.LastBlockedTime}");
             }
             string database = File.ReadAllText("Users.txt");
 
@@ -66,11 +68,26 @@
                     string username = userAtributes[0];
                     string password = userAtributes[1];
                     int score = int.Parse(userAtributes[2]);
+                    string isBlocked = userAtributes[3];
+                    int blockTimeCount = int.Parse(userAtributes[4]);
+                    DateTime lastBlockedTime = DateTime.Parse(userAtributes[5]);
 
                     IUser currentUser = new User(username, password, score);
-                    currentUser.BlockedTimeCount = int.Parse(userAtributes[3]);
+                    currentUser.BlockedTimeCount = blockTimeCount;
+                    currentUser.LastBlockedTime = lastBlockedTime;
+                    var blockedInterval = (DateTime.Now - lastBlockedTime).Duration();
+
+                    if (isBlocked == "True")
+                    {
+                        currentUser.IsBlocked = true;
+                    }
                     currentUser.IsBlocked = bool.Parse(userAtributes[4]);
                     this.usersDatabase.Add(username, currentUser);
+
+                    if (currentUser.IsBlocked)
+                    {
+                        this.BlockAccount(currentUser);
+                    }
                 }
             }
         }
@@ -102,7 +119,7 @@
                 {
                     Thread.Sleep(1000);
                     user.BlockedTimeCount++;
-                    this.RemaningBlockTime = AccauntBlockTime - user.BlockedTimeCount;
+                    this.RemaningBlockTime = AccauntBlockTime / 60 - user.BlockedTimeCount / 60;
                 }
                 user.IsBlocked = false;
                 user.BlockedTimeCount = 0;

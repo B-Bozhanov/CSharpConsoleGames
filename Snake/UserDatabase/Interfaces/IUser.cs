@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace UserDatabase.Interfaces
+﻿namespace UserDatabase.Interfaces
 {
     public interface IUser
     {
@@ -11,6 +9,8 @@ namespace UserDatabase.Interfaces
         public int Score { get; set; }
 
         public bool IsBlocked { get; set; }
+
+        public DateTime LastBlockedTime { get; set; }
 
         public int BlockedTimeCount { get; set; }
     }

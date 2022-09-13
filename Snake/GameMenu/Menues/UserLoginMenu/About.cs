@@ -6,7 +6,7 @@ using GameMenu.IO.Interfaces;
 
     internal class About : Menu
     {
-        private const int SequenceNumber = 4;
+        private const int SequenceNumber = 5;
 
         public About(int row, int col, IRepository<string> namespaces)
             : base(SequenceNumber, row, col, namespaces)
