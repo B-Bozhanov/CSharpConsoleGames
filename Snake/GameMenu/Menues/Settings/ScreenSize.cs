@@ -1,4 +1,5 @@
-﻿using GameMenu.Menues.Interfaces;
+﻿using GameMenu.IO.Interfaces;
+using GameMenu.Menues.Interfaces;
 using GameMenu.Repository.Interfaces;
 using GameMenu.Utilities;
 
@@ -18,7 +19,7 @@ namespace GameMenu.Menues.Settings
         {
             return "Screen Size";
         }
-        public override string Execute(IField field)
+        public override string Execute(IField field, IWriter writer, IReader reader)
         {
             this.namespaces.Add(NameSpacesInfo.ScreenSize);
             return this.namespaces.Get(); 

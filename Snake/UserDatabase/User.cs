@@ -57,5 +57,24 @@
         public bool IsBlocked { get; set; } = false;
 
         public Stopwatch BlockedTime { get; set; }
+
+        public int Test { get; set; }
+    }
+    public class MyStopwatch : Stopwatch
+    {
+        public TimeSpan StartOffset { get; private set; }
+
+        public MyStopwatch(TimeSpan startOffset)
+        {
+            StartOffset = startOffset;
+        }
+
+        public new int ElapsedMilliseconds
+        {
+            get
+            {
+                return (int)base.Elapsed.TotalSeconds + (int)StartOffset.TotalSeconds;
+            }
+        }
     }
 }

@@ -1,11 +1,14 @@
 ﻿namespace UserDatabase
 {
     using global::UserDatabase.Interfaces;
+    using System.Diagnostics;
     using System.Text;
+    using static System.Net.Mime.MediaTypeNames;
 
     public class UserDatabase : IUserDatabase
     {
         private readonly IDictionary<string, IUser> usersDatabase;
+        private MyStopwatch sw;
 
         public UserDatabase()
         {
@@ -37,7 +40,8 @@
             var users = new StringBuilder();
             foreach (var user in this.usersDatabase.Values)
             {
-                users.AppendLine($"{user.Username}, {user.Password}, {user.Score}, {user.BlockedTime.Elapsed.Minutes.ToString()}");
+                var userBlockTime = sw.ElapsedMilliseconds;
+                users.AppendLine($"{user.Username}, {user.Password}, {user.Score}, {userBlockTime.ToString()}");
             }
             string database = File.ReadAllText("Users.txt");
 
@@ -63,7 +67,7 @@
                     int score = int.Parse(userAtributes[2]);
 
                     IUser currentUser = new User(username, password, score);
-                    //currentUser.BlockedTime = int.TryParse(userAtributes[3])
+                    //currentUser.BlockedTime = double.Parse(userAtributes[3])
                     this.usersDatabase.Add(username, currentUser);
                 }
             }
@@ -77,12 +81,12 @@
         public void BlockAccount(IUser user)
         {
             user.IsBlocked = true;
-            user.BlockedTime.Start();
+            var test = TimeSpan.FromSeconds((int)25);
+            sw.Start();
         }
 
         public void StartAutoSave()
         {
-
             Thread autoSaveDatabase = new Thread(this.AutoSave);
             autoSaveDatabase.Start();
         }

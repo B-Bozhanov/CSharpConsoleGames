@@ -1,9 +1,7 @@
 ﻿namespace GameMenu.Core
 {
     using Interfaces;
-    using GameMenu.IO;
     using GameMenu.IO.Interfaces;
-    using GameMenu.Menues;
     using GameMenu.Menues.Interfaces;
     using Snake.Utilities;
     using Snake.Utilities.Interfaces;
@@ -28,17 +26,7 @@
         private HashSet<IMenu> menues;
 
 
-        private MenuEngine()
-        {
-            this.menues = new HashSet<IMenu>();
-            this.interpretor = new Interpretor();
-           
-            this.namespaces = new NameSpaceRepository();
-
-            this.namespaces.Add(NameSpacesInfo.UserLoginMenu);
-        }
         public MenuEngine(IUserDatabase users, IField field, IWriter writer, IReader reader)
-            : this()
         {
             this.users = users;
             this.field = field;
@@ -46,6 +34,10 @@
             this.reader = reader;
             this.cursor = new Cursor(this.writer, this.field!);
             this.currentMenuCoords = new Coordinates(this.field.MenuRow, this.field.MenuCol);
+            this.menues = new HashSet<IMenu>();
+            this.interpretor = new Interpretor();
+            this.namespaces = new NameSpaceRepository();
+            this.namespaces.Add(NameSpacesInfo.UserLoginMenu);
         }
 
         public IUser Start()
@@ -59,11 +51,11 @@
                 this.currentMenuCoords.Col = this.field.MenuCol;
 
                 this.menues = this.interpretor
-                    .GetMenues(this.namespaces, currentMenuCoords, users);
+                    .GetMenues(this.namespaces, this.currentMenuCoords, this.users);
 
                 foreach (var menu in this.menues)
                 {
-                    this.writer.Write(menu.GetName(), this.currentMenuCoords.Row, this.currentMenuCoords.Col);
+                    this.writer.Write(menu.GetName(), menu.MenuCoordinates.Row, menu.MenuCoordinates.Col);
                 }
 
                 ICoordinates currentCursorCoords = new Coordinates(this.field.MenuRow, currentMenuCoords.Col - CursorDistance);
@@ -75,12 +67,12 @@
 
                 if (currentMenu is NewGame)
                 {
-                    currentMenu.Execute(this.field);
+                    currentMenu.Execute(this.field, this.writer, this.reader);
                     break;
                 }
                 else if (currentMenu is Login || currentMenu is CreateAccount)
                 {
-                    username = currentMenu.Execute(this.field);
+                    username = currentMenu.Execute(this.field, this.writer, this.reader);
                     if (username != null)
                     {
                         this.namespaces.Add(NameSpacesInfo.MainMenu);
@@ -92,10 +84,11 @@
                     {
                         isGuestPlayer = true;
                     }
-                    currentMenu.Execute(this.field);
+                    currentMenu.Execute(this.field, this.writer, this.reader);
                 }
                 this.writer.Clear();
             }
+
             if (isGuestPlayer)
             {
                 return this.users.Get("Guest");

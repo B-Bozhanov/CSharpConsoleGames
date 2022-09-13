@@ -1,5 +1,6 @@
 ﻿namespace GameMenu.Menues.Settings.ColorSubFolder
 {
+    using GameMenu.IO.Interfaces;
     using GameMenu.Menues;
     using GameMenu.Menues.Interfaces;
     using GameMenu.Repository.Interfaces;
@@ -24,7 +25,7 @@
         {
             return base.GetName();
         }
-        public override string Execute(IField field)
+        public override string Execute(IField field, IWriter writer, IReader reader)
         {
             field.ResetColor();
             return base.BackCommand();

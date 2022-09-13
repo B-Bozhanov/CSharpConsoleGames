@@ -1,6 +1,7 @@
 ﻿namespace GameMenu.Menues
 {
     using System;
+    using GameMenu.IO.Interfaces;
     using GameMenu.Repository.Interfaces;
     using Interfaces;
     using Snake.Utilities;
@@ -23,7 +24,7 @@
         public Coordinates MenuCoordinates { get; private set; }
 
         
-        public abstract string Execute(IField field);
+        public abstract string Execute(IField field, IWriter writer, IReader reader);
 
         public virtual string GetName()
         {

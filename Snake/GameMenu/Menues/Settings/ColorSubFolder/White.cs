@@ -1,6 +1,7 @@
-﻿using GameMenu.Menues.Interfaces;
-namespace GameMenu.Menues.Settings.ColorSubFolder
+﻿namespace GameMenu.Menues.Settings.ColorSubFolder
 {
+    using GameMenu.Menues.Interfaces;
+    using GameMenu.IO.Interfaces;
     using GameMenu.Repository.Interfaces;
 
     internal class White : Menu, IColor
@@ -23,7 +24,7 @@ namespace GameMenu.Menues.Settings.ColorSubFolder
         {
             return base.GetName();
         }
-        public override string Execute(IField field)
+        public override string Execute(IField field, IWriter writer, IReader reader)
         {
             field.ResetColor();
             field.SetBackgroundColor(this.FieldColor);

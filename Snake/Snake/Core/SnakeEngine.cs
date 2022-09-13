@@ -12,20 +12,16 @@
         }
         public void StartGame()
         {
-            // while (true)
-            //{
             Console.WriteLine("Game is started!");
 
-            if (user.Username == "Bozhan")
-            {
-                user.Score += 20;
-            }
-            else
-            {
-                user.Score = 10;
-            }
-            
-            //}
+                if (user.Username == "Bozhan")
+                {
+                    user.Score += 20;
+                }
+                else
+                {
+                    user.Score = 10;
+                }
         }
     }
 }
