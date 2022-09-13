@@ -10,7 +10,6 @@
         private const int AccauntBlockTime = 60;
         private Thread blockAccount;
         private readonly IDictionary<string, IUser> usersDatabase;
-        private IUser currentUser;
 
         public UserDatabase()
         {
@@ -45,7 +44,7 @@
             foreach (var user in this.usersDatabase.Values)
             {
                 users.AppendLine($"{user.Username}, {user.Password}, {user.Score}, " +
-                                 $"{user.BlockedTimeCount.ToString()}");
+                                 $"{user.IsBlocked.ToString()}, {user.BlockedTimeCount.ToString()}");
             }
             string database = File.ReadAllText("Users.txt");
 
@@ -71,8 +70,17 @@
                     int score = int.Parse(userAtributes[2]);
 
                     IUser currentUser = new User(username, password, score);
-                    currentUser.BlockedTimeCount = int.Parse(userAtributes[3]);
+                    currentUser.BlockedTimeCount = int.Parse(userAtributes[4]);
+                    if (userAtributes[3] == "True")
+                    {
+                        currentUser.IsBlocked = true;
+                    }
                     this.usersDatabase.Add(username, currentUser);
+
+                    if (currentUser.IsBlocked)
+                    {
+                        this.BlockAccount(currentUser);
+                    }
                 }
             }
         }
@@ -84,11 +92,6 @@
 
         public void BlockAccount(IUser user)
         {
-            this.currentUser = user;            
-            if (user == null)
-            {
-                return;
-            }
             user.IsBlocked = true;
             this.blockAccount = new Thread(Block);
             blockAccount.Start();

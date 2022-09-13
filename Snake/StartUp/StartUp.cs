@@ -11,7 +11,6 @@ using UserDatabase.Interfaces;
 IUserDatabase usersDatabase = new UserDatabase.UserDatabase();
 usersDatabase.LoadDatabase();
 usersDatabase.StartAutoSave();
-usersDatabase.BlockAccount(null);
 usersDatabase.RemoveAccount("Guest");
 
 IField field = new ConsoleField();

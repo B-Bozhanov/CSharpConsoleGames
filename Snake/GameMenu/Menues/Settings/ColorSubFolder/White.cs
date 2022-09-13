@@ -1,6 +1,7 @@
 ﻿namespace GameMenu.Menues.Settings.ColorSubFolder
 {
     using GameMenu.IO.Interfaces;
+    using GameMenu.Menues.Interfaces;
     using GameMenu.Repository.Interfaces;
 
     internal class White : Menu, IColor
