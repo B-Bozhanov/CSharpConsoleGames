@@ -58,6 +58,7 @@
                         {
                             writer.Clear();
                             writer.Write("Account is blocked for 15 minutes!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                            user.LastBlockedTime = DateTime.Now;
                             users.BlockAccount(user);
                             Thread.Sleep(2000);
                             return null!;

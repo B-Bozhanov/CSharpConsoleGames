@@ -54,6 +54,8 @@
 
         public bool IsBlocked { get; set; } = false;
 
+        public DateTime LastBlockedTime { get; set; }
+
         public int BlockedTimeCount { get; set; }
     }
 }
