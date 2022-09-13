@@ -2,7 +2,6 @@
 {
     using GameMenu.IO.Interfaces;
     using Snake.Utilities;
-    using UserDatabase.Interfaces;
 
     public interface IMenu
     {

@@ -1,20 +1,24 @@
 ﻿namespace UserDatabase
 {
-    using global::UserDatabase.Interfaces;
+    using Interfaces;
     using System.Diagnostics;
     using System.Text;
     using static System.Net.Mime.MediaTypeNames;
 
     public class UserDatabase : IUserDatabase
     {
+        private const int AccauntBlockTime = 60;
+        private Thread blockAccount;
         private readonly IDictionary<string, IUser> usersDatabase;
-        private MyStopwatch sw;
+        private IUser currentUser;
 
         public UserDatabase()
         {
             this.usersDatabase = new Dictionary<string, IUser>();
         }
 
+
+        public int RemaningBlockTime { get; private set; }
 
         public void Add(IUser user)
         {
@@ -40,8 +44,8 @@
             var users = new StringBuilder();
             foreach (var user in this.usersDatabase.Values)
             {
-                var userBlockTime = sw.ElapsedMilliseconds;
-                users.AppendLine($"{user.Username}, {user.Password}, {user.Score}, {userBlockTime.ToString()}");
+                users.AppendLine($"{user.Username}, {user.Password}, {user.Score}, " +
+                                 $"{user.BlockedTimeCount.ToString()}");
             }
             string database = File.ReadAllText("Users.txt");
 
@@ -67,7 +71,7 @@
                     int score = int.Parse(userAtributes[2]);
 
                     IUser currentUser = new User(username, password, score);
-                    //currentUser.BlockedTime = double.Parse(userAtributes[3])
+                    currentUser.BlockedTimeCount = int.Parse(userAtributes[3]);
                     this.usersDatabase.Add(username, currentUser);
                 }
             }
@@ -80,9 +84,26 @@
 
         public void BlockAccount(IUser user)
         {
+            this.currentUser = user;            
+            if (user == null)
+            {
+                return;
+            }
             user.IsBlocked = true;
-            var test = TimeSpan.FromSeconds((int)25);
-            sw.Start();
+            this.blockAccount = new Thread(Block);
+            blockAccount.Start();
+
+            void Block()
+            {
+                while (user.BlockedTimeCount != AccauntBlockTime)
+                {
+                    Thread.Sleep(1000);
+                    user.BlockedTimeCount++;
+                    this.RemaningBlockTime = AccauntBlockTime - user.BlockedTimeCount;
+                }
+                user.IsBlocked = false;
+                user.BlockedTimeCount = 0;
+            }
         }
 
         public void StartAutoSave()

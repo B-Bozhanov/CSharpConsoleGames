@@ -1,4 +1,8 @@
-﻿namespace GameMenu.Menues.Settings
+﻿using GameMenu.IO.Interfaces;
+using GameMenu.Menues.Interfaces;
+using GameMenu.Repository.Interfaces;
+
+namespace GameMenu.Menues.Settings
 {
     using GameMenu.IO.Interfaces;
     using GameMenu.Menues.Interfaces;

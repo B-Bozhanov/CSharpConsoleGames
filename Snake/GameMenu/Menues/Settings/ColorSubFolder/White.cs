@@ -1,6 +1,5 @@
 ﻿namespace GameMenu.Menues.Settings.ColorSubFolder
 {
-    using GameMenu.Menues.Interfaces;
     using GameMenu.IO.Interfaces;
     using GameMenu.Repository.Interfaces;
 

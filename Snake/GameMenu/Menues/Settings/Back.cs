@@ -1,9 +1,9 @@
-﻿namespace GameMenu.Menues.Settings
-{
-    using GameMenu.IO.Interfaces;
-    using GameMenu.Menues.Interfaces;
-    using GameMenu.Repository.Interfaces;
+﻿using GameMenu.IO.Interfaces;
+using GameMenu.Menues.Interfaces;
+using GameMenu.Repository.Interfaces;
 
+namespace GameMenu.Menues.Settings
+{
     internal class Back : Menu
     {
         private const int SequenceNumber = 4;

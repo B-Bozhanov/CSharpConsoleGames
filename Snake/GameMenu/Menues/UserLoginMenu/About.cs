@@ -1,6 +1,6 @@
 ﻿namespace GameMenu.Menues.UserLoginMenu
 {
-    using GameMenu.IO.Interfaces;
+using GameMenu.IO.Interfaces;
     using GameMenu.Menues.Interfaces;
     using GameMenu.Repository.Interfaces;
 

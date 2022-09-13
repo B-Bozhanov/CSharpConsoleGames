@@ -10,8 +10,7 @@
     {
         private const int SequenceNumber = 1;
         private readonly IUserDatabase users;
-        private int wrongPassCount = 2;
-        private int blockedTime = 3;
+        private int wrongPassCount = 1;
 
 
         public Login(int row, int col, IRepository<string> namespaces, IUserDatabase users)
@@ -46,9 +45,9 @@
                     if (user.IsBlocked)
                     {
                         writer.Clear();
-                        writer.Write($"Account is blocked, try after {this.blockedTime}!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                        writer.Write($"Account is blocked, try after {this.users.RemaningBlockTime}!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                         Thread.Sleep(2000);
-                        return null;
+                        return null!;
                     }
                     if (!this.IsValidPassword(user, password, writer))
                     {
@@ -85,7 +84,7 @@
             {
                 writer.Clear();
                 writer.Write($"Incorect password, try again! " +
-                     $"{this.wrongPassCount} attemps left!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                    $"{this.wrongPassCount} attemps left!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                 Thread.Sleep(2000);
                 return false;
             }
