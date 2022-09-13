@@ -8,8 +8,8 @@
 
     internal class Quit : Menu
     {
-        private const string QuestionMessage = "Are you sure ? --> Y / N";
-        private const string GoodByeMessage = "Good bye !";
+        private const string QuestionMessage = "Are you sure? --> Y / N";
+        private const string GoodByeMessage = "Good bye!";
         private const int SequenceNumber = 5;
 
         private readonly IUserInput input;

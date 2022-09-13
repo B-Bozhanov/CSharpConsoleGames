@@ -10,8 +10,8 @@ using UserDatabase.Interfaces;
 
 IUserDatabase usersDatabase = new UserDatabase.UserDatabase();
 usersDatabase.LoadDatabase();
+usersDatabase.AutoRemoveUnusedAccaunds();
 usersDatabase.StartAutoSave();
-usersDatabase.RemoveAccount("Guest");
 
 IField field = new ConsoleField();
 

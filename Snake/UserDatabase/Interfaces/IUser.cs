@@ -12,6 +12,8 @@
 
         public DateTime LastBlockedTime { get; set; }
 
+        public DateTime LastLoggedInTime { get; set; }
+
         public DateTime AccountCreatedTime { get; set; }
     }
 }

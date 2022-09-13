@@ -68,6 +68,7 @@
                     }
                     writer.Clear();
                     writer.Write("Successful login!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                    user.LastLoggedInTime = DateTime.Now;
                     Thread.Sleep(2000);
                     return username;
                 }
