@@ -17,5 +17,7 @@
         public void BlockAccount(IUser user);
 
         public void StartAutoSave();
+
+        public void CheckForBlockedUsers();
     }
 }
