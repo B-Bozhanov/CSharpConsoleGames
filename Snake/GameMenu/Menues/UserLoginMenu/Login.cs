@@ -47,7 +47,7 @@
                     if (user.IsBlocked)
                     {
                         writer.Clear();
-                        writer.Write($"Account is blocked, try after {this.users.RemaningBlockTime}!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                        writer.Write($"Account is blocked, try after {this.users.RemaningBlockTime} minutes!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                         Thread.Sleep(2000);
                         return null!;
                     }

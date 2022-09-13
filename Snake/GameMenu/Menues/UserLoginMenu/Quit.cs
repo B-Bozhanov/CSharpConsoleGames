@@ -1,7 +1,6 @@
 ﻿namespace GameMenu.Menues.UserLoginMenu
 {
     using GameMenu.IO.Interfaces;
-    using GameMenu.IO;
     using GameMenu.Repository.Interfaces;
     using GameMenu.UserInputHandle.Interfaces;
     using GameMenu.UserInputHandle;
@@ -11,7 +10,7 @@
     {
         private const string QuestionMessage = "Are you sure ? --> Y / N";
         private const string GoodByeMessage = "Good bye !";
-        private const int SequenceNumber = 6;
+        private const int SequenceNumber = 5;
 
         private readonly IUserInput input;
 

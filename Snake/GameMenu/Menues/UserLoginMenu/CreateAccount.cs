@@ -46,7 +46,7 @@
                 {
                     IUser user = new User(username, password, score);
                     this.users.Add(user);
-                    //this.users.SaveDatabase();
+                    user.AccountCreatedTime = DateTime.Now;
                     break;
                 }
                 catch (Exception ex)

@@ -56,6 +56,6 @@
 
         public DateTime LastBlockedTime { get; set; }
 
-        public int BlockedTimeCount { get; set; }
+        public DateTime AccountCreatedTime { get; set; }
     }
 }
