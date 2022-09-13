@@ -8,6 +8,7 @@
         private const int AccauntBlockTime = 5 * 60;
         private Thread blockAccount;
         private readonly IDictionary<string, IUser> usersDatabase;
+        private IUser currentLogedUser;
 
         public UserDatabase()
         {
@@ -33,7 +34,8 @@
                 throw new ArgumentException("The username does not exist, try again!");
             }
 
-            return this.usersDatabase[user];
+            this.currentLogedUser = this.usersDatabase[user];
+            return currentLogedUser;
         }
 
         public void SaveDatabase()
