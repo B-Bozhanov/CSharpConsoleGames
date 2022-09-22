@@ -10,7 +10,7 @@
         private const int BlockTimeInMinutes = 5;
         private const int RemoveUnUsedAccaundInDays = 30;
         private const string Guest = "Guest";
-        private const string DefaultFilePath = "../../../../UserDatabase/UsersData/Users.txt";
+        private const string DefaultFilePath = "../../../../UserDatabase/UsersData/UserDatabse.json";
 
         private Thread blockAccount;
         private readonly TimeSpan accauntBlockTime;
@@ -29,27 +29,6 @@
 
 
         public int RemaningBlockTime { get; private set; }
-
-
-        public void Add(IAccount user)
-        {
-            if (this.usersDatabase.ContainsKey(user.Username))
-            {
-                throw new ArgumentException("The username exist, try again!");
-            }
-            this.usersDatabase.Add(user.Username, user);
-        }
-
-        public IAccount Get(string user)
-        {
-            if (!this.usersDatabase.ContainsKey(user))
-            {
-                throw new ArgumentException("The username does not exist, try again!");
-            }
-
-            this.currentLogedUser = this.usersDatabase[user];
-            return currentLogedUser;
-        }
 
         public void SaveDatabase()
         {
@@ -83,54 +62,59 @@
 
             if (!String.IsNullOrWhiteSpace(database))
             {
-                string[] users = database.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+                string userDatabaseFile = File.ReadAllText(DefaultFilePath);
 
-                foreach (var user in users)
+                var settings = new JsonSerializerSettings
                 {
-                    string[] userAtributes = user.Split(", ");
+                    Converters = {
+                                   new AbstractConverter<Account, IAccount>()
+                                 },
+                };
 
-                    string username = userAtributes[0];
-                    string password = userAtributes[1];
-                    int score = int.Parse(userAtributes[2]);
-                    bool isBlocked = bool.Parse(userAtributes[3]);
-                    DateTime lastBlockedTime = DateTime.Parse(userAtributes[4]);
-                    DateTime accountCreatedTime = DateTime.Parse(userAtributes[5]);
-                    DateTime lastloggedin = DateTime.Parse(userAtributes[6]);
+                var currentUserDatabase = JsonConvert.DeserializeObject<Dictionary<string, IAccount>>(userDatabaseFile, settings);
+                //if (isBlocked)
+                //{
+                //    currentUser.IsBlocked = true;
+                //}
+                //this.usersDatabase.Add(username, currentUser);
 
-                    IAccount currentUser = new Account(username, password, score);
-                    currentUser.LastBlockedTime = lastBlockedTime;
-                    currentUser.AccountCreatedTime = accountCreatedTime;
-                    currentUser.LastLoggedInTime = lastloggedin;
-
-                    if (isBlocked)
-                    {
-                        currentUser.IsBlocked = true;
-                    }
-                    this.usersDatabase.Add(username, currentUser);
-
-                    if (currentUser.IsBlocked)
-                    {
-                        this.BlockAccount(currentUser);
-                    }
-                }
+                //if (currentUser.IsBlocked)
+                //{
+                //    this.BlockAccount(currentUser);
+                //}
             }
 
-            var settings = new JsonSerializerSettings
-            {
-                Converters = {
-                               new AbstractConverter<Account, IAccount>()
-                             },
-            };
-            string json = JsonConvert.SerializeObject(this.usersDatabase, Formatting.Indented, settings);
+           
+            //string json = JsonConvert.SerializeObject(this.usersDatabase, Formatting.Indented, settings);
             // JsonWriter writer;
 
-            File.WriteAllText("test.json", json);
-            string test = File.ReadAllText("test.json");
+           // File.WriteAllText("test.json", json);
+           
             //var test2 = JsonConvert.DeserializeObject<Dictionary<string, IUser>>(test);
 
 
-            var test3 = JsonConvert.DeserializeObject<Dictionary<string, IAccount>>(test, settings);
+           
             Console.WriteLine();
+        }
+
+        public void Add(IAccount user)
+        {
+            if (this.usersDatabase.ContainsKey(user.Username))
+            {
+                throw new ArgumentException("The username exist, try again!");
+            }
+            this.usersDatabase.Add(user.Username, user);
+        }
+
+        public IAccount Get(string user)
+        {
+            if (!this.usersDatabase.ContainsKey(user))
+            {
+                throw new ArgumentException("The username does not exist, try again!");
+            }
+
+            this.currentLogedUser = this.usersDatabase[user];
+            return currentLogedUser;
         }
 
         private void RemoveAccount(string username)
