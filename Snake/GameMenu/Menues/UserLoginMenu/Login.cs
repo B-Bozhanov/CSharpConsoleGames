@@ -33,11 +33,11 @@
             {
                 writer.Clear();
                 writer.Write("Enter username: ", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-                username = reader.ReadeLine();
+                username = reader.ReadLine();
 
                 writer.Clear();
                 writer.Write("Enter password: ", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-                password = reader.ReadeLine();
+                password = reader.ReadLine();
 
 
                 try

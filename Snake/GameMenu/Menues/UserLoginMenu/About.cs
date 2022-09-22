@@ -1,6 +1,6 @@
 ﻿namespace GameMenu.Menues.UserLoginMenu
 {
-using GameMenu.IO.Interfaces;
+    using GameMenu.IO.Interfaces;
     using GameMenu.Menues.Interfaces;
     using GameMenu.Repository.Interfaces;
 
@@ -17,7 +17,10 @@ using GameMenu.IO.Interfaces;
 
         public override string Execute(IField field, IWriter writer, IReader reader)
         {
-            throw new NotImplementedException();
+            writer.Clear();
+            writer.Write("This is abaut!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+            Thread.Sleep(5000);
+            return null;
         }
     }
 }

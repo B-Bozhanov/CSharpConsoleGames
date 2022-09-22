@@ -2,6 +2,7 @@
 {
     public interface IReader
     {
-        string ReadeLine();
+        public string ReadLine();
+        public string ReadAllText();
     }
 }

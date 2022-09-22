@@ -1,9 +1,9 @@
-﻿namespace IO.Console
+﻿namespace IO.File
 {
-    using System;
     using GameMenu.IO.Interfaces;
 
-    public class ConsoleReader : IReader
+
+    public class FileReader : IReader
     {
         public string ReadAllText()
         {
@@ -12,7 +12,7 @@
 
         public string ReadLine()
         {
-            return Console.ReadLine()!;
+            throw new NotImplementedException();
         }
     }
 }

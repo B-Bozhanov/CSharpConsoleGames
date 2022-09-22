@@ -1,6 +1,8 @@
 ﻿namespace UserDatabase
 {
     using Interfaces;
+    using Nancy.Json;
+    using Newtonsoft.Json;
     using System.Text;
 
     public class UserDatabase : IUserDatabase
@@ -102,6 +104,44 @@
                     }
                 }
             }
+
+            string json = JsonConvert.SerializeObject(this.usersDatabase, Formatting.Indented);
+            JsonWriter writer;
+
+            File.WriteAllText("test.json", json);
+            string test = File.ReadAllText("test.json");
+            //var test2 = JsonConvert.DeserializeObject<Dictionary<string, IUser>>(test);
+
+            var settings = new JsonSerializerSettings
+            {
+                Converters = {
+                               new AbstractConverter<User, IUser>()
+                             },
+            };
+
+            var test3 =  JsonConvert.DeserializeObject("test.json", typeof(IUser), settings);
+            Console.WriteLine();
+        }
+
+        private class AbstractConverter<TReal, TAbstract>
+                               : JsonConverter where TReal : TAbstract
+        {
+            public override Boolean CanConvert(Type objectType)
+            {
+                if (objectType == typeof(TAbstract))
+                {
+                    return true;
+                }
+
+                return false;
+            }
+                //=> objectType == typeof(TAbstract);
+
+            public override Object ReadJson(JsonReader reader, Type type, Object value, JsonSerializer jser)
+                => jser.Deserialize<TReal>(reader);
+
+            public override void WriteJson(JsonWriter writer, Object value, JsonSerializer jser)
+                => jser.Serialize(writer, value);
         }
 
         private void RemoveAccount(string username)

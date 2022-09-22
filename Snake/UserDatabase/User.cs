@@ -59,5 +59,7 @@
         public DateTime LastLoggedInTime { get; set; }
 
         public DateTime AccountCreatedTime { get; set; }
+
+        public int Test { get; set; }
     }
 }
