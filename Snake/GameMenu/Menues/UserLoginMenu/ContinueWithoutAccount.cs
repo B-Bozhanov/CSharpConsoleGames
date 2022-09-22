@@ -27,7 +27,7 @@
         }
         public override string Execute(IField field, IWriter writer, IReader reader)
         {
-            IUser guest = new User("Guest", null!, 0);
+            IAccount guest = new Account("Guest", null!, 0);
             this.users.Add(guest);
             this.namespaces.Add(NameSpacesInfo.MainMenu);
             return this.namespaces.Get();

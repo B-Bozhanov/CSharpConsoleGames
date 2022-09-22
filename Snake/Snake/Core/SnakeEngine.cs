@@ -5,8 +5,8 @@
 
     public class SnakeEngine : ISnakeEngine
     {
-        private IUser user;
-        public SnakeEngine(IUser user)
+        private IAccount user;
+        public SnakeEngine(IAccount user)
         {
             this.user = user;
         }

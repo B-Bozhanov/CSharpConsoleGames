@@ -19,7 +19,7 @@ IWriter writer = new ConsoleWriter();
 IReader reader = new ConsoleReader();
 
 IMenuEngine engine = new MenuEngine(usersDatabase, field, writer, reader);
-IUser user = engine.Start();
+IAccount user = engine.Start();
 
 ISnakeEngine snake = new SnakeEngine(user);
 snake.StartGame();

@@ -5,21 +5,22 @@
     using Newtonsoft.Json;
     using System.Text;
 
-    public class UserDatabase : IUserDatabase
+    public partial class UserDatabase : IUserDatabase
     {
         private const int BlockTimeInMinutes = 5;
         private const int RemoveUnUsedAccaundInDays = 30;
         private const string Guest = "Guest";
+        private const string DefaultFilePath = "../../../../UserDatabase/UsersData/Users.txt";
 
         private Thread blockAccount;
         private readonly TimeSpan accauntBlockTime;
         private readonly TimeSpan removeUnUsedAccaundInDays;
-        private readonly IDictionary<string, IUser> usersDatabase;
-        private IUser currentLogedUser;
+        private readonly IDictionary<string, IAccount> usersDatabase;
+        private IAccount currentLogedUser;
 
         public UserDatabase()
         {
-            this.usersDatabase = new Dictionary<string, IUser>();
+            this.usersDatabase = new Dictionary<string, IAccount>();
             this.accauntBlockTime = TimeSpan.FromMinutes(BlockTimeInMinutes);
             this.removeUnUsedAccaundInDays = TimeSpan.FromDays(RemoveUnUsedAccaundInDays);
 
@@ -30,7 +31,7 @@
         public int RemaningBlockTime { get; private set; }
 
 
-        public void Add(IUser user)
+        public void Add(IAccount user)
         {
             if (this.usersDatabase.ContainsKey(user.Username))
             {
@@ -39,7 +40,7 @@
             this.usersDatabase.Add(user.Username, user);
         }
 
-        public IUser Get(string user)
+        public IAccount Get(string user)
         {
             if (!this.usersDatabase.ContainsKey(user))
             {
@@ -59,17 +60,26 @@
                                  $"{user.IsBlocked}, {user.LastBlockedTime}, {user.AccountCreatedTime}, " +
                                  $"{user.LastLoggedInTime}");
             }
-            string database = File.ReadAllText("Users.txt");
+            string database = File.ReadAllText(DefaultFilePath);
 
             if (users.ToString() != database)
             {
-                File.WriteAllText("Users.txt", users.ToString().Trim());
+                File.WriteAllText(DefaultFilePath, users.ToString().Trim());
             }
         }
 
         public void LoadDatabase()
         {
-            string database = File.ReadAllText("Users.txt");
+            string database = null;
+
+            try
+            {
+                database = File.ReadAllText(DefaultFilePath);
+            }
+            catch 
+            {
+                File.Create(DefaultFilePath);
+            }
 
             if (!String.IsNullOrWhiteSpace(database))
             {
@@ -87,7 +97,7 @@
                     DateTime accountCreatedTime = DateTime.Parse(userAtributes[5]);
                     DateTime lastloggedin = DateTime.Parse(userAtributes[6]);
 
-                    IUser currentUser = new User(username, password, score);
+                    IAccount currentUser = new Account(username, password, score);
                     currentUser.LastBlockedTime = lastBlockedTime;
                     currentUser.AccountCreatedTime = accountCreatedTime;
                     currentUser.LastLoggedInTime = lastloggedin;
@@ -105,43 +115,22 @@
                 }
             }
 
-            string json = JsonConvert.SerializeObject(this.usersDatabase, Formatting.Indented);
-            JsonWriter writer;
+            var settings = new JsonSerializerSettings
+            {
+                Converters = {
+                               new AbstractConverter<Account, IAccount>()
+                             },
+            };
+            string json = JsonConvert.SerializeObject(this.usersDatabase, Formatting.Indented, settings);
+            // JsonWriter writer;
 
             File.WriteAllText("test.json", json);
             string test = File.ReadAllText("test.json");
             //var test2 = JsonConvert.DeserializeObject<Dictionary<string, IUser>>(test);
 
-            var settings = new JsonSerializerSettings
-            {
-                Converters = {
-                               new AbstractConverter<User, IUser>()
-                             },
-            };
 
-            var test3 =  JsonConvert.DeserializeObject("test.json", typeof(IUser), settings);
+            var test3 = JsonConvert.DeserializeObject<Dictionary<string, IAccount>>(test, settings);
             Console.WriteLine();
-        }
-
-        private class AbstractConverter<TReal, TAbstract>
-                               : JsonConverter where TReal : TAbstract
-        {
-            public override Boolean CanConvert(Type objectType)
-            {
-                if (objectType == typeof(TAbstract))
-                {
-                    return true;
-                }
-
-                return false;
-            }
-                //=> objectType == typeof(TAbstract);
-
-            public override Object ReadJson(JsonReader reader, Type type, Object value, JsonSerializer jser)
-                => jser.Deserialize<TReal>(reader);
-
-            public override void WriteJson(JsonWriter writer, Object value, JsonSerializer jser)
-                => jser.Serialize(writer, value);
         }
 
         private void RemoveAccount(string username)
@@ -161,7 +150,7 @@
             }
         }
 
-        public void BlockAccount(IUser user)
+        public void BlockAccount(IAccount user)
         {
             user.IsBlocked = true;
             this.blockAccount = new Thread(Block);

@@ -44,7 +44,7 @@
 
                 try
                 {
-                    IUser user = new User(username, password, score);
+                    IAccount user = new Account(username, password, score);
                     this.users.Add(user);
                     user.AccountCreatedTime = DateTime.Now;
                     user.LastLoggedInTime = DateTime.Now;

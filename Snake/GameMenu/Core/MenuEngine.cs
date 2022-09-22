@@ -40,7 +40,7 @@
             this.namespaces.Add(NameSpacesInfo.UserLoginMenu);
         }
 
-        public IUser Start()
+        public IAccount Start()
         {
             string username = string.Empty;
             bool isGuestPlayer = false;

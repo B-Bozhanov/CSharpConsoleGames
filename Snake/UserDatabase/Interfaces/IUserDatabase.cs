@@ -4,15 +4,15 @@
     {
         public int RemaningBlockTime { get;}
 
-        public void Add(IUser user);
+        public void Add(IAccount user);
 
-        public IUser Get(string user);
+        public IAccount Get(string user);
 
         public void SaveDatabase();
 
         public void LoadDatabase();
 
-        public void BlockAccount(IUser user);
+        public void BlockAccount(IAccount user);
 
         public void AutoRemoveUnusedAccaunds();
 

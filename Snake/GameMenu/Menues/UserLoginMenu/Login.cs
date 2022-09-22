@@ -27,7 +27,7 @@
         {
             string username = string.Empty;
             string password = string.Empty;
-            IUser user;
+            IAccount user;
 
             while (true)
             {
@@ -82,7 +82,7 @@
             }
         }
 
-        private bool IsValidPassword(IUser user, string password, IWriter writer)
+        private bool IsValidPassword(IAccount user, string password, IWriter writer)
         {
             if (user.Password != password)
             {
