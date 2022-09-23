@@ -20,6 +20,7 @@
         private IAccount currentLogedUser;
         private readonly TimeSpan accauntBlockTime;
         private readonly TimeSpan removeUnUsedAccaundInDays;
+        private List<IAccount> blockedAccountsList;
         private JsonSerializerSettings jsonSerializerSettings;
 
         public UserDatabase()
@@ -88,9 +89,9 @@
             string userDatabaseFile = File.ReadAllText(DefaultTempFilePath);
             IAccount account = JsonConvert.DeserializeObject<IAccount>(userDatabaseFile, this.jsonSerializerSettings);
 
-            var blockedAccounts = this.usersDatabase.Values.Where(a => a.IsBlocked);
+            this.blockedAccountsList = this.usersDatabase.Values.Where(a => a.IsBlocked).ToList();
 
-            foreach (var blockedAccount in blockedAccounts)
+            foreach (var blockedAccount in blockedAccountsList)
             {
                 this.BlockAccount(blockedAccount);
             }
@@ -102,13 +103,14 @@
                 this.Synchronizeing(this.usersDatabase, DefaultFilePath);
             }
             this.AutoRemoveUnusedAccaunds();
-            var autoSaveDatabase = new Thread(this.AutoSaveDatabase);
+            var autoSaveDatabase = new Thread(this.AutoSaveDatabase); // TODO: Get out this from here!
             autoSaveDatabase.Start();
         }
 
         public void BlockAccount(IAccount user)
         {
             user.IsBlocked = true;
+           // this.blockedAccountsList.Add(user);
             var blockAccount = new Thread(Block);
             blockAccount.Start();
 
