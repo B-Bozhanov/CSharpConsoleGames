@@ -10,7 +10,7 @@
 
         public void LoadDatabase();
 
-        public void SaveAccount(object obj, string path);
+        public void Synchronizeing(object obj, string path);
 
         public void Update();
 

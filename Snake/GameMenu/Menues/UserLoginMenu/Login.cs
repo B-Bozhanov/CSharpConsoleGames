@@ -55,6 +55,7 @@
                     {
                         if (this.wrongPassCount == 0)
                         {
+                            
                             writer.Clear();
                             writer.Write("Account is blocked for 15 minutes!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                             user.LastBlockedTime = DateTime.Now;

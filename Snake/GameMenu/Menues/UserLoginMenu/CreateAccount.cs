@@ -45,9 +45,9 @@
                 try
                 {
                     IAccount account = new Account(username, password, score);
-                    this.users.AddAccount(account);
                     account.CreatedTime = DateTime.Now;
                     account.LastLoggedInTime = DateTime.Now;
+                    this.users.AddAccount(account);
                     break;
                 }
                 catch (Exception ex)

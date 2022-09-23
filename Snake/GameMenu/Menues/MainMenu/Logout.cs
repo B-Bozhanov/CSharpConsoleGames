@@ -14,6 +14,7 @@
         public Logout(int row, int col, IRepository<string> namespaces, IDatabase users) 
             : base(SequenceNumber, row, col, namespaces)
         {
+            this.users = users;
         }
 
         public override int MenuNumber { get; protected set; }

@@ -36,7 +36,7 @@
 
         public int RemaningBlockTime { get; private set; }
 
-       
+
         public void AddAccount(IAccount user)
         {
             if (this.usersDatabase.ContainsKey(user.Username))
@@ -45,7 +45,7 @@
             }
             this.usersDatabase.Add(user.Username, user);
 
-            this.SaveAccount(this.usersDatabase, DefaultFilePath);
+            this.Synchronizeing(this.usersDatabase, DefaultFilePath);
         }
 
         public IAccount Get(string user)
@@ -54,7 +54,7 @@
             {
                 throw new ArgumentException("The username does not exist, try again!");
             }
-           
+
             this.currentLogedUser = this.usersDatabase[user];
             return currentLogedUser;
         }
@@ -75,14 +75,12 @@
             }
         }
 
-
-
-        public void SaveAccount(object obj, string path)
+        public void Synchronizeing(object obj, string path)
         {
-            string userDatabase = JsonConvert
+            string text = JsonConvert
                   .SerializeObject(obj, Formatting.Indented, this.jsonSerializerSettings);
 
-            File.WriteAllText(path, userDatabase);
+            File.WriteAllText(path, text);
         }
 
         public void Update()
@@ -90,18 +88,19 @@
             string userDatabaseFile = File.ReadAllText(DefaultTempFilePath);
             IAccount account = JsonConvert.DeserializeObject<IAccount>(userDatabaseFile, this.jsonSerializerSettings);
 
-            if (account != null && this.usersDatabase.ContainsKey(account.Username))
-            {
-                this.usersDatabase[account.Username] = account;
-                this.SaveAccount(this.usersDatabase, DefaultFilePath);
-            }
             var blockedAccounts = this.usersDatabase.Values.Where(a => a.IsBlocked);
 
             foreach (var blockedAccount in blockedAccounts)
             {
                 this.BlockAccount(blockedAccount);
             }
-            this.RemoveAccount(Guest);
+
+            if (account != null && this.usersDatabase.ContainsKey(account.Username))
+            {
+                this.usersDatabase[account.Username] = account;
+                this.RemoveAccount(Guest);
+                this.Synchronizeing(this.usersDatabase, DefaultFilePath);
+            }
             this.AutoRemoveUnusedAccaunds();
             var autoSaveDatabase = new Thread(this.AutoSaveDatabase);
             autoSaveDatabase.Start();
@@ -113,7 +112,7 @@
             var blockAccount = new Thread(Block);
             blockAccount.Start();
 
-           void Block()
+            void Block()
             {
                 TimeSpan blockDurationLeft = DateTime.Now - user.LastBlockedTime;
 
@@ -131,8 +130,11 @@
             var secconds = AutoSaveIntervalnSecconds * 1000;
             while (true)
             {
-                this.SaveAccount(this.currentLogedUser, DefaultTempFilePath);
-                Thread.Sleep(secconds);
+                if (this.currentLogedUser != null)
+                {
+                    this.Synchronizeing(this.currentLogedUser, DefaultTempFilePath);
+                    Thread.Sleep(secconds);
+                }
             }
         }
 
