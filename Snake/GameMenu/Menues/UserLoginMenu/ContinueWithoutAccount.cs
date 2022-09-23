@@ -11,9 +11,9 @@
     internal class ContinueWithoutAccount : Menu
     {
         private const int SequenceNumber = 3;
-        private readonly IUserDatabase users;
+        private readonly IDatabase users;
 
-        public ContinueWithoutAccount(int row, int col, IRepository<string> namespaces, IUserDatabase users) 
+        public ContinueWithoutAccount(int row, int col, IRepository<string> namespaces, IDatabase users) 
             : base(SequenceNumber, row, col, namespaces)
         {
             this.users = users;
@@ -28,7 +28,7 @@
         public override string Execute(IField field, IWriter writer, IReader reader)
         {
             IAccount guest = new Account("Guest", null!, 0);
-            this.users.Add(guest);
+            this.users.AddAccount(guest);
             this.namespaces.Add(NameSpacesInfo.MainMenu);
             return this.namespaces.Get();
         }

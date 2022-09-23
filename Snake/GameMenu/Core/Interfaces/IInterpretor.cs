@@ -8,6 +8,6 @@ namespace GameMenu.Core.Interfaces
 
     internal interface IInterpretor<T1, T2>
     {
-        HashSet<IMenu> GetMenues(IRepository<T1> repository, T2 coordinates, IUserDatabase users);
+        HashSet<IMenu> GetMenues(IRepository<T1> repository, T2 coordinates, IDatabase users);
     }
 }

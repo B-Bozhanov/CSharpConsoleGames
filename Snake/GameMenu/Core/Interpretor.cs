@@ -9,6 +9,7 @@
     using GameMenu.Menues.UserLoginMenu;
     using UserDatabase.Interfaces;
     using GameMenu.IO.Interfaces;
+    using GameMenu.Menues.MainMenu;
 
     internal class Interpretor : IInterpretor<string, ICoordinates>
     {
@@ -22,7 +23,7 @@
         }
 
         public HashSet<IMenu> GetMenues(IRepository<string> namespaces,
-                                        ICoordinates menuCoords, IUserDatabase users)
+                                        ICoordinates menuCoords, IDatabase users)
         {
             var menues = new HashSet<IMenu>();
 
@@ -37,7 +38,10 @@
             foreach (var type in types)
             {
                 IMenu currentMenu;
-                if (type == typeof(Login) || type == typeof(CreateAccount) || type == typeof(ContinueWithoutAccount))
+                if (type == typeof(Login) 
+                    || type == typeof(CreateAccount) 
+                    || type == typeof(ContinueWithoutAccount)
+                    || type == typeof(Logout))
                 {
                     currentMenu = (IMenu)Activator.CreateInstance(type, constructorWithUsersArgs)!;
                 }

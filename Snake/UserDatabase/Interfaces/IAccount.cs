@@ -14,6 +14,6 @@
 
         public DateTime LastLoggedInTime { get; set; }
 
-        public DateTime AccountCreatedTime { get; set; }
+        public DateTime CreatedTime { get; set; }
     }
 }

@@ -21,12 +21,12 @@
         private readonly IField field;
         private readonly IInterpretor<string, ICoordinates> interpretor;
         private readonly ICursor<HashSet<IMenu>, ICoordinates> cursor;
-        private readonly IUserDatabase users;
+        private readonly IDatabase users;
         private readonly ICoordinates currentMenuCoords;
         private HashSet<IMenu> menues;
 
 
-        public MenuEngine(IUserDatabase users, IField field, IWriter writer, IReader reader)
+        public MenuEngine(IDatabase users, IField field, IWriter writer, IReader reader)
         {
             this.users = users;
             this.field = field;

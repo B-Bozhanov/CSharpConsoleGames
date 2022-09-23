@@ -9,10 +9,10 @@
     internal class CreateAccount : Menu
     {
         private const int SequenceNumber = 2;
-        private readonly IUserDatabase users;
+        private readonly IDatabase users;
 
 
-        public CreateAccount(int row, int col, IRepository<string> namespaces, IUserDatabase users)
+        public CreateAccount(int row, int col, IRepository<string> namespaces, IDatabase users)
            : base(SequenceNumber, row, col, namespaces)
         {
             this.users = users;
@@ -44,10 +44,10 @@
 
                 try
                 {
-                    IAccount user = new Account(username, password, score);
-                    this.users.Add(user);
-                    user.AccountCreatedTime = DateTime.Now;
-                    user.LastLoggedInTime = DateTime.Now;
+                    IAccount account = new Account(username, password, score);
+                    this.users.AddAccount(account);
+                    account.CreatedTime = DateTime.Now;
+                    account.LastLoggedInTime = DateTime.Now;
                     break;
                 }
                 catch (Exception ex)

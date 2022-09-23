@@ -8,10 +8,9 @@ using Snake.Core;
 using Snake.Core.Interfaces;
 using UserDatabase.Interfaces;
 
-IUserDatabase usersDatabase = new UserDatabase.UserDatabase();
+IDatabase usersDatabase = new UserDatabase.UserDatabase();
 usersDatabase.LoadDatabase();
-usersDatabase.AutoRemoveUnusedAccaunds();
-usersDatabase.StartAutoSave();
+usersDatabase.Update();
 
 IField field = new ConsoleField();
 
@@ -23,6 +22,3 @@ IAccount user = engine.Start();
 
 ISnakeEngine snake = new SnakeEngine(user);
 snake.StartGame();
-
-usersDatabase.SaveDatabase();
-Console.WriteLine();

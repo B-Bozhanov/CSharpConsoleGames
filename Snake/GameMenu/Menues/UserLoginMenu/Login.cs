@@ -9,14 +9,14 @@
     internal class Login : Menu
     {
         private const int SequenceNumber = 1;
-        private readonly IUserDatabase users;
-        private int wrongPassCount = 1;
+        private readonly IDatabase userDatabase;
+        private int wrongPassCount = 0;
 
 
-        public Login(int row, int col, IRepository<string> namespaces, IUserDatabase users)
+        public Login(int row, int col, IRepository<string> namespaces, IDatabase users)
             : base(SequenceNumber, row, col, namespaces)
         {
-            this.users = users;
+            this.userDatabase = users;
         }
 
 
@@ -42,27 +42,27 @@
 
                 try
                 {
-                    user = this.users.Get(username);
+                    user = this.userDatabase.Get(username);
 
                     if (user.IsBlocked)
                     {
                         writer.Clear();
-                        writer.Write($"Account is blocked, try after {this.users.RemaningBlockTime} minutes!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                        writer.Write($"Account is blocked, try after {this.userDatabase.RemaningBlockTime} minutes!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                         Thread.Sleep(2000);
                         return null!;
                     }
                     if (!this.IsValidPassword(user, password, writer))
                     {
-                        this.wrongPassCount--;
                         if (this.wrongPassCount == 0)
                         {
                             writer.Clear();
                             writer.Write("Account is blocked for 15 minutes!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                             user.LastBlockedTime = DateTime.Now;
-                            users.BlockAccount(user);
+                            userDatabase.BlockAccount(user);
                             Thread.Sleep(2000);
                             return null!;
                         }
+                        this.wrongPassCount--;
 
                         continue;
                     }
