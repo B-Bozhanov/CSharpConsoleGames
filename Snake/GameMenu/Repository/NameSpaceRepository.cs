@@ -2,7 +2,7 @@
 {
     using GameMenu.Repository.Interfaces;
 
-    internal class NameSpaceRepository : IRepository<string>
+    public class NameSpaceRepository : IRepository<string>
     {
         private readonly HashSet<string> namespaces;
 

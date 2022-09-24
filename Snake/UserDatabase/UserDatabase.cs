@@ -1,11 +1,8 @@
 ﻿namespace UserDatabase
 {
-    using Interfaces;
-    using Nancy.Json;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
     using System;
-    using System.Text.Json.Nodes;
+    using Interfaces;
+    using Newtonsoft.Json;
 
     public partial class UserDatabase : IDatabase
     {
@@ -22,20 +19,26 @@
         private readonly TimeSpan removeUnUsedAccaundInDays;
         private List<IAccount> blockedAccountsList;
         private JsonSerializerSettings jsonSerializerSettings;
+        private Thread autoSaveDatabase;
 
         public UserDatabase()
         {
             this.usersDatabase = new Dictionary<string, IAccount>();
             this.accauntBlockTime = TimeSpan.FromMinutes(BlockTimeInMinutes);
             this.removeUnUsedAccaundInDays = TimeSpan.FromDays(RemoveUnUsedAccaundInDays);
+            this.autoSaveDatabase = new Thread(this.AutoSaveDatabase);
             this.jsonSerializerSettings = new JsonSerializerSettings
             {
                 Converters = { new AbstractConverter<Account, IAccount>() }
             };
+
+            //this.autoSaveDatabase.IsBackground = true;
+            this.autoSaveDatabase.Start();
         }
 
 
         public int RemaningBlockTime { get; private set; }
+        public bool IsGameOver { get; set; } = false;
 
 
         public void AddAccount(IAccount user)
@@ -45,7 +48,7 @@
                 throw new ArgumentException("The username exist, try again!");
             }
             this.usersDatabase.Add(user.Username, user);
-
+            this.currentLogedUser = user;
             this.Synchronizeing(this.usersDatabase, DefaultFilePath);
         }
 
@@ -76,25 +79,17 @@
             }
         }
 
-        public void Synchronizeing(object obj, string path)
-        {
-            string text = JsonConvert
-                  .SerializeObject(obj, Formatting.Indented, this.jsonSerializerSettings);
-
-            File.WriteAllText(path, text);
-        }
-
         public void Update()
         {
             string userDatabaseFile = File.ReadAllText(DefaultTempFilePath);
             IAccount account = JsonConvert.DeserializeObject<IAccount>(userDatabaseFile, this.jsonSerializerSettings);
 
-            this.blockedAccountsList = this.usersDatabase.Values.Where(a => a.IsBlocked).ToList();
+            //this.blockedAccountsList = this.usersDatabase.Values.Where(a => a.IsBlocked).ToList();
 
-            foreach (var blockedAccount in blockedAccountsList)
-            {
-                this.BlockAccount(blockedAccount);
-            }
+            //foreach (var blockedAccount in blockedAccountsList)
+            //{
+            //    this.BlockAccount(blockedAccount);
+            //}
 
             if (account != null && this.usersDatabase.ContainsKey(account.Username))
             {
@@ -103,14 +98,12 @@
                 this.Synchronizeing(this.usersDatabase, DefaultFilePath);
             }
             this.AutoRemoveUnusedAccaunds();
-            var autoSaveDatabase = new Thread(this.AutoSaveDatabase); // TODO: Get out this from here!
-            autoSaveDatabase.Start();
         }
 
         public void BlockAccount(IAccount user)
         {
             user.IsBlocked = true;
-           // this.blockedAccountsList.Add(user);
+            // this.blockedAccountsList.Add(user);
             var blockAccount = new Thread(Block);
             blockAccount.Start();
 
@@ -127,6 +120,20 @@
             }
         }
 
+        public void SaveDatabase()
+        {
+            this.Synchronizeing(this.usersDatabase, DefaultFilePath);
+        }
+
+
+        private void Synchronizeing(object obj, string path)
+        {
+            string text = JsonConvert
+                  .SerializeObject(obj, Formatting.Indented, this.jsonSerializerSettings);
+
+            File.WriteAllText(path, text);
+        }
+
         private void AutoSaveDatabase()
         {
             var secconds = AutoSaveIntervalnSecconds * 1000;
@@ -135,8 +142,8 @@
                 if (this.currentLogedUser != null)
                 {
                     this.Synchronizeing(this.currentLogedUser, DefaultTempFilePath);
-                    Thread.Sleep(secconds);
                 }
+                    Thread.Sleep(secconds);
             }
         }
 

@@ -12,16 +12,11 @@
         }
         public void StartGame()
         {
+            Random random = new Random();
+            var fakepoints = random.Next(1, 1000);
             Console.WriteLine("Game is started!");
 
-                if (user.Username == "Bozhan")
-                {
-                    user.Score += 20;
-                }
-                else
-                {
-                    user.Score = 10;
-                }
+            this.user.Score = fakepoints;
         }
     }
 }

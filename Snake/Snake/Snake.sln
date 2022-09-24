@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StartUp", "..\StartUp\Start
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserDatabase", "..\UserDatabase\UserDatabase.csproj", "{4C6EFAB3-41BC-4C48-B6D5-A922E4EE8545}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IO", "..\IO\IO.csproj", "{269B974B-5890-4140-80C4-8CA5F4F6930E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IO", "..\IO\IO.csproj", "{269B974B-5890-4140-80C4-8CA5F4F6930E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Snake.Tests", "Snake.Tests", "{B346FAB1-0C6D-49AA-B3E0-CE7D7403D588}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snake.Tests", "..\Snake.Tests\Snake.Tests.csproj", "{4D0574AD-840E-424F-91E8-372B7963829C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,9 +43,16 @@ Global
 		{269B974B-5890-4140-80C4-8CA5F4F6930E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{269B974B-5890-4140-80C4-8CA5F4F6930E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{269B974B-5890-4140-80C4-8CA5F4F6930E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D0574AD-840E-424F-91E8-372B7963829C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D0574AD-840E-424F-91E8-372B7963829C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D0574AD-840E-424F-91E8-372B7963829C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D0574AD-840E-424F-91E8-372B7963829C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4D0574AD-840E-424F-91E8-372B7963829C} = {B346FAB1-0C6D-49AA-B3E0-CE7D7403D588}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {73007A21-6361-4E45-BDDC-F3D551EAAE02}

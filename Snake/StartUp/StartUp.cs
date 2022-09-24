@@ -22,3 +22,5 @@ IAccount user = engine.Start();
 
 ISnakeEngine snake = new SnakeEngine(user);
 snake.StartGame();
+
+usersDatabase.SaveDatabase();

@@ -3,10 +3,11 @@
     using GameMenu.IO.Interfaces;
     using GameMenu.Menues.Interfaces;
     using GameMenu.Repository.Interfaces;
+    using System.Diagnostics;
     using UserDatabase.Interfaces;
 
 
-    internal class Login : Menu
+    public class Login : Menu
     {
         private const int SequenceNumber = 1;
         private readonly IDatabase userDatabase;

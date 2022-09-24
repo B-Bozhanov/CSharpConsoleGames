@@ -4,13 +4,15 @@
     {
         public int RemaningBlockTime { get;}
 
+        public bool IsGameOver { get; set; }
+
         public void AddAccount(IAccount user);
 
         public IAccount Get(string username);
 
         public void LoadDatabase();
 
-        public void Synchronizeing(object obj, string path);
+        public void SaveDatabase();
 
         public void Update();
 
