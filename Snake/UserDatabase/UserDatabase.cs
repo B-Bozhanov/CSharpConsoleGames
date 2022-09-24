@@ -137,7 +137,8 @@
         private void AutoSaveDatabase()
         {
             var secconds = AutoSaveIntervalnSecconds * 1000;
-            while (true)
+            // TODO: Stop this while loop.
+            while (true)                                      
             {
                 if (this.currentLogedUser != null)
                 {
