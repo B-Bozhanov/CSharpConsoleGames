@@ -17,6 +17,7 @@
             Console.WriteLine("Game is started!");
 
             this.user.Score = fakepoints;
+           // return this.user;
         }
     }
 }

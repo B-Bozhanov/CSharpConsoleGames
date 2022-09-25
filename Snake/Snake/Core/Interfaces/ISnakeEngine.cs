@@ -1,4 +1,6 @@
-﻿namespace Snake.Core.Interfaces
+﻿using UserDatabase.Interfaces;
+
+namespace Snake.Core.Interfaces
 {
     public interface ISnakeEngine
     {

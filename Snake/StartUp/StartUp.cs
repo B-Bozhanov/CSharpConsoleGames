@@ -13,7 +13,6 @@ IReader reader = new ConsoleReader();
 
 IDatabase usersDatabase = new UserDatabase.UserDatabase();
 usersDatabase.LoadDatabase();
-usersDatabase.Update();
 
 IField field = new ConsoleField();
 
@@ -23,5 +22,3 @@ IAccount user = engine.Start();
 
 ISnakeEngine snake = new SnakeEngine(user);
 snake.StartGame();
-
-usersDatabase.SaveDatabase();

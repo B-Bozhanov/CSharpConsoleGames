@@ -10,10 +10,6 @@
 
         public void LoadDatabase();
 
-        public void SaveDatabase();
-
-        public void Update();
-
         public void BlockAccount(IAccount user);
     }
 }

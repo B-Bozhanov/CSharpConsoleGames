@@ -32,30 +32,30 @@
             string username = string.Empty;
             string password = string.Empty;
 
-                writer.Clear();
-                writer.Write("Enter username: ", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-                username = reader.ReadLine();
+            writer.Clear();
+            writer.Write("Enter username: ", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+            username = reader.ReadLine();
 
-                writer.Clear();
-                writer.Write("Enter password: ", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-                password = reader.ReadLine();
+            writer.Clear();
+            writer.Write("Enter password: ", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+            password = reader.ReadLine();
 
-                try
-                {
-                    this.users.AddAccount(username, password);
-                    writer.Clear();
-                    writer.Write("Account is successful created!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-                    Thread.Sleep(2000);
-                    return username;
-                   // break;
-                }
-                catch (Exception ex)
-                {
-                    writer.Clear();
-                    writer.Write(ex.Message, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-                    Thread.Sleep(2000);
-                    return null;
-                }
+            try
+            {
+                this.users.AddAccount(username, password);
+                writer.Clear();
+                writer.Write("Account is successful created!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                Thread.Sleep(2000);
+                string user = username + Environment.NewLine + password;
+                return user;
+            }
+            catch (Exception ex)
+            {
+                writer.Clear();
+                writer.Write(ex.Message, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                Thread.Sleep(2000);
+                return null!;
+            }
         }
     }
 }

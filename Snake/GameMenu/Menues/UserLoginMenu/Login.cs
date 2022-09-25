@@ -44,7 +44,8 @@
                 writer.Write("Successful login!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                 user.LastLoggedInTime = DateTime.Now;
                 Thread.Sleep(2000);
-                return username;
+                string currentUser = username + Environment.NewLine + password;
+                return currentUser;
             }
             catch (Exception ex)
             {

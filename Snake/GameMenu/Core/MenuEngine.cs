@@ -43,6 +43,7 @@
         public IAccount Start()
         {
             string username = string.Empty;
+            string password = string.Empty;
             bool isGuestPlayer = false;
 
             while (true)
@@ -72,10 +73,12 @@
                 }
                 else if (currentMenu is Login || currentMenu is CreateAccount)
                 {
-                    username = currentMenu.Execute(this.field, this.writer, this.reader);
-                    if (username != null)
+                    string currenUser = currentMenu.Execute(this.field, this.writer, this.reader);
+                    if (currenUser != null)
                     {
                         this.namespaces.Add(NameSpacesInfo.MainMenu);
+                        username = currenUser.Split(Environment.NewLine)[0];
+                        password = currenUser.Split(Environment.NewLine)[1];
                     }
                 }
                 else
@@ -93,7 +96,7 @@
             {
                 return this.users.GetAccount("Guest", null);
             }
-            return this.users.GetAccount(username!, null);
+            return this.users.GetAccount(username, password);
         }
     }
 }

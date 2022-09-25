@@ -23,7 +23,6 @@
         {
             writer.Clear();
             writer.Write("Successful logout!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-            this.users.Update();
             Thread.Sleep(2000);
             return this.BackCommand();
         }

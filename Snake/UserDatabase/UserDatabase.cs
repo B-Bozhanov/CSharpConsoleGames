@@ -3,16 +3,13 @@
     using System;
     using Interfaces;
     using Newtonsoft.Json;
-    using static System.Formats.Asn1.AsnWriter;
     using static Constants.GlobalConstants;
 
     public partial class UserDatabase : IDatabase
     {
         private IDictionary<string, IAccount> usersDatabase;
         private IAccount currentLogedUser;
-        private IList<IAccount> blockedAccountsList;
         private readonly TimeSpan removeUnUsedAccaundInDays;
-        private DateTime lastDatabaseSaveTime = DateTime.Now;
         private JsonSerializerSettings jsonSerializerSettings;
         private Thread autoSaveDatabase;
         private int wrongPassCount = WrongPassAttemps;
@@ -22,7 +19,6 @@
             this.usersDatabase = new Dictionary<string, IAccount>();
             this.removeUnUsedAccaundInDays = TimeSpan.FromDays(RemoveUnUsedAccaundInDays);
             this.autoSaveDatabase = new Thread(this.AutoSave);
-            this.blockedAccountsList = new List<IAccount>();
             this.jsonSerializerSettings = new JsonSerializerSettings
             {
                 Converters = { new AbstractConverter<Account, IAccount>() }
@@ -34,7 +30,6 @@
 
 
         public int RemaningBlockTime { get; private set; }
-
 
         public void AddAccount(string username, string password)
         {
@@ -48,7 +43,6 @@
             }
             this.usersDatabase.Add(account.Username, account);
             this.currentLogedUser = account;
-            this.Synchronizeing(this.usersDatabase, DefaultFilePath);
         }
 
         public IAccount GetAccount(string username, string password)  // TODO : Fix wrongPassCount
@@ -81,10 +75,9 @@
             this.currentLogedUser = this.usersDatabase[username];
             this.wrongPassCount = WrongPassAttemps;
             BlockedAccountValidator(user);
-            this.Update();
             return currentLogedUser;
         }
-       
+
         public void LoadDatabase()
         {
             if (!File.Exists(DefaultFilePath))
@@ -103,31 +96,16 @@
                 {
                     this.BlockedAccountValidator(user);
                 }
-            }
-        }
 
-        public void Update()
-        {
-            string userDatabaseFile = File.ReadAllText(DefaultTempFilePath);
-            IAccount account = JsonConvert.DeserializeObject<IAccount>(userDatabaseFile, this.jsonSerializerSettings);
-
-            this.blockedAccountsList = this.usersDatabase.Values.Where(a => a.IsBlocked).ToList();
-
-            if (account != null && this.usersDatabase.ContainsKey(account.Username))
-            {
-                this.usersDatabase[account.Username] = account;
                 this.RemoveAccount(Guest);
-                this.Synchronizeing(this.usersDatabase, DefaultFilePath);
+                this.AutoRemoveUnusedAccaunds();
             }
-            this.AutoRemoveUnusedAccaunds();
-
         }
 
         public void BlockAccount(IAccount user)
         {
             user.IsBlocked = true;
             user.LastBlockedTime = DateTime.Now;
-            this.blockedAccountsList.Add(user);
         }
 
         private void BlockedAccountValidator(IAccount user)
@@ -141,11 +119,6 @@
             //this.Update();
         }
 
-        public void SaveDatabase()
-        {
-            this.Synchronizeing(this.usersDatabase, DefaultFilePath);
-        }
-
         private void Synchronizeing(object obj, string path)
         {
             string text = JsonConvert
@@ -156,21 +129,11 @@
 
         private void AutoSave()
         {
-            var secconds = AutoSaveCurrentAccountIntervalInSecconds * 1000;
+            int secconds = AutoSaveDatabseIntervalInSecconds * 1000;
             // TODO: Stop this while loop.
             while (true)
             {
-                var ExpiredDatabaseSaveTime = (int)(DateTime.Now - this.lastDatabaseSaveTime).TotalMinutes;
-
-                if (this.currentLogedUser != null)
-                {
-                    this.Synchronizeing(this.currentLogedUser, DefaultTempFilePath);
-                }
-                if (ExpiredDatabaseSaveTime >= AutoSaveDatabseIntervalInMinutes)
-                {
-                    this.Synchronizeing(this.usersDatabase, DefaultFilePath);
-                    this.lastDatabaseSaveTime = DateTime.Now;
-                }
+                this.Synchronizeing(this.usersDatabase, DefaultFilePath);
                 Thread.Sleep(secconds);
             }
         }
