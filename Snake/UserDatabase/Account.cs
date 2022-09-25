@@ -8,7 +8,7 @@
         private string password;
         private int score;
 
-        public Account(string username, string password, int score)
+        public Account(string username, string password)
         {
             this.Username = username;
             this.Password = password;

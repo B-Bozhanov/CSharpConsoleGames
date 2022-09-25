@@ -3,19 +3,11 @@
     using System;
     using Interfaces;
     using Newtonsoft.Json;
+    using static System.Formats.Asn1.AsnWriter;
     using static Constants.GlobalConstants;
 
     public partial class UserDatabase : IDatabase
     {
-        //private const int BlockTimeInMinutes = 15;
-        //private const int RemoveUnUsedAccaundInDays = 30;
-        //private const int AutoSaveCurrentAccountIntervalInSecconds = 1;
-        //private const int AutoSaveDatabseIntervalInMinutes = 5;
-        //private const int WrongPassAttemps = 2;
-        //private const string Guest = "Guest";
-        //private const string DefaultFilePath = "../../../../UserDatabase/UsersData/UserDatabse.json";
-        //private const string DefaultTempFilePath = "../../../../UserDatabase/UsersData/CurrentUserData.json";
-
         private IDictionary<string, IAccount> usersDatabase;
         private IAccount currentLogedUser;
         private IList<IAccount> blockedAccountsList;
@@ -44,18 +36,22 @@
         public int RemaningBlockTime { get; private set; }
 
 
-        public void AddAccount(IAccount user)
+        public void AddAccount(string username, string password)
         {
-            if (this.usersDatabase.ContainsKey(user.Username))
+            IAccount account = new Account(username, password);
+            account.CreatedTime = DateTime.Now;
+            account.LastLoggedInTime = DateTime.Now;
+
+            if (this.usersDatabase.ContainsKey(account.Username))
             {
                 throw new ArgumentException("The username exist, try again!");
             }
-            this.usersDatabase.Add(user.Username, user);
-            this.currentLogedUser = user;
+            this.usersDatabase.Add(account.Username, account);
+            this.currentLogedUser = account;
             this.Synchronizeing(this.usersDatabase, DefaultFilePath);
         }
 
-        public IAccount GetAccount(string username, string password)
+        public IAccount GetAccount(string username, string password)  // TODO : Fix wrongPassCount
         {
             if (!this.usersDatabase.ContainsKey(username))
             {
@@ -73,7 +69,7 @@
             if (user.Password != password)
             {
                 this.wrongPassCount--;
-                if (this.wrongPassCount == 0)
+                if (this.wrongPassCount <= 0)
                 {
                     this.BlockAccount(user);
                     throw new ArgumentException($"{this.wrongPassCount} attemps left! Account is blocked for 15 minutes");
@@ -85,6 +81,7 @@
             this.currentLogedUser = this.usersDatabase[username];
             this.wrongPassCount = WrongPassAttemps;
             BlockedAccountValidator(user);
+            this.Update();
             return currentLogedUser;
         }
        

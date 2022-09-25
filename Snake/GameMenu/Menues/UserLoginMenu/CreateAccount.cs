@@ -31,10 +31,7 @@
         {
             string username = string.Empty;
             string password = string.Empty;
-            int score = 0;
 
-            while (true)
-            {
                 writer.Clear();
                 writer.Write("Enter username: ", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                 username = reader.ReadLine();
@@ -45,23 +42,20 @@
 
                 try
                 {
-                    IAccount account = new Account(username, password, score);
-                    account.CreatedTime = DateTime.Now;
-                    account.LastLoggedInTime = DateTime.Now;
-                    this.users.AddAccount(account);
-                    break;
+                    this.users.AddAccount(username, password);
+                    writer.Clear();
+                    writer.Write("Account is successful created!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                    Thread.Sleep(2000);
+                    return username;
+                   // break;
                 }
                 catch (Exception ex)
                 {
                     writer.Clear();
                     writer.Write(ex.Message, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                     Thread.Sleep(2000);
+                    return null;
                 }
-            }
-            writer.Clear();
-            writer.Write("Account is successful created!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-            Thread.Sleep(2000);
-            return username;
         }
     }
 }

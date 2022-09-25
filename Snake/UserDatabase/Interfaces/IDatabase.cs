@@ -4,7 +4,7 @@
     {
         public int RemaningBlockTime { get;}
 
-        public void AddAccount(IAccount user);
+        public void AddAccount(string username, string password);
 
         public IAccount GetAccount(string username, string password);
 
