@@ -3,17 +3,18 @@
     using System;
     using Interfaces;
     using Newtonsoft.Json;
+    using static Constants.GlobalConstants;
 
     public partial class UserDatabase : IDatabase
     {
-        private const int BlockTimeInMinutes = 15;
-        private const int RemoveUnUsedAccaundInDays = 30;
-        private const int AutoSaveCurrentAccountIntervalInSecconds = 1;
-        private const int AutoSaveDatabseIntervalInMinutes = 5;
-        private const int WrongPassAttemps = 2;
-        private const string Guest = "Guest";
-        private const string DefaultFilePath = "../../../../UserDatabase/UsersData/UserDatabse.json";
-        private const string DefaultTempFilePath = "../../../../UserDatabase/UsersData/CurrentUserData.json";
+        //private const int BlockTimeInMinutes = 15;
+        //private const int RemoveUnUsedAccaundInDays = 30;
+        //private const int AutoSaveCurrentAccountIntervalInSecconds = 1;
+        //private const int AutoSaveDatabseIntervalInMinutes = 5;
+        //private const int WrongPassAttemps = 2;
+        //private const string Guest = "Guest";
+        //private const string DefaultFilePath = "../../../../UserDatabase/UsersData/UserDatabse.json";
+        //private const string DefaultTempFilePath = "../../../../UserDatabase/UsersData/CurrentUserData.json";
 
         private IDictionary<string, IAccount> usersDatabase;
         private IAccount currentLogedUser;
