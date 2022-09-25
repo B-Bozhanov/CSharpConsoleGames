@@ -1,8 +1,6 @@
 ﻿namespace UserDatabase
 {
     using System;
-    using System.Security.Principal;
-    using System.Text;
     using Interfaces;
     using Newtonsoft.Json;
 
@@ -12,7 +10,7 @@
         private const int RemoveUnUsedAccaundInDays = 30;
         private const int AutoSaveCurrentAccountIntervalInSecconds = 1;
         private const int AutoSaveDatabseIntervalInMinutes = 5;
-        private const int WrongPassAttemps = 0;
+        private const int WrongPassAttemps = 2;
         private const string Guest = "Guest";
         private const string DefaultFilePath = "../../../../UserDatabase/UsersData/UserDatabse.json";
         private const string DefaultTempFilePath = "../../../../UserDatabase/UsersData/CurrentUserData.json";
@@ -73,31 +71,22 @@
 
             if (user.Password != password)
             {
+                this.wrongPassCount--;
                 if (this.wrongPassCount == 0)
                 {
                     this.BlockAccount(user);
                     throw new ArgumentException($"{this.wrongPassCount} attemps left! Account is blocked for 15 minutes");
                 }
-                this.wrongPassCount--;
 
                 throw new ArgumentException($"Incorect password, try again! {this.wrongPassCount} attemps left!");
             }
 
             this.currentLogedUser = this.usersDatabase[username];
             this.wrongPassCount = WrongPassAttemps;
+            BlockedAccountValidator(user);
             return currentLogedUser;
         }
-        private void BlockedAccountValidator(IAccount user)
-        {
-            this.RemaningBlockTime = BlockTimeInMinutes - user.ExpiredBlockTime;
-            if (this.RemaningBlockTime <= 0)
-            {
-                user.IsBlocked = false;
-            }
-            this.currentLogedUser = user;
-            this.Update();
-        }
-
+       
         public void LoadDatabase()
         {
             if (!File.Exists(DefaultFilePath))
@@ -111,8 +100,12 @@
             {
                 this.usersDatabase = JsonConvert
                     .DeserializeObject<Dictionary<string, IAccount>>(userDatabaseFile, this.jsonSerializerSettings);
-            }
 
+                foreach (var user in this.usersDatabase.Values)
+                {
+                    this.BlockedAccountValidator(user);
+                }
+            }
         }
 
         public void Update()
@@ -129,6 +122,7 @@
                 this.Synchronizeing(this.usersDatabase, DefaultFilePath);
             }
             this.AutoRemoveUnusedAccaunds();
+
         }
 
         public void BlockAccount(IAccount user)
@@ -136,6 +130,17 @@
             user.IsBlocked = true;
             user.LastBlockedTime = DateTime.Now;
             this.blockedAccountsList.Add(user);
+        }
+
+        private void BlockedAccountValidator(IAccount user)
+        {
+            this.RemaningBlockTime = BlockTimeInMinutes - user.ExpiredBlockTime;
+            if (this.RemaningBlockTime <= 0)
+            {
+                user.IsBlocked = false;
+            }
+            this.currentLogedUser = user;
+            //this.Update();
         }
 
         public void SaveDatabase()
