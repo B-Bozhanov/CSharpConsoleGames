@@ -91,9 +91,9 @@
 
             if (isGuestPlayer)
             {
-                return this.users.Get("Guest");
+                return this.users.GetAccount("Guest", null);
             }
-            return this.users.Get(username!);
+            return this.users.GetAccount(username!, null);
         }
     }
 }

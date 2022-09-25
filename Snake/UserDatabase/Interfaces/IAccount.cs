@@ -8,6 +8,8 @@
 
         public int Score { get; set; }
 
+        public int ExpiredBlockTime { get; }
+
         public bool IsBlocked { get; set; }
 
         public DateTime LastBlockedTime { get; set; }

@@ -11,7 +11,6 @@
     {
         private const int SequenceNumber = 1;
         private readonly IDatabase userDatabase;
-        private int wrongPassCount = 0;
 
 
         public Login(int row, int col, IRepository<string> namespaces, IDatabase users)
@@ -40,34 +39,9 @@
                 writer.Write("Enter password: ", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                 password = reader.ReadLine();
 
-
                 try
                 {
-                    user = this.userDatabase.Get(username);
-
-                    if (user.IsBlocked)
-                    {
-                        writer.Clear();
-                        writer.Write($"Account is blocked, try after {this.userDatabase.RemaningBlockTime} minutes!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-                        Thread.Sleep(2000);
-                        return null!;
-                    }
-                    if (!this.IsValidPassword(user, password, writer))
-                    {
-                        if (this.wrongPassCount == 0)
-                        {
-                            
-                            writer.Clear();
-                            writer.Write("Account is blocked for 15 minutes!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-                            user.LastBlockedTime = DateTime.Now;
-                            userDatabase.BlockAccount(user);
-                            Thread.Sleep(2000);
-                            return null!;
-                        }
-                        this.wrongPassCount--;
-
-                        continue;
-                    }
+                    user = this.userDatabase.GetAccount(username, password);
                     writer.Clear();
                     writer.Write("Successful login!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                     user.LastLoggedInTime = DateTime.Now;
@@ -82,19 +56,6 @@
                     return null!;
                 }
             }
-        }
-
-        private bool IsValidPassword(IAccount user, string password, IWriter writer)
-        {
-            if (user.Password != password)
-            {
-                writer.Clear();
-                writer.Write($"Incorect password, try again! " +
-                    $"{this.wrongPassCount} attemps left!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-                Thread.Sleep(2000);
-                return false;
-            }
-            return true;
         }
     }
 }

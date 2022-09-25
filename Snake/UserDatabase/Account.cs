@@ -52,6 +52,8 @@
             set => this.score = value;
         }
 
+        public int ExpiredBlockTime => (int)(DateTime.Now - this.LastBlockedTime).TotalMinutes;
+
         public bool IsBlocked { get; set; } = false;
 
         public DateTime LastBlockedTime { get; set; }
@@ -59,5 +61,6 @@
         public DateTime LastLoggedInTime { get; set; }
 
         public DateTime CreatedTime { get; set; }
+
     }
 }
