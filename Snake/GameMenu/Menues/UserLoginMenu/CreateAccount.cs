@@ -31,6 +31,7 @@
         {
             string username = string.Empty;
             string password = string.Empty;
+            string confirmPass = string.Empty;
 
             writer.Clear();
             writer.Write("Enter username: ", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
@@ -39,6 +40,17 @@
             writer.Clear();
             writer.Write("Enter password: ", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
             password = reader.ReadLine();
+
+            writer.Clear();
+            writer.Write("Confirm password: ", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+            confirmPass = reader.ReadLine();
+
+            if (password != confirmPass)
+            {
+                writer.Write("Password not matching, try again: ", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                Thread.Sleep(2000);
+                return null!;
+            }
 
             try
             {

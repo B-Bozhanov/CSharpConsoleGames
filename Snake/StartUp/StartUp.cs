@@ -10,13 +10,10 @@ using UserDatabase.Interfaces;
 
 IWriter writer = new ConsoleWriter();
 IReader reader = new ConsoleReader();
-
 IDatabase usersDatabase = new UserDatabase.UserDatabase();
 usersDatabase.LoadDatabase();
 
 IField field = new ConsoleField();
-
-
 IMenuEngine engine = new MenuEngine(usersDatabase, field, writer, reader);
 IAccount user = engine.Start();
 
