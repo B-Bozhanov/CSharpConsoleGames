@@ -26,6 +26,29 @@
             Console.WriteLine(message);
         }
 
+        public string PasswordMask(int row, int col)
+        {
+            string password = null!;
+
+            int count = 0;
+            while (true)
+            {
+                if (Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo key = Console.ReadKey();
+                    if (key.Key == ConsoleKey.Enter)
+                    {
+                        return password;
+                    }
+
+                    password += key.KeyChar;
+                    this.Write("*", row, col + count);
+                    count++;
+                }
+            }
+           // return null;
+        }
+
         public void Clear()
         {
             Console.Clear();

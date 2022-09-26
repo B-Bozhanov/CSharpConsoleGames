@@ -52,6 +52,8 @@
                 throw new ArgumentException("The username does not exist, try again!");
             }
 
+            if (this.wrongPassCount == 0) this.wrongPassCount = WrongPassAttemps;
+
             var account = this.usersDatabase[username];
             BlockedAccountValidator(account);
 

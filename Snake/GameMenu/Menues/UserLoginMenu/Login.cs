@@ -1,5 +1,7 @@
 ﻿namespace GameMenu.Menues.UserLoginMenu
 {
+    using static GameMenu.Utilities.Messages;
+
     using GameMenu.IO.Interfaces;
     using GameMenu.Menues.Interfaces;
     using GameMenu.Repository.Interfaces;
@@ -28,19 +30,20 @@
             string password = string.Empty;
 
             writer.Clear();
-            writer.Write("Enter username: ", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+            writer.Write(EnterUsername, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
             username = reader.ReadLine();
 
             writer.Clear();
-            writer.Write("Enter password: ", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-            password = reader.ReadLine();
+            writer.Write(EnterPassword, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+            password = writer.PasswordMask(this.MenuCoordinates.Row, this.MenuCoordinates.Col + EnterPassword.Length + 1);
+           // password = reader.ReadLine();
 
             try
             {
                 this.userDatabase.GetAccount(username, password);
 
                 writer.Clear();
-                writer.Write("Successful login!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                writer.Write(SuccessfulLogin, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                 Thread.Sleep(2000);
                
                 string currentUser = username + Environment.NewLine + password;

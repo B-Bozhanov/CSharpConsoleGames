@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace GameMenu.IO.Interfaces
+﻿namespace GameMenu.IO.Interfaces
 {
     public interface IWriter
     {
@@ -9,6 +7,8 @@ namespace GameMenu.IO.Interfaces
         void WriteLine(string message);
 
         void Write(string text, int consoleRow, int consoleCol);
+
+        public string PasswordMask(int row, int col);
 
         void Clear();
     }
