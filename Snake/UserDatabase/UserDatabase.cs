@@ -11,37 +11,37 @@
         private IAccount currentLogedUser;
         private readonly TimeSpan removeUnUsedAccaundInDays;
         private JsonSerializerSettings jsonSerializerSettings;
-        private Thread autoSaveDatabase;
         private int wrongPassCount = WrongPassAttemps;
 
         public UserDatabase()
         {
             this.usersDatabase = new Dictionary<string, IAccount>();
             this.removeUnUsedAccaundInDays = TimeSpan.FromDays(RemoveUnUsedAccaundInDays);
-            this.autoSaveDatabase = new Thread(this.AutoSave);
             this.jsonSerializerSettings = new JsonSerializerSettings
             {
                 Converters = { new AbstractConverter<Account, IAccount>() }
             };
 
-            this.autoSaveDatabase.Start();
+            var autoSaveDatabase = new Thread(this.AutoSave);
+            autoSaveDatabase.Start();
             //this.autoSaveDatabase.IsBackground = true;
         }
 
-
         public int RemaningBlockTime { get; private set; }
+
 
         public void AddAccount(string username, string password)
         {
             IAccount account = new Account(username, password);
-            account.CreatedTime = DateTime.Now;
-            account.LastLoggedInTime = DateTime.Now;
 
             if (this.usersDatabase.ContainsKey(account.Username))
             {
                 throw new ArgumentException("The username exist, try again!");
             }
-            this.usersDatabase.Add(account.Username, account);
+
+            account.CreatedTime = DateTime.Now;
+            account.LastLoggedInTime = DateTime.Now;
+            this.usersDatabase.Add(username, account);
             this.currentLogedUser = account;
         }
 
@@ -52,30 +52,31 @@
                 throw new ArgumentException("The username does not exist, try again!");
             }
 
-            var user = this.usersDatabase[username];
-            BlockedAccountValidator(user);
+            var account = this.usersDatabase[username];
+            BlockedAccountValidator(account);
 
-            if (user.IsBlocked)
+            if (account.IsBlocked)
             {
                 throw new ArgumentException($"Account is blocked, try after {this.RemaningBlockTime} minutes!");
             }
 
-            if (user.Password != password)
+            if (account.Password != password)
             {
                 this.wrongPassCount--;
                 if (this.wrongPassCount <= 0)
                 {
-                    this.BlockAccount(user);
+                    this.BlockAccount(account);
                     throw new ArgumentException($"{this.wrongPassCount} attemps left! Account is blocked for 15 minutes");
                 }
 
                 throw new ArgumentException($"Incorect password, try again! {this.wrongPassCount} attemps left!");
             }
 
+            account.LastLoggedInTime = DateTime.Now;
             this.currentLogedUser = this.usersDatabase[username];
             this.wrongPassCount = WrongPassAttemps;
-            BlockedAccountValidator(user);
-            return currentLogedUser;
+            BlockedAccountValidator(account);
+            return account;
         }
 
         public void LoadDatabase()
