@@ -63,7 +63,7 @@
             if (account.Password != password)
             {
                 this.wrongPassCount--;
-                if (this.wrongPassCount <= 0)
+                if (this.wrongPassCount == 0)
                 {
                     this.BlockAccount(account);
                     throw new ArgumentException($"{this.wrongPassCount} attemps left! Account is blocked for 15 minutes");
@@ -72,9 +72,10 @@
                 throw new ArgumentException($"Incorect password, try again! {this.wrongPassCount} attemps left!");
             }
 
+            if (this.wrongPassCount == 0) this.wrongPassCount = WrongPassAttemps;
+
             account.LastLoggedInTime = DateTime.Now;
             this.currentLogedUser = this.usersDatabase[username];
-            this.wrongPassCount = WrongPassAttemps;
             BlockedAccountValidator(account);
             return account;
         }
@@ -87,7 +88,6 @@
             }
 
             string userDatabaseFile = File.ReadAllText(DefaultFilePath);
-
             if (!String.IsNullOrWhiteSpace(userDatabaseFile))
             {
                 this.usersDatabase = JsonConvert

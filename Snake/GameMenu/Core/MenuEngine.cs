@@ -73,12 +73,13 @@
                 }
                 else if (currentMenu is Login || currentMenu is CreateAccount)
                 {
-                    string currenUser = currentMenu.Execute(this.field, this.writer, this.reader);
-                    if (currenUser != null)
+                    string account = currentMenu.Execute(this.field, this.writer, this.reader);
+                    if (account != null)
                     {
                         this.namespaces.Add(NameSpacesInfo.MainMenu);
-                        username = currenUser.Split(Environment.NewLine)[0];
-                        password = currenUser.Split(Environment.NewLine)[1];
+                        var accountArgs = account.Split(Environment.NewLine);
+                        username = accountArgs[0];
+                        password = accountArgs[1];
                     }
                 }
                 else

@@ -10,13 +10,13 @@
     internal class CreateAccount : Menu
     {
         private const int SequenceNumber = 2;
-        private readonly IDatabase users;
+        private readonly IDatabase accounts;
 
 
-        public CreateAccount(int row, int col, IRepository<string> namespaces, IDatabase users)
+        public CreateAccount(int row, int col, IRepository<string> namespaces, IDatabase accounts)
            : base(SequenceNumber, row, col, namespaces)
         {
-            this.users = users;
+            this.accounts = accounts;
         }
 
         public override int MenuNumber { get; protected set; }
@@ -42,7 +42,7 @@
 
             try
             {
-                this.users.AddAccount(username, password);
+                this.accounts.AddAccount(username, password);
                 writer.Clear();
                 writer.Write("Account is successful created!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                 Thread.Sleep(2000);

@@ -24,7 +24,6 @@
 
         public override string Execute(IField field, IWriter writer, IReader reader)
         {
-            IAccount user;
             string username = string.Empty;
             string password = string.Empty;
 
@@ -38,12 +37,12 @@
 
             try
             {
-                user = this.userDatabase.GetAccount(username, password);
+                this.userDatabase.GetAccount(username, password);
 
                 writer.Clear();
                 writer.Write("Successful login!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-                user.LastLoggedInTime = DateTime.Now;
                 Thread.Sleep(2000);
+               
                 string currentUser = username + Environment.NewLine + password;
                 return currentUser;
             }
