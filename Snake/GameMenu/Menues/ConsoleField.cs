@@ -44,6 +44,7 @@
         public void ResetColor()
         {
             Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Yellow;
         }
 
         private ConsoleColor GetColor(Color color)

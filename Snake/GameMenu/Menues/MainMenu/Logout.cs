@@ -23,6 +23,7 @@
         {
             writer.Clear();
             writer.Write("Successful logout!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+            field.ResetColor();
             Thread.Sleep(2000);
             return this.BackCommand();
         }
