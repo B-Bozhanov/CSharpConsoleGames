@@ -49,7 +49,7 @@
                 }
             }
 
-            return this.namespaces.Get();
+            return null;
         }
     }
 }

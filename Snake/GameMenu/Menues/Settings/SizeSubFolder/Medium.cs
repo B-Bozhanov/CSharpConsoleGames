@@ -1,8 +1,4 @@
-﻿using GameMenu.IO.Interfaces;
-using GameMenu.Menues.Interfaces;
-using GameMenu.Repository.Interfaces;
-
-namespace GameMenu.Menues.Settings.SizeSubFolder
+﻿namespace GameMenu.Menues.Settings.SizeSubFolder
 {
     using GameMenu.IO.Interfaces;
     using GameMenu.Menues.Interfaces;
@@ -24,7 +20,8 @@ namespace GameMenu.Menues.Settings.SizeSubFolder
         public override string Execute(IField field, IWriter writer, IReader reader)
         {
             field.WindowResizer(ConsoleRows, ConsoleCols);
-            return base.BackCommand();
+            base.BackCommand();
+            return null;
         }
     }
 }

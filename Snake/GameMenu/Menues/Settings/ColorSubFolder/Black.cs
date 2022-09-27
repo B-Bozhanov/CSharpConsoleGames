@@ -28,7 +28,8 @@
         public override string Execute(IField field, IWriter writer, IReader reader)
         {
             field.ResetColor();
-            return base.BackCommand();
+            base.BackCommand();
+            return null;
         }
     }
 }

@@ -8,10 +8,10 @@ using Snake.Core;
 using Snake.Core.Interfaces;
 using UserDatabase.Interfaces;
 
-IWriter writer = new ConsoleWriter();
-IReader reader = new ConsoleReader();
 IDatabase usersDatabase = new UserDatabase.UserDatabase();
 usersDatabase.LoadDatabase();
+IWriter writer = new ConsoleWriter();
+IReader reader = new ConsoleReader();
 
 IField field = new ConsoleField();
 IMenuEngine engine = new MenuEngine(usersDatabase, field, writer, reader);

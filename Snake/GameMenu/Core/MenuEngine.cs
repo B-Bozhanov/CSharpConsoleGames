@@ -9,9 +9,6 @@
     using GameMenu.Repository.Interfaces;
     using GameMenu.Utilities;
     using UserDatabase.Interfaces;
-    using GameMenu.Menues.UserLoginMenu;
-    using GameMenu.Menues.MainMenu;
-    using UserDatabase;
 
     public class MenuEngine : IMenuEngine
     {
@@ -76,7 +73,7 @@
                 {
                     isGuestPlayer = true;
                 }
-                else
+                else if (menuArgs != null)
                 {
                     var accountArgs = menuArgs.Split(Environment.NewLine);
                     username = accountArgs[0];
@@ -87,8 +84,9 @@
 
             if (isGuestPlayer)
             {
-                return this.users.GetAccount("Guest", null);
+                return this.users.GetAccount("Guest", null!);
             }
+
             return this.users.GetAccount(username, password);
         }
     }

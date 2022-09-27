@@ -17,7 +17,8 @@ namespace GameMenu.Menues.Settings
 
         public override string Execute(IField field, IWriter writer, IReader reader)
         {
-            return this.BackCommand();
+            this.BackCommand();
+            return null;
         }
     }
 }

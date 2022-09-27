@@ -24,7 +24,8 @@ namespace GameMenu.Menues.Settings.SizeSubFolder
         public override string Execute(IField field, IWriter writer, IReader reader)
         {
             field.WindowResizer(ConsoleRows, ConsoleCols);
-            return base.BackCommand();
+            base.BackCommand();
+            return null;
         }
     }
 }

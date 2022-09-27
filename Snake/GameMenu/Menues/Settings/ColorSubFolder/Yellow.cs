@@ -28,7 +28,8 @@
             field.SetBackgroundColor(this.FieldColor);
             field.SetTextColor(this.TextColor);
 
-            return base.BackCommand();
+            base.BackCommand();
+            return null;
         }
     }
 }

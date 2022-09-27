@@ -22,7 +22,7 @@ namespace GameMenu.Menues.Settings
         public override string Execute(IField field, IWriter writer, IReader reader)
         {
             this.namespaces.Add(NameSpacesInfo.ScreenSize);
-            return this.namespaces.Get(); 
+            return null;
         }
     }
 }
