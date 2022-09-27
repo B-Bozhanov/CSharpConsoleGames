@@ -11,6 +11,7 @@
     using UserDatabase.Interfaces;
     using GameMenu.Menues.UserLoginMenu;
     using GameMenu.Menues.MainMenu;
+    using UserDatabase;
 
     public class MenuEngine : IMenuEngine
     {
@@ -65,30 +66,21 @@
 
                 IMenu currentMenu = this.menues.First(m => m.MenuCoordinates.Row == cursorCoordinates.Row
                                                         && m.MenuCoordinates.Col == cursorCoordinates.Col + CursorDistance);
+                string menuArgs = currentMenu.Execute(this.field, this.writer, this.reader);
 
-                if (currentMenu is NewGame)
+                if (menuArgs == "NewGame")
                 {
-                    currentMenu.Execute(this.field, this.writer, this.reader);
                     break;
                 }
-                else if (currentMenu is Login || currentMenu is CreateAccount)
+                else if (menuArgs == "ContinueWithoutAccount")
                 {
-                    string account = currentMenu.Execute(this.field, this.writer, this.reader);
-                    if (account != null)
-                    {
-                        this.namespaces.Add(NameSpacesInfo.MainMenu);
-                        var accountArgs = account.Split(Environment.NewLine);
-                        username = accountArgs[0];
-                        password = accountArgs[1];
-                    }
+                    isGuestPlayer = true;
                 }
                 else
                 {
-                    if (currentMenu is ContinueWithoutAccount)
-                    {
-                        isGuestPlayer = true;
-                    }
-                    currentMenu.Execute(this.field, this.writer, this.reader);
+                    var accountArgs = menuArgs.Split(Environment.NewLine);
+                    username = accountArgs[0];
+                    password = accountArgs[1];
                 }
                 this.writer.Clear();
             }

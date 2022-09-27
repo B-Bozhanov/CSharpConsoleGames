@@ -29,7 +29,7 @@
         {
             this.users.AddAccount("Guest", null!);
             this.namespaces.Add(NameSpacesInfo.MainMenu);
-            return this.namespaces.Get();
+            return "ContinueWithoutAccount";
         }
     }
 }

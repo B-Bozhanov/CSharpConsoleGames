@@ -6,6 +6,7 @@
     using GameMenu.Menues.Interfaces;
     using GameMenu.Repository.Interfaces;
     using UserDatabase.Interfaces;
+    using GameMenu.Utilities;
 
     internal class CreateAccount : Menu
     {
@@ -59,6 +60,7 @@
                 writer.Clear();
                 writer.Write(SuccessfulCreatedAccount, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                 Thread.Sleep(DefaultPauseAfterMessages);
+                this.namespaces.Add(NameSpacesInfo.MainMenu);
                 string user = username + Environment.NewLine + password;
                 return user;
             }

@@ -2,8 +2,6 @@
 {
     using System;
     using GameMenu.IO.Interfaces;
-    using System.Collections.Generic;
-    using System.Collections;
 
     public class ConsoleWriter : IWriter
     {
@@ -42,7 +40,7 @@
                 if (key == ConsoleKey.Backspace && password.Length > 0)
                 {
                     Console.Write("\b \b");
-                    password = password[0..^1];
+                    password = password.Substring(0, password.Length - 1); //password[0..^1];
                 }
                 else if (!char.IsControl(keyInfo.KeyChar))
                 {

@@ -6,7 +6,7 @@
     using GameMenu.Menues.Interfaces;
     using GameMenu.Repository.Interfaces;
     using UserDatabase.Interfaces;
-
+    using GameMenu.Utilities;
 
     public class Login : Menu
     {
@@ -36,7 +36,6 @@
             writer.Clear();
             writer.Write(EnterPassword, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
             password = writer.PasswordMask();
-           // password = reader.ReadLine();
 
             try
             {
@@ -45,7 +44,7 @@
                 writer.Clear();
                 writer.Write(SuccessfulLogin, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                 Thread.Sleep(2000);
-               
+                this.namespaces.Add(NameSpacesInfo.MainMenu);
                 string currentUser = username + Environment.NewLine + password;
                 return currentUser;
             }

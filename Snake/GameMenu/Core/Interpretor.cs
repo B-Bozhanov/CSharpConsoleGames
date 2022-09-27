@@ -8,14 +8,11 @@
     using GameMenu.Repository.Interfaces;
     using GameMenu.Menues.UserLoginMenu;
     using UserDatabase.Interfaces;
-    using GameMenu.IO.Interfaces;
     using GameMenu.Menues.MainMenu;
 
     internal class Interpretor : IInterpretor<string, ICoordinates>
     {
         private readonly Assembly assembly;
-        private readonly IWriter writer;
-        private readonly IReader reader;
 
         public Interpretor()
         {

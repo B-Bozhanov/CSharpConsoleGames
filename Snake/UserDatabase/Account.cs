@@ -62,6 +62,5 @@
         public DateTime LastLoggedInTime { get; set; }
 
         public DateTime CreatedTime { get; set; }
-
     }
 }
