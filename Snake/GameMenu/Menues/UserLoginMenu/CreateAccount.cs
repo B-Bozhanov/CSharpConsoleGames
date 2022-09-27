@@ -40,11 +40,11 @@
 
             writer.Clear();
             writer.Write(EnterPassword, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-            password = reader.ReadLine();
+            password = writer.PasswordMask();
 
             writer.Clear();
             writer.Write(ConfirmPassword, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-            confirmPass = reader.ReadLine();
+            confirmPass = writer.PasswordMask();
 
             if (password != confirmPass)
             {

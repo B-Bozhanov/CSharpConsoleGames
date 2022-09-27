@@ -35,7 +35,7 @@
 
             writer.Clear();
             writer.Write(EnterPassword, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-            password = writer.PasswordMask(this.MenuCoordinates.Row, this.MenuCoordinates.Col + EnterPassword.Length + 1);
+            password = writer.PasswordMask();
            // password = reader.ReadLine();
 
             try

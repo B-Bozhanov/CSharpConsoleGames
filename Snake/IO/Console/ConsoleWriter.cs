@@ -26,27 +26,30 @@
             Console.WriteLine(message);
         }
 
-        public string PasswordMask(int row, int col)
+        public string PasswordMask()
         {
             string password = null!;
+            ConsoleKey key;
 
-            int count = 0;
             while (true)
             {
-                if (Console.KeyAvailable)
+                var keyInfo = Console.ReadKey(intercept: true);
+                key = keyInfo.Key;
+                if (key == ConsoleKey.Enter)
                 {
-                    ConsoleKeyInfo key = Console.ReadKey();
-                    if (key.Key == ConsoleKey.Enter)
-                    {
-                        return password;
-                    }
-
-                    password += key.KeyChar;
-                    this.Write("*", row, col + count);
-                    count++;
+                    return password;
+                }
+                if (key == ConsoleKey.Backspace && password.Length > 0)
+                {
+                    Console.Write("\b \b");
+                    password = password[0..^1];
+                }
+                else if (!char.IsControl(keyInfo.KeyChar))
+                {
+                    Console.Write("*");
+                    password += keyInfo.KeyChar;
                 }
             }
-           // return null;
         }
 
         public void Clear()

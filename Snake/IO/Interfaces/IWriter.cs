@@ -8,7 +8,7 @@
 
         void Write(string text, int consoleRow, int consoleCol);
 
-        public string PasswordMask(int row, int col);
+        public string PasswordMask();
 
         void Clear();
     }
