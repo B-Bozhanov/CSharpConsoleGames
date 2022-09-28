@@ -3,8 +3,9 @@
     using GameMenu.Menues.Interfaces;
     using GameMenu.Utilities;
 
-    public interface ICursor
+
+    public interface IMenuCreator
     {
-        public Coordinates Move(ICollection<IMenu> menues, Coordinates coordinates);
+        ICollection<IMenu> GetMenues(Coordinates coordinates);
     }
 }

@@ -3,20 +3,17 @@
     using GameMenu.Core.Interfaces;
     using GameMenu.IO.Interfaces;
 
-    using GameMenu.Menues;
     using GameMenu.Menues.Interfaces;
 
     using GameMenu.UserInputHandle;
     using GameMenu.UserInputHandle.Interfaces;
+    using GameMenu.Utilities;
 
-    using Snake.Utilities.Interfaces;
-
-    internal class Cursor : ICursor<HashSet<IMenu>, ICoordinates>
+    public class Cursor : ICursor
     {
         private readonly IField field;
         private readonly IUserInput input;
         private readonly IWriter writer;
-        private ICoordinates cursor;
 
         public Cursor(IWriter writer, IField field)
         {
@@ -25,9 +22,8 @@
             this.field = field;
         }
 
-        public ICoordinates Move(HashSet<IMenu> menues, ICoordinates coordinates)
+        public Coordinates Move(ICollection<IMenu> menues, Coordinates cursorCoords)
         {
-            this.cursor = coordinates;
             while (true)
             {
                 KeyPressed key = input.GetInput();
@@ -35,23 +31,23 @@
                 int move = 0;
                 if (key == KeyPressed.Up) move = -1;
                 if (key == KeyPressed.Down) move = 1;
-                if (key != KeyPressed.None) writer.Write(" ", this.cursor.Row, this.cursor.Col);
+                if (key != KeyPressed.None) writer.Write(" ", cursorCoords.Row, cursorCoords.Col);
                 if (key == KeyPressed.Enter) break;
 
-                this.cursor.Row += move;
+                cursorCoords.Row += move;
 
-                if (this.cursor.Row < this.field.MenuRow)
+                if (cursorCoords.Row < this.field.MenuRow)
                 {
-                    this.cursor.Row = menues.Count - 1 + this.field.MenuRow;
+                    cursorCoords.Row = menues.Count - 1 + this.field.MenuRow;
                 }
-                else if (this.cursor.Row > menues.Count - 1 + this.field.MenuRow)
+                else if (cursorCoords.Row > menues.Count - 1 + this.field.MenuRow)
                 {
-                    this.cursor.Row = this.field.MenuRow;
+                    cursorCoords.Row = this.field.MenuRow;
                 }
-                writer.Write("*", this.cursor.Row, this.cursor.Col);
+                writer.Write("*", cursorCoords.Row, cursorCoords.Col);
             }
 
-            return this.cursor;
+            return cursorCoords;
         }
     }
 }

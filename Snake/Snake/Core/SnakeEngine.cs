@@ -1,14 +1,17 @@
 ﻿namespace Snake.Core
 {
+    using GameMenu.Menues.Interfaces;
     using Snake.Core.Interfaces;
     using UserDatabase.Interfaces;
 
     public class SnakeEngine : ISnakeEngine
     {
         private IAccount user;
-        public SnakeEngine(IAccount user)
+        private IField field;
+        public SnakeEngine(IAccount user, IField field)
         {
             this.user = user;
+            this.field = field;
         }
         public void StartGame()
         {

@@ -24,9 +24,6 @@
         }
 
         public string Get()
-        {
-            var lastElement = this.namespaces.Last();
-            return lastElement;
-        }
+            => this.namespaces.Last();
     }
 }

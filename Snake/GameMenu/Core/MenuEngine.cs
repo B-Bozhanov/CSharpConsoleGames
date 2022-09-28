@@ -3,9 +3,6 @@
     using Interfaces;
     using GameMenu.IO.Interfaces;
     using GameMenu.Menues.Interfaces;
-    using Snake.Utilities;
-    using Snake.Utilities.Interfaces;
-    using GameMenu.Repository;
     using GameMenu.Repository.Interfaces;
     using GameMenu.Utilities;
     using UserDatabase.Interfaces;
@@ -13,29 +10,31 @@
     public class MenuEngine : IMenuEngine
     {
         private const int CursorDistance = 2;
+
         private readonly IRepository<string> namespaces;
         private readonly IWriter writer;
         private readonly IReader reader;
         private readonly IField field;
-        private readonly IInterpretor<string, ICoordinates> interpretor;
-        private readonly ICursor<HashSet<IMenu>, ICoordinates> cursor;
-        private readonly IDatabase users;
-        private readonly ICoordinates currentMenuCoords;
-        private HashSet<IMenu> menues;
+        private readonly IMenuCreator menuCreator;
+        private readonly ICursor cursor;
+        private readonly IDatabase usersDatabse;
+        private readonly Coordinates currentMenuCoords;
+        private ICollection<IMenu> menues;
 
 
-        public MenuEngine(IDatabase users, IField field, IWriter writer, IReader reader)
+        public MenuEngine(IDatabase usersDatabase, IField field, IWriter writer, IReader reader
+                        , IMenuCreator menuCreator, ICursor cursor, IRepository<string> namespaces)
         {
-            this.users = users;
+            this.usersDatabse = usersDatabase;
             this.field = field;
             this.writer = writer;
             this.reader = reader;
-            this.cursor = new Cursor(this.writer, this.field!);
+            this.cursor = cursor;
             this.currentMenuCoords = new Coordinates(this.field.MenuRow, this.field.MenuCol);
             this.menues = new HashSet<IMenu>();
-            this.interpretor = new Interpretor();
-            this.namespaces = new NameSpaceRepository();
+            this.namespaces = namespaces;
             this.namespaces.Add(NameSpacesInfo.UserLoginMenu);
+            this.menuCreator = menuCreator;
         }
 
         public IAccount Start()
@@ -49,16 +48,16 @@
                 this.currentMenuCoords.Row = this.field.MenuRow;
                 this.currentMenuCoords.Col = this.field.MenuCol;
 
-                this.menues = this.interpretor
-                    .GetMenues(this.namespaces, this.currentMenuCoords, this.users);
+                this.menues = this.menuCreator
+                    .GetMenues(this.currentMenuCoords);
 
                 foreach (var menu in this.menues)
                 {
                     this.writer.Write(menu.GetName(), menu.MenuCoordinates.Row, menu.MenuCoordinates.Col);
                 }
 
-                ICoordinates currentCursorCoords = new Coordinates(this.field.MenuRow, currentMenuCoords.Col - CursorDistance);
-                ICoordinates cursorCoordinates = this.cursor
+                Coordinates currentCursorCoords = new Coordinates(this.field.MenuRow, currentMenuCoords.Col - CursorDistance);
+                Coordinates cursorCoordinates = this.cursor
                     .Move(this.menues, currentCursorCoords);
 
                 IMenu currentMenu = this.menues.First(m => m.MenuCoordinates.Row == cursorCoordinates.Row
@@ -84,10 +83,10 @@
 
             if (isGuestPlayer)
             {
-                return this.users.GetAccount("Guest", null!);
+                return this.usersDatabse.GetAccount("Guest", null!);
             }
 
-            return this.users.GetAccount(username, password);
+            return this.usersDatabse.GetAccount(username, password);
         }
     }
 }

@@ -3,8 +3,8 @@
     using System;
     using GameMenu.IO.Interfaces;
     using GameMenu.Repository.Interfaces;
+    using GameMenu.Utilities;
     using Interfaces;
-    using Snake.Utilities;
 
     public abstract class Menu : IMenu
     {

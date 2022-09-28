@@ -4,32 +4,35 @@
 
     using Interfaces;
     using GameMenu.Menues.Interfaces;
-    using Snake.Utilities.Interfaces;
     using GameMenu.Repository.Interfaces;
     using GameMenu.Menues.UserLoginMenu;
     using UserDatabase.Interfaces;
     using GameMenu.Menues.MainMenu;
+    using GameMenu.Utilities;
+    using System.Collections.Generic;
 
-    internal class Interpretor : IInterpretor<string, ICoordinates>
+    public class MenuCreator : IMenuCreator
     {
-        private readonly Assembly assembly;
+        private readonly IRepository<string> namespaces;
+        private readonly IDatabase usersDatabase;
 
-        public Interpretor()
+        public MenuCreator(IRepository<string> namespaces, IDatabase usersDatabse)
         {
-            assembly = Assembly.GetExecutingAssembly();
+            this.namespaces = namespaces;
+            this.usersDatabase = usersDatabse;
         }
 
-        public HashSet<IMenu> GetMenues(IRepository<string> namespaces,
-                                        ICoordinates menuCoords, IDatabase users)
+        public ICollection<IMenu> GetMenues(Coordinates menuCoords)
         {
             var menues = new HashSet<IMenu>();
 
-            Type[] types = assembly
+            Type[] types = Assembly
+                .GetExecutingAssembly()
                 .GetTypes()
                 .Where(t => t.Namespace == namespaces.Get())
                 .ToArray();
 
-            object[] constructorWithUsersArgs = new object[] { menuCoords.Row, menuCoords.Col, namespaces, users};
+            object[] constructorWithUsersArgs = new object[] { menuCoords.Row, menuCoords.Col, namespaces, usersDatabase };
             object[] defaultConstructorArgs = new object[] { menuCoords.Row, menuCoords.Col, namespaces};
 
             foreach (var type in types)

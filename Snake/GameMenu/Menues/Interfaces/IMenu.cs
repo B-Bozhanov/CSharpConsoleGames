@@ -1,7 +1,7 @@
 ﻿namespace GameMenu.Menues.Interfaces
 {
     using GameMenu.IO.Interfaces;
-    using Snake.Utilities;
+    using GameMenu.Utilities;
 
     public interface IMenu
     {
