@@ -2,7 +2,6 @@
 using GameMenu.Core.Interfaces;
 using GameMenu.IO.Interfaces;
 using GameMenu.Menues;
-using GameMenu.Menues.Interfaces;
 using GameMenu.Repository;
 using GameMenu.Repository.Interfaces;
 using IO.Console;

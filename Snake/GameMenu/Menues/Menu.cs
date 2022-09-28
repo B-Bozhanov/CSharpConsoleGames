@@ -1,6 +1,7 @@
 ﻿namespace GameMenu.Menues
 {
     using System;
+    using GameMenu.Core.Interfaces;
     using GameMenu.IO.Interfaces;
     using GameMenu.Repository.Interfaces;
     using GameMenu.Utilities;

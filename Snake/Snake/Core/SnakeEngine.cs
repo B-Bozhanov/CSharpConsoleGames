@@ -1,6 +1,6 @@
 ﻿namespace Snake.Core
 {
-    using GameMenu.Menues.Interfaces;
+    using GameMenu.Core.Interfaces;
     using Snake.Core.Interfaces;
     using UserDatabase.Interfaces;
 

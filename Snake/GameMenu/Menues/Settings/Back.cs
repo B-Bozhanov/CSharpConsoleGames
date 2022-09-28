@@ -1,5 +1,5 @@
-﻿using GameMenu.IO.Interfaces;
-using GameMenu.Menues.Interfaces;
+﻿using GameMenu.Core.Interfaces;
+using GameMenu.IO.Interfaces;
 using GameMenu.Repository.Interfaces;
 
 namespace GameMenu.Menues.Settings

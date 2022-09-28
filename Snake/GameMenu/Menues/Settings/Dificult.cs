@@ -1,11 +1,10 @@
 ﻿using GameMenu.IO.Interfaces;
-using GameMenu.Menues.Interfaces;
 using GameMenu.Repository.Interfaces;
 
 namespace GameMenu.Menues.Settings
 {
+    using GameMenu.Core.Interfaces;
     using GameMenu.IO.Interfaces;
-    using GameMenu.Menues.Interfaces;
     using GameMenu.Repository.Interfaces;
 
     internal class Dificult : Menu

@@ -1,7 +1,7 @@
 ﻿namespace GameMenu.Menues.Settings.SizeSubFolder
 {
+    using GameMenu.Core.Interfaces;
     using GameMenu.IO.Interfaces;
-    using GameMenu.Menues.Interfaces;
     using GameMenu.Repository.Interfaces;
 
     internal class Small : Menu

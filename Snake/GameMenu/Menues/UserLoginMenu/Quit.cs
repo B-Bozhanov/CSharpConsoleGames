@@ -4,7 +4,7 @@
     using GameMenu.Repository.Interfaces;
     using GameMenu.UserInputHandle.Interfaces;
     using GameMenu.UserInputHandle;
-    using GameMenu.Menues.Interfaces;
+    using GameMenu.Core.Interfaces;
 
     internal class Quit : Menu
     {

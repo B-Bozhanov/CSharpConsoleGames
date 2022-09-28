@@ -3,10 +3,10 @@
     using static GameMenu.Utilities.Messages;
 
     using GameMenu.IO.Interfaces;
-    using GameMenu.Menues.Interfaces;
     using GameMenu.Repository.Interfaces;
     using UserDatabase.Interfaces;
     using GameMenu.Utilities;
+    using GameMenu.Core.Interfaces;
 
     internal class CreateAccount : Menu
     {
