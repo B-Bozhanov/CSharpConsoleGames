@@ -10,14 +10,14 @@ namespace GameMenu.Menues.Settings
     internal class Dificult : Menu
     {
         private const int SequenceNumber = 3;
-        public Dificult(int row, int col, IRepository<string> namespaces)
-            : base(SequenceNumber, row, col, namespaces)
+        public Dificult(IRepository<string> namespaces)
+            : base(SequenceNumber, namespaces)
         {
         }
 
-        public override int MenuNumber { get; protected set; }
+        public override int ID { get; protected set; }
 
-        public override string Execute(IField field, IWriter writer, IReader reader)
+        public override string Execute()
         {
             return null;
         }

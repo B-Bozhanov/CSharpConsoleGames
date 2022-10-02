@@ -14,17 +14,17 @@
         private readonly IDatabase userDatabase;
 
 
-        public Login(int row, int col, IRepository<string> namespaces, IDatabase users)
-            : base(SequenceNumber, row, col, namespaces)
+        public Login(IRepository<string> namespaces, IDatabase users)
+            : base(SequenceNumber, namespaces)
         {
             this.userDatabase = users;
         }
 
 
-        public override int MenuNumber { get; protected set; }
+        public override int ID { get; protected set; }
 
 
-        public override string Execute(IField field, IWriter writer, IReader reader)
+        public override string Execute(IWriter writer, IReader reader)
         {
             string username = string.Empty;
             string password = string.Empty;
@@ -44,7 +44,7 @@
                 writer.Clear();
                 writer.Write(SuccessfulLogin, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                 Thread.Sleep(2000);
-                this.namespaces.Add(NameSpacesInfo.MainMenu);
+                base.namespaces.Add(NameSpacesInfo.MainMenu);
                 string currentUser = username + Environment.NewLine + password;
                 return currentUser;
             }

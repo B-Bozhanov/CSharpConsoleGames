@@ -11,14 +11,14 @@ namespace GameMenu.Menues.Settings.SizeSubFolder
     {
         private const int Number = 4;
 
-        public Back(int row, int col, IRepository<string> namespaces)
-            : base(Number, row, col, namespaces)
+        public Back(IRepository<string> namespaces)
+            : base(Number, namespaces)
         {
         }
 
-        public override int MenuNumber { get; protected set; }
+        public override int ID { get; protected set; }
 
-        public override string Execute(IField field, IWriter writer, IReader reader)
+        public override string Execute()
         {
             this.BackCommand();
             return null;

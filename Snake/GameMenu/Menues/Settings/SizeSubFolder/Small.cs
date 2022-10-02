@@ -10,15 +10,15 @@
         private readonly int ConsoleRows = Console.LargestWindowHeight / 3;
         private readonly int ConsoleCols = Console.LargestWindowWidth / 3;
 
-        public Small(int row, int col, IRepository<string> namespaces)
-            : base(Number, row, col, namespaces)
+        public Small(IRepository<string> namespaces)
+            : base(Number, namespaces)
         {
 
         }
 
-        public override int MenuNumber { get; protected set; }
+        public override int ID { get; protected set; }
 
-        public override string Execute(IField field, IWriter writer, IReader reader)
+        public override string Execute(IField field)
         {
             field.WindowResizer(ConsoleRows, ConsoleCols);
             base.BackCommand();

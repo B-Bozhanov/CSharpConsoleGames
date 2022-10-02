@@ -6,6 +6,7 @@
     using GameMenu.Repository.Interfaces;
     using GameMenu.Utilities;
     using UserDatabase.Interfaces;
+    using System.Reflection;
 
     public class MenuEngine : IMenuEngine
     {
@@ -18,7 +19,7 @@
         private readonly IMenuCreator menuCreator;
         private readonly ICursor cursor;
         private readonly IDatabase usersDatabse;
-        private readonly Coordinates currentMenuCoords;
+        private Coordinates currentMenuCoords;
         private ICollection<IMenu> menues;
 
 
@@ -30,7 +31,6 @@
             this.writer = writer;
             this.reader = reader;
             this.cursor = cursor;
-            this.currentMenuCoords = new Coordinates(this.field.MenuRow, this.field.MenuCol);
             this.menues = new HashSet<IMenu>();
             this.namespaces = namespaces;
             this.namespaces.Add(NameSpacesInfo.UserLoginMenu);
@@ -45,24 +45,34 @@
 
             while (true)
             {
-                this.currentMenuCoords.Row = this.field.MenuRow;
-                this.currentMenuCoords.Col = this.field.MenuCol;
+                this.currentMenuCoords = ConsoleField.MenuStartPossition;
 
-                this.menues = this.menuCreator
-                    .GetMenues(this.currentMenuCoords);
+                this.menues = this.menuCreator.GetMenues();
 
+                var menuesCoords = new List<Coordinates>();
+
+                this.writer.Write(this.menues);
                 foreach (var menu in this.menues)
                 {
-                    this.writer.Write(menu.GetName(), menu.MenuCoordinates.Row, menu.MenuCoordinates.Col);
+                    menuesCoords.Add(menu.MenuCoordinates);
                 }
 
-                Coordinates currentCursorCoords = new Coordinates(this.field.MenuRow, currentMenuCoords.Col - CursorDistance);
+                Coordinates currentCursorCoords = new Coordinates(ConsoleField.MenuStartPossition.Row, currentMenuCoords.Col - CursorDistance);
                 Coordinates cursorCoordinates = this.cursor
-                    .Move(this.menues, currentCursorCoords);
+                    .Move(menuesCoords, currentCursorCoords);
 
                 IMenu currentMenu = this.menues.First(m => m.MenuCoordinates.Row == cursorCoordinates.Row
                                                         && m.MenuCoordinates.Col == cursorCoordinates.Col + CursorDistance);
-                string menuArgs = currentMenu.Execute(this.field, this.writer, this.reader);
+
+
+                var method = currentMenu.GetType()
+                                        .GetMethods()
+                                        .FirstOrDefault(m => m.Name == "Execute")!;
+                var methodParams = method.GetParameters();
+
+                var parameters = GetMethodParams(methodParams);
+                
+                string menuArgs = (string)method.Invoke(currentMenu, parameters)!;
 
                 if (menuArgs == "NewGame")
                 {
@@ -87,6 +97,28 @@
             }
 
             return this.usersDatabse.GetAccount(username, password);
+        }
+
+        private object[] GetMethodParams(ParameterInfo[] methodParams)
+        {
+            var parameters =  new object[methodParams.Length];
+
+            for (int i = 0; i < methodParams.Length; i++)
+            {
+                if (methodParams[i].ParameterType.Name == "IWriter")
+                {
+                    parameters[i] = this.writer;
+                }
+                if (methodParams[i].ParameterType.Name == "IReader")
+                {
+                    parameters[i] = this.reader;
+                }
+                if (methodParams[i].ParameterType.Name == "IField")
+                {
+                    parameters[i] = this.field;
+                }
+            }
+            return parameters;
         }
     }
 }

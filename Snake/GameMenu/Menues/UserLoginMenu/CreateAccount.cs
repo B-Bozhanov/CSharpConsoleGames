@@ -15,13 +15,13 @@
         private readonly IDatabase accounts;
 
 
-        public CreateAccount(int row, int col, IRepository<string> namespaces, IDatabase accounts)
-           : base(SequenceNumber, row, col, namespaces)
+        public CreateAccount(IRepository<string> namespaces, IDatabase accounts)
+           : base(SequenceNumber, namespaces)
         {
             this.accounts = accounts;
         }
 
-        public override int MenuNumber { get; protected set; }
+        public override int ID { get; protected set; }
 
 
         public override string GetName()
@@ -29,7 +29,7 @@
             return CreateNewAccount;
         }
 
-        public override string Execute(IField field, IWriter writer, IReader reader)
+        public override string Execute(IWriter writer, IReader reader)
         {
             string username = string.Empty;
             string password = string.Empty;

@@ -7,8 +7,8 @@
     {
         private const int SequenceNumber = 4!;
 
-        public Exit(int row, int col, IRepository<string> namespaces) 
-            : base(SequenceNumber, row, col, namespaces)
+        public Exit(IRepository<string> namespaces) 
+            : base(SequenceNumber, namespaces)
         {
         }
     }

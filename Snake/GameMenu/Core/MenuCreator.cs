@@ -15,16 +15,21 @@
     {
         private readonly IRepository<string> namespaces;
         private readonly IDatabase usersDatabase;
+        private  Coordinates menuStartCoords;
+        private readonly IField field;
 
-        public MenuCreator(IRepository<string> namespaces, IDatabase usersDatabse)
+        public MenuCreator(IRepository<string> namespaces, IDatabase usersDatabse, IField menuStartCoords)
         {
             this.namespaces = namespaces;
             this.usersDatabase = usersDatabse;
+            this.field = menuStartCoords;
         }
 
-        public ICollection<IMenu> GetMenues(Coordinates menuCoords)
+        public ICollection<IMenu> GetMenues()
         {
             var menues = new HashSet<IMenu>();
+            this.menuStartCoords.Row = -1;
+            this.menuStartCoords.Col = -1;
 
             Type[] types = Assembly
                 .GetExecutingAssembly()
@@ -32,8 +37,8 @@
                 .Where(t => t.Namespace == namespaces.Get())
                 .ToArray();
 
-            object[] constructorWithUsersArgs = new object[] { menuCoords.Row, menuCoords.Col, namespaces, usersDatabase };
-            object[] defaultConstructorArgs = new object[] { menuCoords.Row, menuCoords.Col, namespaces};
+            object[] constructorWithUsersArgs = new object[] { namespaces, usersDatabase };
+            object[] defaultConstructorArgs = new object[] { namespaces};
 
             foreach (var type in types)
             {
@@ -54,7 +59,7 @@
             }
 
             var sortedMenues = menues
-                .OrderBy(m => m.MenuNumber)
+                .OrderBy(m => m.ID)
                 .ToHashSet();
 
             return sortedMenues;

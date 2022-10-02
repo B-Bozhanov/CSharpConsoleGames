@@ -1,7 +1,9 @@
 ﻿namespace IO.Console
 {
     using System;
+    using System.Collections.Generic;
     using GameMenu.IO.Interfaces;
+    using GameMenu.Menues.Interfaces;
 
     public class ConsoleWriter : IWriter
     {
@@ -53,6 +55,14 @@
         public void Clear()
         {
             Console.Clear();
+        }
+
+        public void Write(ICollection<IMenu> menues)
+        {
+            foreach (var menu  in menues)
+            {
+                this.Write(menu.GetName(), menu.MenuCoordinates.Row, menu.MenuCoordinates.Col);
+            }
         }
     }
 }

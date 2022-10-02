@@ -6,12 +6,21 @@
 
     public interface IMenu
     {
-        int MenuNumber { get; }
+        int ID { get; }
+
         public Coordinates MenuCoordinates { get; }
 
         string GetName();
 
         string Execute();
+
+        string Execute(IField field, IWriter writer);
+
+        string Execute(IWriter writer);
+
+        string Execute(IWriter writer, IReader reader);
+
+        string Execute(IField field);
 
         string Execute(IField field, IWriter writer, IReader reader);
     }

@@ -10,13 +10,13 @@
     {
         private const int SequenceNumber = 2;
 
-        public Black(int row, int col, IRepository<string> namespaces)
-            : base(SequenceNumber, row, col, namespaces)
+        public Black(IRepository<string> namespaces)
+            : base(SequenceNumber, namespaces)
         {
         }
 
 
-        public override int MenuNumber { get; protected set; }
+        public override int ID { get; protected set; }
 
         public Color FieldColor => throw new NotImplementedException();
 
@@ -26,7 +26,7 @@
         {
             return base.GetName();
         }
-        public override string Execute(IField field, IWriter writer, IReader reader)
+        public override string Execute(IField field)
         {
             field.ResetColor();
             base.BackCommand();

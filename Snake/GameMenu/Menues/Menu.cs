@@ -1,8 +1,9 @@
 ﻿namespace GameMenu.Menues
 {
-    using System;
+    using GameMenu.Core;
     using GameMenu.Core.Interfaces;
     using GameMenu.IO.Interfaces;
+    using GameMenu.Repository;
     using GameMenu.Repository.Interfaces;
     using GameMenu.Utilities;
     using Interfaces;
@@ -10,20 +11,22 @@
     public abstract class Menu : IMenu
     {
         protected IRepository<string> namespaces;
+        private readonly int MenuStartRow = ConsoleField.MenuStartPossition.Row;
+        private readonly int MenuStartCol = ConsoleField.MenuStartPossition.Col;
 
-        protected Menu(int menuNumber, int row, int col, IRepository<string> namespaces)
+
+        protected Menu(int menuNumber, IRepository<string> namespaces)
         {
-            this.MenuNumber = menuNumber;
-            this.MenuCoordinates = new Coordinates(row + MenuNumber - 1, col);
+            this.ID = menuNumber;
             this.namespaces = namespaces;
+            this.namespaces.Add(NameSpacesInfo.UserLoginMenu);
+            this.MenuCoordinates = new Coordinates(MenuStartRow + ID - 1, MenuStartCol);
         }
 
-        public abstract int MenuNumber { get; protected set; }
+        public abstract int ID { get; protected set; }
 
         public Coordinates MenuCoordinates { get; private set; }
 
-        
-        public abstract string Execute(IField field, IWriter writer, IReader reader);
 
         public virtual string GetName()
         {
@@ -36,9 +39,34 @@
             return this.namespaces.Get();
         }
 
-        public string Execute()
+        public virtual string Execute()
         {
-            throw new NotImplementedException();
+            return null;
+        }
+
+        public virtual string Execute(IField field, IWriter writer, IReader reader)
+        {
+            return null;
+        }
+
+        public virtual string Execute(IField field, IWriter writer)
+        {
+            return null;
+        }
+
+        public virtual string Execute(IWriter writer)
+        {
+            return null;
+        }
+
+        public virtual string Execute(IField field)
+        {
+            return null;
+        }
+
+        public virtual string Execute(IWriter writer, IReader reader)
+        {
+            return null;
         }
     }
 }

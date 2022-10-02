@@ -9,18 +9,18 @@
     {
         private const int SequenceNumber = 2;
 
-        public FieldColor(int row, int col, IRepository<string> namespaces)
-            : base(SequenceNumber, row, col, namespaces)
+        public FieldColor(IRepository<string> namespaces)
+            : base(SequenceNumber, namespaces)
         {
         }
 
-        public override int MenuNumber { get; protected set; }
+        public override int ID { get; protected set; }
 
         public override string GetName()
         {
             return "Field Color";
         }
-        public override string Execute(IField field, IWriter writer, IReader reader)
+        public override string Execute()
         {
             this.namespaces.Add(NameSpacesInfo.FieldColor);
             return null;

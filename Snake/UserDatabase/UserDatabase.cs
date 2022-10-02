@@ -21,10 +21,6 @@
             {
                 Converters = { new AbstractConverter<Account, IAccount>() }
             };
-
-            var autoSaveDatabase = new Thread(this.AutoSave);
-            autoSaveDatabase.Start();
-            //this.autoSaveDatabase.IsBackground = true;
         }
 
         public int RemaningBlockTime { get; private set; }
@@ -45,7 +41,7 @@
             this.currentLogedUser = account;
         }
 
-        public IAccount GetAccount(string username, string password)  // TODO : Fix wrongPassCount
+        public IAccount GetAccount(string username, string password)  // TODO : when new user try to login, he is begin with the wrong attemps from other user.
         {
             if (!this.usersDatabase.ContainsKey(username))
             {
@@ -102,6 +98,8 @@
 
                 this.RemoveAccount(Guest);
                 this.AutoRemoveUnusedAccaunds();
+                var autoSaveDatabase = new Thread(this.AutoSave);
+                autoSaveDatabase.Start();
             }
         }
 
@@ -119,7 +117,6 @@
                 user.IsBlocked = false;
             }
             this.currentLogedUser = user;
-            //this.Update();
         }
 
         private void Synchronizeing(object obj, string path)
@@ -136,6 +133,7 @@
             // TODO: Stop this while loop.
             while (true)
             {
+                // TODO: Do not save all data, only current logged player
                 this.Synchronizeing(this.usersDatabase, DefaultFilePath);
                 Thread.Sleep(secconds);
             }

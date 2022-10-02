@@ -1,10 +1,11 @@
 ﻿namespace GameMenu.Utilities
 {
-    public class Coordinates 
+    public struct Coordinates 
     {
         public Coordinates()
         {
-            
+            this.Row = 0;
+            this.Col = 0;
         }
         public Coordinates(int row, int col)
         {

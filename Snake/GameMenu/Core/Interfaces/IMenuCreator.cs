@@ -6,6 +6,6 @@
 
     public interface IMenuCreator
     {
-        ICollection<IMenu> GetMenues(Coordinates coordinates);
+        ICollection<IMenu> GetMenues();
     }
 }

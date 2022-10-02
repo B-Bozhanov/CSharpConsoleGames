@@ -1,7 +1,5 @@
 ﻿namespace GameMenu.Menues.MainMenu
 {
-    using GameMenu.Core.Interfaces;
-    using GameMenu.IO.Interfaces;
     using GameMenu.Repository.Interfaces;
     using GameMenu.Utilities;
 
@@ -9,14 +7,14 @@
     {
         private const int SequenceNumber = 2;
 
-        public Settings(int row, int col, IRepository<string> namespaces)
-            : base(SequenceNumber, row, col, namespaces)
+        public Settings(IRepository<string> namespaces)
+            : base(SequenceNumber, namespaces)
         {
         }
 
-        public override int MenuNumber { get; protected set; }
+        public override int ID { get; protected set; }
 
-        public override string Execute(IField field, IWriter writer, IReader reader)
+        public override string Execute()
         {
             this.namespaces.Add(NameSpacesInfo.Settings);
             return null; // this.namespaces.Get(); 

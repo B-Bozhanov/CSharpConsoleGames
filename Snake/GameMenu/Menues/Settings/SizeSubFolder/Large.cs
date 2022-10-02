@@ -1,10 +1,6 @@
-﻿using GameMenu.IO.Interfaces;
-using GameMenu.Repository.Interfaces;
-
-namespace GameMenu.Menues.Settings.SizeSubFolder
+﻿namespace GameMenu.Menues.Settings.SizeSubFolder
 {
     using GameMenu.Core.Interfaces;
-    using GameMenu.IO.Interfaces;
     using GameMenu.Repository.Interfaces;
 
     internal class Large : Menu
@@ -13,14 +9,14 @@ namespace GameMenu.Menues.Settings.SizeSubFolder
         private readonly int ConsoleRows = Console.LargestWindowHeight;
         private readonly int ConsoleCols = Console.LargestWindowWidth;
 
-        public Large(int row, int col, IRepository<string> namespaces)
-            : base(Number, row, col, namespaces)
+        public Large(IRepository<string> namespaces)
+            : base(Number, namespaces)
         {
         }
 
-        public override int MenuNumber { get; protected set; }
+        public override int ID { get; protected set; }
 
-        public override string Execute(IField field, IWriter writer, IReader reader)
+        public override string Execute(IField field)
         {
             field.WindowResizer(ConsoleRows, ConsoleCols);
             base.BackCommand();

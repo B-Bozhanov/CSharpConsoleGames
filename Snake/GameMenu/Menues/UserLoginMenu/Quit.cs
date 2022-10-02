@@ -14,20 +14,20 @@
 
         private readonly IUserInput input;
 
-        public Quit(int row, int col, IRepository<string> namespaces)
-            : base(SequenceNumber, row, col, namespaces)
+        public Quit(IRepository<string> namespaces)
+            : base(SequenceNumber, namespaces)
         {
             this.input = new UserInput();
         }
-        public Quit(int menuNumber, int row, int col, IRepository<string> namespaces)
-            : base(menuNumber, row, col, namespaces)
+        public Quit(int menuNumber, IRepository<string> namespaces)
+            : base(menuNumber, namespaces)
         {
             this.input = new UserInput();
         }
 
-        public override int MenuNumber { get; protected set; }
+        public override int ID { get; protected set; }
 
-        public override string Execute(IField field, IWriter writer, IReader reader)
+        public override string Execute(IWriter writer)
         {
             writer.Clear();
             writer.Write(QuestionMessage, this.MenuCoordinates.Row, this.MenuCoordinates.Col);

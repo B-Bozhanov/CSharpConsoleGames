@@ -8,18 +8,18 @@ namespace GameMenu.Menues.Settings
     internal class ScreenSize : Menu
     {
         private const int SequenceNumber = 1;
-        public ScreenSize(int row, int col,IRepository<string> namespaces)
-            : base(SequenceNumber, row, col, namespaces)
+        public ScreenSize(IRepository<string> namespaces)
+            : base(SequenceNumber, namespaces)
         {
         }
 
-        public override int MenuNumber { get; protected set; }
+        public override int ID { get; protected set; }
 
         public override string GetName()
         {
             return "Screen Size";
         }
-        public override string Execute(IField field, IWriter writer, IReader reader)
+        public override string Execute()
         {
             this.namespaces.Add(NameSpacesInfo.ScreenSize);
             return null;

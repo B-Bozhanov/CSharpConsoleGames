@@ -1,10 +1,7 @@
 ﻿namespace GameMenu.Menues.UserLoginMenu
 {
-    using GameMenu.Core.Interfaces;
-    using GameMenu.IO.Interfaces;
     using GameMenu.Repository.Interfaces;
     using GameMenu.Utilities;
-    using UserDatabase;
     using UserDatabase.Interfaces;
 
 
@@ -13,19 +10,19 @@
         private const int SequenceNumber = 3;
         private readonly IDatabase users;
 
-        public ContinueWithoutAccount(int row, int col, IRepository<string> namespaces, IDatabase users) 
-            : base(SequenceNumber, row, col, namespaces)
+        public ContinueWithoutAccount(IRepository<string> namespaces, IDatabase users) 
+            : base(SequenceNumber, namespaces)
         {
             this.users = users;
         }
 
-        public override int MenuNumber { get; protected set; }
+        public override int ID { get; protected set; }
 
         public override string GetName()
         {
             return "Continue without account";
         }
-        public override string Execute(IField field, IWriter writer, IReader reader)
+        public override string Execute()
         {
             this.users.AddAccount("Guest", null!);
             this.namespaces.Add(NameSpacesInfo.MainMenu);

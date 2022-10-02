@@ -11,18 +11,19 @@
 
         private readonly IDatabase users;
 
-        public Logout(int row, int col, IRepository<string> namespaces, IDatabase users) 
-            : base(SequenceNumber, row, col, namespaces)
+        public Logout(IRepository<string> namespaces, IDatabase users) 
+            : base(SequenceNumber, namespaces)
         {
             this.users = users;
         }
 
-        public override int MenuNumber { get; protected set; }
+        public override int ID { get; protected set; }
 
-        public override string Execute(IField field, IWriter writer, IReader reader)
+        public override string Execute(IField field, IWriter writer)
         {
             writer.Clear();
             writer.Write("Successful logout!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+            // TODO: Remove Guest player
             field.ResetColor();
             Thread.Sleep(2000);
             this.BackCommand();
