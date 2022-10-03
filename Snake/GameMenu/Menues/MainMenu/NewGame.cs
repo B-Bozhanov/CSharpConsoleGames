@@ -34,7 +34,7 @@
                 timer--;
                 Thread.Sleep(1000);
             }
-
+            renderer.Clear();
             return "NewGame";
         }
     }

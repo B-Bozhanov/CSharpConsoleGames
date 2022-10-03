@@ -1,8 +1,6 @@
 ﻿namespace Snake.Utilities
 {
-    using Interfaces;
-
-    public class Coordinates : ICoordinates
+    public struct Coordinates
     {
         public Coordinates()
         {

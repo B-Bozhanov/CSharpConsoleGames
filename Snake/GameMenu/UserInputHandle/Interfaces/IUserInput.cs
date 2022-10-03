@@ -1,6 +1,6 @@
 ﻿namespace GameMenu.UserInputHandle.Interfaces
 {
-    internal interface IUserInput
+    public interface IUserInput
     {
         public KeyPressed GetInput();
     }

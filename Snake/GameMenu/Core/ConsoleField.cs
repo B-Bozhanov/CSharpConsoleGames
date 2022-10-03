@@ -1,7 +1,6 @@
-﻿using GameMenu.Menues;
-
-namespace GameMenu.Core
+﻿namespace GameMenu.Core
 {
+    using GameMenu.Menues;
     using System.Text;
     using GameMenu.Utilities;
     using Interfaces;

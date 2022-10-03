@@ -11,8 +11,4 @@
     <ProjectReference Include="..\UserDatabase\UserDatabase.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
 </Project>

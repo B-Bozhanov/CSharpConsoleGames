@@ -19,7 +19,7 @@
         {
             this.ID = menuNumber;
             this.namespaces = namespaces;
-            this.namespaces.Add(NameSpacesInfo.UserLoginMenu);
+           // this.namespaces.Add(NameSpacesInfo.UserLoginMenu);
             this.MenuCoordinates = new Coordinates(MenuStartRow + ID - 1, MenuStartCol);
         }
 

@@ -1,8 +1,8 @@
 ﻿namespace GameMenu.IO.Console
 {
-    using System;
     using GameMenu.IO.Interfaces;
     using GameMenu.Menues.Interfaces;
+    using System;
     using System.Collections.Generic;
 
     public class ConsoleRenderer : IRenderer

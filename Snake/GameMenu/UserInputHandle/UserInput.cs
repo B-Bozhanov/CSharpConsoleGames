@@ -2,7 +2,7 @@
 {
     using Interfaces;
 
-    internal class UserInput : IUserInput
+    public class UserInput : IUserInput
     {
         public KeyPressed GetInput()
         {

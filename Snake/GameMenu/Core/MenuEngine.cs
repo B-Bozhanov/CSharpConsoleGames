@@ -44,20 +44,11 @@
             while (true)
             {
                 this.currentMenuCoords = ConsoleField.MenuStartPossition;
-
                 this.menues = this.menuCreator.GetMenues();
-
-                var menuesCoords = new List<Coordinates>();
-
                 this.renderer.Write(this.menues);
-                foreach (var menu in this.menues)
-                {
-                    menuesCoords.Add(menu.MenuCoordinates);
-                }
 
                 Coordinates currentCursorCoords = new Coordinates(ConsoleField.MenuStartPossition.Row, currentMenuCoords.Col - CursorDistance);
-                Coordinates cursorCoordinates = this.cursor
-                    .Move(menuesCoords, currentCursorCoords);
+                Coordinates cursorCoordinates = this.cursor.Move(this.menues, currentCursorCoords);
 
                 IMenu currentMenu = this.menues.First(m => m.MenuCoordinates.Row == cursorCoordinates.Row
                                                         && m.MenuCoordinates.Col == cursorCoordinates.Col + CursorDistance);
@@ -66,11 +57,11 @@
                 var method = currentMenu.GetType()
                                         .GetMethods()
                                         .FirstOrDefault(m => m.Name == "Execute")!;
-                var methodParams = method.GetParameters();
 
+                var methodParams = method.GetParameters();
                 var parameters = GetMethodParams(methodParams);
                 
-                string menuArgs = (string)method.Invoke(currentMenu, parameters)!;
+                var menuArgs = (string)method.Invoke(currentMenu, parameters)!;
 
                 if (menuArgs == "NewGame")
                 {

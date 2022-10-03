@@ -2,7 +2,7 @@
 {
     using GameMenu.Core.Interfaces;
     using GameMenu.IO.Interfaces;
-
+    using GameMenu.Menues.Interfaces;
     using GameMenu.UserInputHandle;
     using GameMenu.UserInputHandle.Interfaces;
     using GameMenu.Utilities;
@@ -18,9 +18,9 @@
             this.renderer = renderer;
         }
 
-        public Coordinates Move(ICollection<Coordinates> coords, Coordinates cursorCoords)
+        public Coordinates Move(ICollection<IMenu> menues, Coordinates cursorCoords)
         {
-            var firstCoord = coords.First();
+            var firstmenu = menues.First();
 
             while (true)
             {
@@ -37,13 +37,13 @@
 
                 cursorCoords.Row += move;
 
-                if (cursorCoords.Row < firstCoord.Row)
+                if (cursorCoords.Row < firstmenu.MenuCoordinates.Row)
                 {
-                    cursorCoords.Row = coords.Count - 1 + firstCoord.Row;
+                    cursorCoords.Row = menues.Count - 1 + firstmenu.MenuCoordinates.Row;
                 }
-                else if (cursorCoords.Row > coords.Count - 1 + firstCoord.Row)
+                else if (cursorCoords.Row > menues.Count - 1 + firstmenu.MenuCoordinates.Row)
                 {
-                    cursorCoords.Row = firstCoord.Row;
+                    cursorCoords.Row = firstmenu.MenuCoordinates.Row;
                 }
 
                 renderer.Write("*", cursorCoords.Row, cursorCoords.Col);
