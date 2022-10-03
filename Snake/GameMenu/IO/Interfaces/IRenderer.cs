@@ -1,9 +1,13 @@
-﻿using GameMenu.Menues.Interfaces;
-
-namespace GameMenu.IO.Interfaces
+﻿namespace GameMenu.IO.Interfaces
 {
-    public interface IWriter
+    using GameMenu.Menues.Interfaces;
+
+    public interface IRenderer
     {
+        string ReadLine();
+
+        string ReadAllText();
+
         void Write(string message);
 
         void WriteLine(string message);

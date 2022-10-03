@@ -6,7 +6,6 @@
     using GameMenu.Repository.Interfaces;
     using UserDatabase.Interfaces;
     using GameMenu.Utilities;
-    using GameMenu.Core.Interfaces;
 
     public class Login : Menu
     {
@@ -24,25 +23,25 @@
         public override int ID { get; protected set; }
 
 
-        public override string Execute(IWriter writer, IReader reader)
+        public override string Execute(IRenderer renderer)
         {
             string username = string.Empty;
             string password = string.Empty;
 
-            writer.Clear();
-            writer.Write(EnterUsername, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-            username = reader.ReadLine();
+            renderer.Clear();
+            renderer.Write(EnterUsername, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+            username = renderer.ReadLine();
 
-            writer.Clear();
-            writer.Write(EnterPassword, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-            password = writer.PasswordMask();
+            renderer.Clear();
+            renderer.Write(EnterPassword, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+            password = renderer.PasswordMask();
 
             try
             {
                 this.userDatabase.GetAccount(username, password);
 
-                writer.Clear();
-                writer.Write(SuccessfulLogin, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                renderer.Clear();
+                renderer.Write(SuccessfulLogin, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                 Thread.Sleep(2000);
                 base.namespaces.Add(NameSpacesInfo.MainMenu);
                 string currentUser = username + Environment.NewLine + password;
@@ -50,8 +49,8 @@
             }
             catch (Exception ex)
             {
-                writer.Clear();
-                writer.Write(ex.Message, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                renderer.Clear();
+                renderer.Write(ex.Message, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                 Thread.Sleep(2000);
                 return null!;
             }

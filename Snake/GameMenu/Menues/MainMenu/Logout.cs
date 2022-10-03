@@ -19,10 +19,10 @@
 
         public override int ID { get; protected set; }
 
-        public override string Execute(IField field, IWriter writer)
+        public override string Execute(IField field, IRenderer renderer)
         {
-            writer.Clear();
-            writer.Write("Successful logout!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+            renderer.Clear();
+            renderer.Write("Successful logout!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
             // TODO: Remove Guest player
             field.ResetColor();
             Thread.Sleep(2000);

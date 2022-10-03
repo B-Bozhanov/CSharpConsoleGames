@@ -10,12 +10,12 @@
     public class Cursor : ICursor
     {
         private readonly IUserInput input;
-        private readonly IWriter writer;
+        private readonly IRenderer renderer;
 
-        public Cursor(IWriter writer)
+        public Cursor(IRenderer renderer)
         {
             this.input = new UserInput();
-            this.writer = writer;
+            this.renderer = renderer;
         }
 
         public Coordinates Move(ICollection<Coordinates> coords, Coordinates cursorCoords)
@@ -31,7 +31,7 @@
                 if (key == KeyPressed.Down) move = 1;
                 if (key != KeyPressed.None)
                 {
-                   writer.Write(" ", cursorCoords.Row, cursorCoords.Col);
+                    renderer.Write(" ", cursorCoords.Row, cursorCoords.Col);
                 }
                 if (key == KeyPressed.Enter) break;
 
@@ -46,7 +46,7 @@
                     cursorCoords.Row = firstCoord.Row;
                 }
 
-                writer.Write("*", cursorCoords.Row, cursorCoords.Col);
+                renderer.Write("*", cursorCoords.Row, cursorCoords.Col);
             }
 
             return cursorCoords;

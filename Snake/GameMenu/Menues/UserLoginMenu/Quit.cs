@@ -27,18 +27,18 @@
 
         public override int ID { get; protected set; }
 
-        public override string Execute(IWriter writer)
+        public override string Execute(IRenderer renderer)
         {
-            writer.Clear();
-            writer.Write(QuestionMessage, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+            renderer.Clear();
+            renderer.Write(QuestionMessage, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
 
             while (true)
             {
                 var key = input.GetInput();
                 if (key == KeyPressed.Yes)
                 {
-                    writer.Clear();
-                    writer.Write(GoodByeMessage, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                    renderer.Clear();
+                    renderer.Write(GoodByeMessage, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                     Thread.Sleep(3000);
                     this.namespaces.Remove();
                     Environment.Exit(0);

@@ -23,14 +23,14 @@
         {
             return "New Game";
         }
-        public override string Execute(IWriter writer)
+        public override string Execute(IRenderer renderer)
         {
             int timer = 5;
-            writer.Clear();
+            renderer.Clear();
 
             while (timer != 0)
             {
-                writer.Write(timer.ToString(), this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                renderer.Write(timer.ToString(), this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                 timer--;
                 Thread.Sleep(1000);
             }

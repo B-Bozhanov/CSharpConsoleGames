@@ -6,7 +6,6 @@
     using GameMenu.Repository.Interfaces;
     using UserDatabase.Interfaces;
     using GameMenu.Utilities;
-    using GameMenu.Core.Interfaces;
 
     internal class CreateAccount : Menu
     {
@@ -29,27 +28,27 @@
             return CreateNewAccount;
         }
 
-        public override string Execute(IWriter writer, IReader reader)
+        public override string Execute(IRenderer renderer)
         {
             string username = string.Empty;
             string password = string.Empty;
             string confirmPass = string.Empty;
 
-            writer.Clear();
-            writer.Write(EnterUsername, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-            username = reader.ReadLine();
+            renderer.Clear();
+            renderer.Write(EnterUsername, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+            username = renderer.ReadLine();
 
-            writer.Clear();
-            writer.Write(EnterPassword, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-            password = writer.PasswordMask();
+            renderer.Clear();
+            renderer.Write(EnterPassword, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+            password = renderer.PasswordMask();
 
-            writer.Clear();
-            writer.Write(ConfirmPassword, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
-            confirmPass = writer.PasswordMask();
+            renderer.Clear();
+            renderer.Write(ConfirmPassword, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+            confirmPass = renderer.PasswordMask();
 
             if (password != confirmPass)
             {
-                writer.Write(PassNotMutch, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                renderer.Write(PassNotMutch, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                 Thread.Sleep(DefaultPauseAfterMessages);
                 return null!;
             }
@@ -57,8 +56,8 @@
             try
             {
                 this.accounts.AddAccount(username, password);
-                writer.Clear();
-                writer.Write(SuccessfulCreatedAccount, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                renderer.Clear();
+                renderer.Write(SuccessfulCreatedAccount, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                 Thread.Sleep(DefaultPauseAfterMessages);
                 this.namespaces.Add(NameSpacesInfo.MainMenu);
                 string user = username + Environment.NewLine + password;
@@ -66,8 +65,8 @@
             }
             catch (Exception ex)
             {
-                writer.Clear();
-                writer.Write(ex.Message, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+                renderer.Clear();
+                renderer.Write(ex.Message, this.MenuCoordinates.Row, this.MenuCoordinates.Col);
                 Thread.Sleep(DefaultPauseAfterMessages);
                 return null!;
             }

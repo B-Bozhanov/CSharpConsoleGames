@@ -14,14 +14,10 @@
 
         string Execute();
 
-        string Execute(IField field, IWriter writer);
+        string Execute(IField field, IRenderer renderer);
 
-        string Execute(IWriter writer);
-
-        string Execute(IWriter writer, IReader reader);
+        string Execute(IRenderer renderer);
 
         string Execute(IField field);
-
-        string Execute(IField field, IWriter writer, IReader reader);
     }
 }

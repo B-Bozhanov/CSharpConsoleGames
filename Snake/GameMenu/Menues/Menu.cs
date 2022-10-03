@@ -44,27 +44,17 @@
             return null;
         }
 
-        public virtual string Execute(IField field, IWriter writer, IReader reader)
+        public virtual string Execute(IField field, IRenderer renderer)
         {
             return null;
         }
 
-        public virtual string Execute(IField field, IWriter writer)
-        {
-            return null;
-        }
-
-        public virtual string Execute(IWriter writer)
+        public virtual string Execute(IRenderer renderer)
         {
             return null;
         }
 
         public virtual string Execute(IField field)
-        {
-            return null;
-        }
-
-        public virtual string Execute(IWriter writer, IReader reader)
         {
             return null;
         }

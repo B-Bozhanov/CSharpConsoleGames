@@ -13,8 +13,7 @@
         private const int CursorDistance = 2;
 
         private readonly IRepository<string> namespaces;
-        private readonly IWriter writer;
-        private readonly IReader reader;
+        private readonly IRenderer renderer;
         private readonly IField field;
         private readonly IMenuCreator menuCreator;
         private readonly ICursor cursor;
@@ -23,13 +22,12 @@
         private ICollection<IMenu> menues;
 
 
-        public MenuEngine(IDatabase usersDatabase, IField field, IWriter writer, IReader reader
+        public MenuEngine(IDatabase usersDatabase, IField field, IRenderer renderer
                         , IMenuCreator menuCreator, ICursor cursor, IRepository<string> namespaces)
         {
             this.usersDatabse = usersDatabase;
             this.field = field;
-            this.writer = writer;
-            this.reader = reader;
+            this.renderer = renderer;
             this.cursor = cursor;
             this.menues = new HashSet<IMenu>();
             this.namespaces = namespaces;
@@ -51,7 +49,7 @@
 
                 var menuesCoords = new List<Coordinates>();
 
-                this.writer.Write(this.menues);
+                this.renderer.Write(this.menues);
                 foreach (var menu in this.menues)
                 {
                     menuesCoords.Add(menu.MenuCoordinates);
@@ -88,7 +86,7 @@
                     username = accountArgs[0];
                     password = accountArgs[1];
                 }
-                this.writer.Clear();
+                this.renderer.Clear();
             }
 
             if (isGuestPlayer)
@@ -105,13 +103,9 @@
 
             for (int i = 0; i < methodParams.Length; i++)
             {
-                if (methodParams[i].ParameterType.Name == "IWriter")
+                if (methodParams[i].ParameterType.Name == "IRenderer")
                 {
-                    parameters[i] = this.writer;
-                }
-                if (methodParams[i].ParameterType.Name == "IReader")
-                {
-                    parameters[i] = this.reader;
+                    parameters[i] = this.renderer;
                 }
                 if (methodParams[i].ParameterType.Name == "IField")
                 {

@@ -1,9 +1,9 @@
 ﻿using GameMenu.Core;
 using GameMenu.Core.Interfaces;
+using GameMenu.IO.Console;
 using GameMenu.IO.Interfaces;
 using GameMenu.Repository;
 using GameMenu.Repository.Interfaces;
-using IO.Console;
 using Microsoft.Extensions.DependencyInjection;
 using Snake.Core;
 using Snake.Core.Interfaces;
@@ -19,8 +19,7 @@ namespace StartUp
             var services = new ServiceCollection();
 
             services.AddSingleton<IDatabase, UserDatabase.UserDatabase>();
-            services.AddSingleton<IWriter, ConsoleWriter>();
-            services.AddSingleton<IReader, ConsoleReader>();
+            services.AddSingleton<IRenderer, ConsoleRenderer>();
             services.AddSingleton<IField, ConsoleField>();
             services.AddSingleton<ICursor, Cursor>();
             services.AddSingleton<IRepository<string>, NameSpaceRepository>();

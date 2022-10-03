@@ -1,15 +1,22 @@
-﻿namespace IO.Console
+﻿namespace GameMenu.IO.Console
 {
     using System;
-    using System.Collections.Generic;
     using GameMenu.IO.Interfaces;
     using GameMenu.Menues.Interfaces;
+    using System.Collections.Generic;
 
-    public class ConsoleWriter : IWriter
+    public class ConsoleRenderer : IRenderer
     {
-        private const ConsoleColor DefaultColor = ConsoleColor.Black;
+        public string ReadAllText()
+        {
+            throw new NotImplementedException();
+        }
 
-
+        public string ReadLine()
+        {
+            return Console.ReadLine()!;
+        }
+               
         public void Write(string message)
         {
             Console.Write(message);
@@ -21,9 +28,22 @@
             Console.Write(text);
         }
 
+        public void Write(ICollection<IMenu> menues)
+        {
+            foreach (var menu in menues)
+            {
+                this.Write(menu.GetName(), menu.MenuCoordinates.Row, menu.MenuCoordinates.Col);
+            }
+        }
+
         public void WriteLine(string message)
         {
             Console.WriteLine(message);
+        }
+
+        public void Clear()
+        {
+            Console.Clear();
         }
 
         public string PasswordMask()
@@ -49,19 +69,6 @@
                     Console.Write("*");
                     password += keyInfo.KeyChar;
                 }
-            }
-        }
-
-        public void Clear()
-        {
-            Console.Clear();
-        }
-
-        public void Write(ICollection<IMenu> menues)
-        {
-            foreach (var menu  in menues)
-            {
-                this.Write(menu.GetName(), menu.MenuCoordinates.Row, menu.MenuCoordinates.Col);
             }
         }
     }

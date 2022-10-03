@@ -98,9 +98,9 @@
 
                 this.RemoveAccount(Guest);
                 this.AutoRemoveUnusedAccaunds();
+            }
                 var autoSaveDatabase = new Thread(this.AutoSave);
                 autoSaveDatabase.Start();
-            }
         }
 
         public void BlockAccount(IAccount user)

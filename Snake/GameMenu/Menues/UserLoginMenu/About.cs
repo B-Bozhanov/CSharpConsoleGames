@@ -15,10 +15,10 @@
 
         public override int ID { get; protected set; }
 
-        public override string Execute(IWriter writer)
+        public override string Execute(IRenderer renderer)
         {
-            writer.Clear();
-            writer.Write("This is abaut!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
+            renderer.Clear();
+            renderer.Write("This is abaut!", this.MenuCoordinates.Row, this.MenuCoordinates.Col);
             Thread.Sleep(5000);
             return null;
         }
