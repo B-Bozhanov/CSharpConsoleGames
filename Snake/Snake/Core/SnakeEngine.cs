@@ -18,12 +18,6 @@
         }
         public void StartGame()
         {
-            foreach (var item in snake.Elements)
-            {
-                Console.SetCursorPosition(item.Col, item.Row);
-                Console.Write("*");
-            }
-
             while (true)
             {
                 snake.Move();
