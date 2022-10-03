@@ -40,13 +40,11 @@
         public void Move()
         {
             var userInput = this.input.GetInput();
-            switch (userInput)
-            {
-                case KeyPressed.Right: direction = 0; break;
-                case KeyPressed.Left: direction = 1; break;
-                case KeyPressed.Down: direction = 2; break;
-                case KeyPressed.Up: direction = 3; break;
-            }
+            if (userInput == KeyPressed.Right && this.direction != 1)  this.direction = 0;
+            if (userInput == KeyPressed.Left && this.direction != 0)   this.direction = 1;
+            if (userInput == KeyPressed.Down && this.direction != 3)   this.direction = 2;
+            if (userInput == KeyPressed.Up && this.direction != 2)     this.direction = 3;
+
 
             Coordinates snakeHead = this.Elements.Last();
             Coordinates nextDirection = this.directions[direction];
