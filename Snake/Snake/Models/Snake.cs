@@ -1,33 +1,35 @@
 ﻿namespace Snake.Models
 {
+    using GameMenu.Core.Interfaces;
     using GameMenu.UserInputHandle;
     using GameMenu.UserInputHandle.Interfaces;
+    using global::Snake.Utilities.Exceptions;
+    using Models.Interfaces;
     using Utilities;
 
 
-    internal class Snake
+    public class Snake : ISnake
     {
-        private IUserInput input;
-        private readonly Coordinates[] directions = new Coordinates[]
+        private readonly Coordinates[] directions;
+        private int direction = 0;
+
+        public Snake()
+        {
+            this.Elements = new Queue<Coordinates>();
+            this.directions = new Coordinates[]
                  {
                      new Coordinates(0, 1),  // right
                      new Coordinates(0, -1), // left
                      new Coordinates(1, 0),  // down
                      new Coordinates(-1, 0)  // up
                  };
-        private int direction = 0;
-
-
-        public Snake()
-        {
-            this.Elements = new Queue<Coordinates>();
-            this.input = new UserInput();
             this.Create();
         }
 
 
         public Queue<Coordinates> Elements { get; private set; }
-        public Coordinates Head { get; private set; }
+
+        public Coordinates head { get; set; }
 
         private void Create()
         {
@@ -37,23 +39,54 @@
             }
         }
 
-        public void Move()
+        public Coordinates Move(IField field, IUserInput userInput)
         {
-            var userInput = this.input.GetInput();
-            if (userInput == KeyPressed.Right && this.direction != 1)  this.direction = 0;
-            if (userInput == KeyPressed.Left && this.direction != 0)   this.direction = 1;
-            if (userInput == KeyPressed.Down && this.direction != 3)   this.direction = 2;
-            if (userInput == KeyPressed.Up && this.direction != 2)     this.direction = 3;
+            var input = userInput.GetInput();
+            if (input == KeyPressed.Right && this.direction != 1) this.direction = 0;
+            if (input == KeyPressed.Left && this.direction != 0) this.direction = 1;
+            if (input == KeyPressed.Down && this.direction != 3) this.direction = 2;
+            if (input == KeyPressed.Up && this.direction != 2) this.direction = 3;
 
 
             Coordinates snakeHead = this.Elements.Last();
             Coordinates nextDirection = this.directions[direction];
-            this.Head = new Coordinates(nextDirection.Row + snakeHead.Row, nextDirection.Col + snakeHead.Col);
+            Coordinates head = new Coordinates(nextDirection.Row + snakeHead.Row, nextDirection.Col + snakeHead.Col);
+            head = HeadValidator(field, head);
 
-            this.Elements.Enqueue(this.Head);
-            var queueElement = this.Elements.Dequeue();
-            Console.SetCursorPosition(queueElement.Col, queueElement.Row);
-            Console.Write(" ");
+            this.Elements.Enqueue(head);
+            return this.Elements.Dequeue();
+        }
+        public void Eat(Coordinates food)
+        {
+            this.Elements.Enqueue(food);
+            head = new Coordinates(food.Row, food.Col);
+        }
+
+        private Coordinates HeadValidator(IField field, Coordinates head)
+        {
+            if (head.Row >= field.WindowHeight)
+            {
+                head.Row = 0;
+            }
+            else if (head.Row < 0)
+            {
+                head.Row = field.WindowHeight - 1;
+            }
+            else if (head.Col >= field.WindowWidth)
+            {
+                head.Col = 0;
+            }
+            else if (head.Col < 0)
+            {
+                head.Col = field.WindowWidth - 1;
+            }
+            
+            if (this.Elements.Any(e => e.Row == head.Row && e.Col == head.Col))
+            {
+                throw new GameOverException("You hit the tail!");
+            }
+
+            return head;
         }
     }
 }

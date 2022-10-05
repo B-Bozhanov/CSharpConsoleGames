@@ -25,7 +25,7 @@
         }
         public override string Execute(IRenderer renderer)
         {
-            int timer = 5;
+            int timer = 1;
             renderer.Clear();
 
             while (timer != 0)
