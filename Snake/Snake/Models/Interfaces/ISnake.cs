@@ -7,10 +7,9 @@
     public interface ISnake
     {
         public Queue<Coordinates> Elements { get; }
+        public Coordinates head { get; set; }
 
-        public Coordinates Head { get; }
-
-        public Coordinates Move(IUserInput input, IField field);
+        public Coordinates Move(IField field, IUserInput userInput);
 
         public void Eat(Coordinates food);
     }

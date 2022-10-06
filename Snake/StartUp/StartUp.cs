@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using GameMenu.Core.Interfaces;
-using Snake.Core;
+
 using StartUp;
+using GameMenu.Core.Interfaces;
 using UserDatabase.Interfaces;
 using Snake.Core.Interfaces;
 
@@ -15,5 +15,5 @@ IAccount account = engine!.Start();
 var field = serviceProvider.GetService<IField>();
 
 var snakeEngine = serviceProvider.GetService<ISnakeEngine>();
-snakeEngine.StartGame(account);
+snakeEngine!.StartGame(account);
 

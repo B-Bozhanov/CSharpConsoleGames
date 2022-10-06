@@ -27,12 +27,14 @@
             services.AddSingleton<IField, ConsoleField>();
             services.AddSingleton<ICursor, Cursor>();
             services.AddSingleton<IRepository<string>, NameSpaceRepository>();
-            services.AddSingleton<IMenuCreator, MenuCreator>();
+            services.AddTransient<IMenuCreator, MenuCreator>();
             services.AddSingleton<IMenuEngine, MenuEngine>();
             services.AddSingleton<ISnakeEngine, SnakeEngine>();
             services.AddSingleton<ISnake, Snake>();
             services.AddTransient<IUserInput, UserInput>();
             services.AddTransient<IAccount, Account>();
+            services.AddSingleton<ISnake, Snake>();
+            services.AddTransient<IUserInput, UserInput>();
             services.AddTransient<Account>();
 
             return services.BuildServiceProvider();
