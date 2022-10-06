@@ -3,29 +3,36 @@
     using GameMenu.Core.Interfaces;
     using Snake.Core.Interfaces;
     using UserDatabase.Interfaces;
-    using Snake.Models;
+    using Snake.Models.Interfaces;
+    using GameMenu.UserInputHandle.Interfaces;
+    using GameMenu.IO.Interfaces;
+    using Snake.Utilities;
 
     public class SnakeEngine : ISnakeEngine
     {
-        private IAccount user;
         private IField field;
-        private Snake snake;
-        public SnakeEngine(IAccount user, IField field)
+        private ISnake snake;
+        private IUserInput input;
+        private IRenderer renderer;
+
+        public SnakeEngine(IField field, ISnake snake, IUserInput input, IRenderer renderer)
         {
-            this.user = user;
             this.field = field;
-            this.snake = new Snake();
+            this.snake = snake;
+            this.input = input;
+            this.renderer = renderer;
         }
-        public void StartGame()
+
+        public void StartGame(IAccount account)
         {
             while (true)
             {
-                snake.Move();
+                Coordinates tail =  snake.Move(this.input, this.field);
+                this.renderer.Write(" ", tail.Row, tail.Col);
 
                 foreach (var item in snake.Elements)
                 {
-                    Console.SetCursorPosition(item.Col, item.Row);
-                    Console.Write("*");
+                    this.renderer.Write("*", item.Row, item.Col);
                 }
 
                 Thread.Sleep(120);

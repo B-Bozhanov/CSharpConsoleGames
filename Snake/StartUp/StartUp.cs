@@ -3,7 +3,7 @@ using GameMenu.Core.Interfaces;
 using Snake.Core;
 using StartUp;
 using UserDatabase.Interfaces;
-
+using Snake.Core.Interfaces;
 
 var serviceProvider = DependencyResolver.GetServiceProvider();
 
@@ -14,6 +14,6 @@ var engine = serviceProvider.GetService<IMenuEngine>();
 IAccount account = engine!.Start();
 var field = serviceProvider.GetService<IField>();
 
-var snakeEngine = new SnakeEngine(account, field);
-snakeEngine.StartGame();
+var snakeEngine = serviceProvider.GetService<ISnakeEngine>();
+snakeEngine.StartGame(account);
 

@@ -1,6 +1,8 @@
 ﻿namespace GameMenu.Utilities
 {
-    public struct Coordinates 
+    using GameMenu.Utilities.Interfaces;
+
+    public struct Coordinates : ICoordinates
     {
         public Coordinates()
         {
