@@ -14,7 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Snake.Engine\Snake.Engine.csproj" />
     <ProjectReference Include="..\Snake.Models\Snake.Models.csproj" />
+    <ProjectReference Include="..\Snake.Services\Snake.Services.csproj" />
     <ProjectReference Include="..\Snake\Snake.Services.csproj" />
     <ProjectReference Include="..\UserDatabase\UserDatabase.csproj" />
   </ItemGroup>

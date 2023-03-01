@@ -1,1 +1,12 @@
-{}
+{
+  "Guest": {
+    "Username": "Guest",
+    "Password": null,
+    "Score": 0,
+    "ExpiredBlockTime": 1063555155,
+    "IsBlocked": false,
+    "LastBlockedTime": "0001-01-01T00:00:00",
+    "LastLoggedInTime": "2023-03-01T23:15:51.6091837+02:00",
+    "CreatedTime": "2023-03-01T23:15:50.1476213+02:00"
+  }
+}

@@ -2,6 +2,9 @@
 {
     using Microsoft.Extensions.DependencyInjection;
 
+    using Snake.Engine.MenuEngine;
+    using Snake.Engine.MenuEngine.Interfaces;
+    using Snake.Models.Menu;
     using Snake.Models.Menu.Core;
     using Snake.Models.Menu.Core.Interfaces;
     using Snake.Models.Menu.IO.Console;
@@ -10,10 +13,11 @@
     using Snake.Models.Menu.Repository.Interfaces;
     using Snake.Models.Menu.UserInputHandle;
     using Snake.Models.Menu.UserInputHandle.Interfaces;
-    using Snake.Services.Core;
-    using Snake.Services.Core.Interfaces;
-    using Snake.Services.Models;
-    using Snake.Services.Models.Interfaces;
+    using Snake.Models.SnakeModels.Core;
+    using Snake.Models.SnakeModels.Core.Interfaces;
+    using Snake.Models.SnakeModels.Models;
+    using Snake.Models.SnakeModels.Models.Interfaces;
+    using Snake.Services;
 
     using UserDatabase;
     using UserDatabase.Interfaces;
@@ -28,9 +32,9 @@
             services.AddSingleton<IField, ConsoleField>();
             services.AddSingleton<ICursor, Cursor>();
             services.AddSingleton<IRepository<string>, NameSpaceRepository>();
-            services.AddSingleton<IMenuEngine, MenuEngine>();
+            services.AddSingleton<IMenuEngine, Engine>();
             services.AddSingleton<ISnakeEngine, SnakeEngine>();
-            services.AddSingleton<ISnake, Snake>();
+            services.AddSingleton<ISnake, SnakeModel>();
             services.AddTransient<IRenderer, ConsoleRenderer>();
             services.AddTransient<IMenuCreator, MenuCreator>();
             services.AddTransient<IUserInput, UserInput>();
@@ -38,6 +42,7 @@
             services.AddTransient<IUserInput, UserInput>();
             services.AddTransient<IObstacle, Obstacle>();
             services.AddTransient<IFood, Food>();
+            services.AddTransient<IBorderService, BorderService>();
 
             return services.BuildServiceProvider();
         }
