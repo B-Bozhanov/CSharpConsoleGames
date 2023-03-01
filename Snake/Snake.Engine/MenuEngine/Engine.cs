@@ -11,6 +11,7 @@
     using Snake.Models.Menu.Interfaces;
     using Snake.Models.Menu.IO.Interfaces;
     using Snake.Models.Menu.Repository.Interfaces;
+    using Snake.Models.MenuModels.Core.Interfaces;
     using Snake.Services;
 
     using UserDatabase.Interfaces;
@@ -31,7 +32,8 @@
 
 
         public Engine(IDatabase usersDatabase, IField field, IRenderer renderer
-                        , IMenuCreator menuCreator, ICursor cursor, IRepository<string> namespaces, IBorderService boardService)
+                        ,IMenuCreator menuCreator, ICursor cursor, IRepository<string> namespaces
+                        ,IBorderService boardService)
         {
             this.usersDatabse = usersDatabase;
             this.field = field;
@@ -41,7 +43,7 @@
             this.namespaces = namespaces;
             this.namespaces.Add(NameSpacesInfo.UserLoginMenu);
             this.menuCreator = menuCreator;
-            this.boardService = boardService;//new BorderService(this.field);
+            this.boardService = boardService;
         }
 
         public IAccount Start()
@@ -57,13 +59,13 @@
                 this.renderer.Write(this.boardService.GetInfoWindow());
                 this.renderer.Write(this.boardService.GetWalls());
                 currentMenuCoords = ConsoleField.MenuStartPossition;
-                menues = menuCreator.GetMenues();
-                renderer.Write(menues);
+                this.menues = this.menuCreator.GetMenues();
+                renderer.Write(this.menues);
 
                 Coordinates currentCursorCoords = new Coordinates(ConsoleField.MenuStartPossition.Row, currentMenuCoords.Col - CursorDistance);
-                Coordinates cursorCoordinates = cursor.Move(menues, currentCursorCoords);
+                Coordinates cursorCoordinates = cursor.Move(this.menues, currentCursorCoords);
 
-                IMenu currentMenu = menues.First(m => m.MenuCoordinates.Row == cursorCoordinates.Row
+                IMenu currentMenu = this.menues.First(m => m.MenuCoordinates.Row == cursorCoordinates.Row
                                                         && m.MenuCoordinates.Col == cursorCoordinates.Col + CursorDistance);
 
 
@@ -109,11 +111,11 @@
             {
                 if (methodParams[i].ParameterType.Name == "IRenderer")
                 {
-                    parameters[i] = renderer;
+                    parameters[i] = this.renderer;
                 }
                 if (methodParams[i].ParameterType.Name == "IField")
                 {
-                    parameters[i] = field;
+                    parameters[i] = this.field;
                 }
             }
             return parameters;
