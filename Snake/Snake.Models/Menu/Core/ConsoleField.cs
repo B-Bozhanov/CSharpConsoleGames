@@ -19,9 +19,9 @@
 
         public Coordinates InfoWindow { get; private set; }
 
-        public int WindowHeight { get; private set; } = Console.LargestWindowHeight / 2;
+        public int WindowHeight { get; private set; } = 30;//Console.LargestWindowHeight / 3;
 
-        public int WindowWidth { get; private set; } = Console.LargestWindowWidth / 2;
+        public int WindowWidth { get; private set; } = 120;//Console.LargestWindowWidth / 16;
 
         public static Coordinates MenuStartPossition { get; private set; } // TODO: Think something to remove static!
 

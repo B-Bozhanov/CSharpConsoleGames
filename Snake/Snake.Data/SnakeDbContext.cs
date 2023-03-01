@@ -25,14 +25,14 @@
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>()
-          .HasOne(a => a.Settings)
-          .WithOne(s => s.Account)
-          .HasForeignKey<Settings>(s => s.AccountId);
+               .HasOne(a => a.Settings)
+               .WithOne(s => s.Account)
+               .HasForeignKey<Settings>(s => s.AccountId);
 
             modelBuilder.Entity<Account>()
-        .HasOne(a => a.Snake)
-        .WithOne(s => s.Account)
-        .HasForeignKey<Snake>(s => s.AccountId);
+               .HasOne(a => a.Snake)
+               .WithOne(s => s.Account)
+               .HasForeignKey<Snake>(s => s.AccountId);
         }
     }
 }
