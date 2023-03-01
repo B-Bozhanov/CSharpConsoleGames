@@ -1,20 +1,22 @@
 ﻿namespace StartUp
 {
-    using GameMenu.Core;
-    using GameMenu.Core.Interfaces;
-    using GameMenu.IO.Console;
-    using GameMenu.IO.Interfaces;
-    using GameMenu.Repository;
-    using GameMenu.Repository.Interfaces;
     using Microsoft.Extensions.DependencyInjection;
+
+    using Snake.Models.Menu.Core;
+    using Snake.Models.Menu.Core.Interfaces;
+    using Snake.Models.Menu.IO.Console;
+    using Snake.Models.Menu.IO.Interfaces;
+    using Snake.Models.Menu.Repository;
+    using Snake.Models.Menu.Repository.Interfaces;
+    using Snake.Models.Menu.UserInputHandle;
+    using Snake.Models.Menu.UserInputHandle.Interfaces;
+    using Snake.Services.Core;
+    using Snake.Services.Core.Interfaces;
+    using Snake.Services.Models;
+    using Snake.Services.Models.Interfaces;
+
     using UserDatabase;
     using UserDatabase.Interfaces;
-    using GameMenu.UserInputHandle.Interfaces;
-    using GameMenu.UserInputHandle;
-    using Snake.Services.Models;
-    using Snake.Services.Core;
-    using Snake.Services.Models.Interfaces;
-    using Snake.Services.Core.Interfaces;
 
     public static class DependencyResolver
     {

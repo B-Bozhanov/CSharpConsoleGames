@@ -1,7 +1,8 @@
 ﻿namespace GameMenu.IO.File
 {
     using GameMenu.IO.Interfaces;
-    using GameMenu.Menues.Interfaces;
+
+    using Snake.Models.Menu.Interfaces;
 
     public class FileRenderer : IRenderer
     {

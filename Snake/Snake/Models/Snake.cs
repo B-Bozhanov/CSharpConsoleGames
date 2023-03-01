@@ -1,11 +1,10 @@
 ﻿namespace Snake.Services.Models
 {
-    using GameMenu.Core.Interfaces;
-    using GameMenu.UserInputHandle;
-    using GameMenu.UserInputHandle.Interfaces;
-
     using global::Snake.Common;
     using global::Snake.Common.Exceptions;
+    using global::Snake.Models.Menu.Core.Interfaces;
+    using global::Snake.Models.Menu.UserInputHandle;
+    using global::Snake.Models.Menu.UserInputHandle.Interfaces;
     using global::Snake.Services.Models.Interfaces;
 
     public class Snake : ISnake

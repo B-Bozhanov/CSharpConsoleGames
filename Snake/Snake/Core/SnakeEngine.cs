@@ -1,10 +1,11 @@
 ﻿namespace Snake.Services.Core
 {
-    using GameMenu.Core.Interfaces;
-    using GameMenu.IO.Interfaces;
-    using GameMenu.UserInputHandle.Interfaces;
+    using Snake.Models.Menu.Core.Interfaces;
+    using Snake.Models.Menu.IO.Interfaces;
+    using Snake.Models.Menu.UserInputHandle.Interfaces;
     using Snake.Services.Core.Interfaces;
     using Snake.Services.Models.Interfaces;
+
     using UserDatabase.Interfaces;
 
     public class SnakeEngine : ISnakeEngine
@@ -30,7 +31,7 @@
         {
             while (true)
             {
-                var test = snake.Move(field, userInput, obstacle, food);
+                var test = snake.Move(this.field, this.userInput, this.obstacle, this.food);
 
                 renderer.Write(" ", test.Row, test.Col);
                 foreach (var item in snake.Elements)

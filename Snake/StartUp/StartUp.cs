@@ -1,9 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-using StartUp;
-using GameMenu.Core.Interfaces;
-using UserDatabase.Interfaces;
+using Snake.Models.Menu.Core.Interfaces;
 using Snake.Services.Core.Interfaces;
+
+using StartUp;
+
+using UserDatabase.Interfaces;
+
 
 var serviceProvider = DependencyResolver.GetServiceProvider();
 

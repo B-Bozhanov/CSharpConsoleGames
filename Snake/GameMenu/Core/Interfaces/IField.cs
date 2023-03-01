@@ -1,6 +1,5 @@
-﻿using GameMenu.Menues;
-
-using Snake.Common;
+﻿using Snake.Common;
+using Snake.Models.Menu;
 
 namespace GameMenu.Core.Interfaces
 {

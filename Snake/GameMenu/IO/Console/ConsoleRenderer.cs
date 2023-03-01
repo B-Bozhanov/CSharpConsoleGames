@@ -2,7 +2,9 @@
 {
     using GameMenu.IO.Interfaces;
     using GameMenu.Menues;
-    using GameMenu.Menues.Interfaces;
+
+    using Snake.Models.Menu.Interfaces;
+
     using System;
     using System.Collections.Generic;
 

@@ -1,7 +1,8 @@
 ﻿namespace GameMenu.IO.Interfaces
 {
     using GameMenu.Menues;
-    using GameMenu.Menues.Interfaces;
+
+    using Snake.Models.Menu.Interfaces;
 
     public interface IRenderer
     {

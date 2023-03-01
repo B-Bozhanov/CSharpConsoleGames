@@ -2,11 +2,11 @@
 {
     using Interfaces;
     using GameMenu.IO.Interfaces;
-    using GameMenu.Menues.Interfaces;
     using GameMenu.Repository.Interfaces;
     using UserDatabase.Interfaces;
     using System.Reflection;
     using Snake.Common;
+    using Snake.Models.Menu.Interfaces;
 
     public class MenuEngine : IMenuEngine
     {

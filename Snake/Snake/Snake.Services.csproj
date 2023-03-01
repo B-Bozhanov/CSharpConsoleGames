@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Snake.Common.csproj" />
-    <ProjectReference Include="..\GameMenu\GameMenu.csproj" />
+    <ProjectReference Include="..\Snake.Models\Snake.Models.csproj" />
     <ProjectReference Include="..\UserDatabase\UserDatabase.csproj" />
   </ItemGroup>
 

@@ -1,8 +1,7 @@
 ﻿namespace GameMenu.Core.Interfaces
 {
-    using GameMenu.Menues.Interfaces;
-
     using Snake.Common;
+    using Snake.Models.Menu.Interfaces;
 
     public interface ICursor
     {

@@ -1,7 +1,6 @@
 ﻿namespace GameMenu.Core.Interfaces
 {
-    using GameMenu.Menues.Interfaces;
-
+    using Snake.Models.Menu.Interfaces;
 
     public interface IMenuCreator
     {
