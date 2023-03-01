@@ -5,6 +5,7 @@
     public interface IColor
     {
         public Color FieldColor { get; }
+
         public Color TextColor { get; }
     }
 }

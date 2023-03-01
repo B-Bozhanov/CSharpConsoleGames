@@ -5,8 +5,9 @@
     using GameMenu.IO.Interfaces;
     using GameMenu.Repository;
     using GameMenu.Repository.Interfaces;
-    using GameMenu.Utilities;
     using Interfaces;
+
+    using Snake.Common;
 
     public abstract class Menu : IMenu
     {

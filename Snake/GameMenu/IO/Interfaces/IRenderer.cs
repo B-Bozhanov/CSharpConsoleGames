@@ -1,5 +1,6 @@
 ﻿namespace GameMenu.IO.Interfaces
 {
+    using GameMenu.Menues;
     using GameMenu.Menues.Interfaces;
 
     public interface IRenderer

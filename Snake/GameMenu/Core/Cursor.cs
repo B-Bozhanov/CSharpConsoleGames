@@ -5,7 +5,8 @@
     using GameMenu.Menues.Interfaces;
     using GameMenu.UserInputHandle;
     using GameMenu.UserInputHandle.Interfaces;
-    using GameMenu.Utilities;
+
+    using Snake.Common;
 
     public class Cursor : ICursor
     {

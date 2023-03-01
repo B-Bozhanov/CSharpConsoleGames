@@ -2,7 +2,8 @@
 {
     using GameMenu.Core.Interfaces;
     using GameMenu.IO.Interfaces;
-    using GameMenu.Utilities;
+
+    using Snake.Common;
 
     public interface IMenu
     {

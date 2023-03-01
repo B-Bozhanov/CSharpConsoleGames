@@ -1,37 +1,41 @@
-﻿namespace Snake.Core
+﻿namespace Snake.Services.Core
 {
     using GameMenu.Core.Interfaces;
-    using Snake.Core.Interfaces;
-    using UserDatabase.Interfaces;
-    using Snake.Models.Interfaces;
     using GameMenu.IO.Interfaces;
     using GameMenu.UserInputHandle.Interfaces;
+    using Snake.Services.Core.Interfaces;
+    using Snake.Services.Models.Interfaces;
+    using UserDatabase.Interfaces;
 
     public class SnakeEngine : ISnakeEngine
     {
-        private IField field;
-        private ISnake snake;
-        private IRenderer renderer;
-        private IUserInput userInput;
+        private readonly IField field;
+        private readonly ISnake snake;
+        private readonly IUserInput userInput;
+        private readonly IObstacle obstacle;
+        private readonly IFood food;
+        private readonly IRenderer renderer;
 
-        public SnakeEngine(IField field, ISnake snake, IRenderer renderer, IUserInput userInput)
+        public SnakeEngine(IField field, ISnake snake, IUserInput userInput, IObstacle obstacle, IFood food, IRenderer renderer)
         {
             this.field = field;
             this.snake = snake;
-            this.renderer = renderer;
             this.userInput = userInput;
+            this.obstacle = obstacle;
+            this.food = food;
+            this.renderer = renderer;
         }
 
         public void StartGame(IAccount account)
         {
             while (true)
             {
-                var tail = snake.Move(this.field, this.userInput);
-                this.renderer.Write(" ", tail.Row, tail.Col);
+                var test = snake.Move(field, userInput, obstacle, food);
 
+                renderer.Write(" ", test.Row, test.Col);
                 foreach (var item in snake.Elements)
                 {
-                    this.renderer.Write("*", item.Row, item.Col);
+                    renderer.Write(item.Symbol.ToString(), item.Row, item.Col);
                 }
 
                 Thread.Sleep(120);

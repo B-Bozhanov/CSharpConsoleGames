@@ -1,6 +1,7 @@
 ﻿namespace GameMenu.IO.Console
 {
     using GameMenu.IO.Interfaces;
+    using GameMenu.Menues;
     using GameMenu.Menues.Interfaces;
     using System;
     using System.Collections.Generic;
@@ -17,12 +18,12 @@
             return Console.ReadLine()!;
         }
                
-        public void Write(string message)
+        public void Write(string message)//, Color color)
         {
             Console.Write(message);
         }
 
-        public void Write(string text, int row, int col)
+        public void Write(string text, int row, int col)//, Color color)
         {
             Console.SetCursorPosition(col, row);
             Console.Write(text);
@@ -35,6 +36,14 @@
                 this.Write(menu.GetName(), menu.MenuCoordinates.Row, menu.MenuCoordinates.Col);
             }
         }
+
+        //public void Write(ICollection<Coordinates> elements)
+        //{
+        //    foreach (var element in elements)
+        //    {
+        //        this.Write(element.Sys)
+        //    }
+        //}
 
         public void WriteLine(string message)
         {

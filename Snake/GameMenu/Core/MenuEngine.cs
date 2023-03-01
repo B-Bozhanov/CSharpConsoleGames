@@ -4,9 +4,9 @@
     using GameMenu.IO.Interfaces;
     using GameMenu.Menues.Interfaces;
     using GameMenu.Repository.Interfaces;
-    using GameMenu.Utilities;
     using UserDatabase.Interfaces;
     using System.Reflection;
+    using Snake.Common;
 
     public class MenuEngine : IMenuEngine
     {
@@ -20,6 +20,7 @@
         private readonly IDatabase usersDatabse;
         private Coordinates currentMenuCoords;
         private ICollection<IMenu> menues;
+        private Border border;
 
 
         public MenuEngine(IDatabase usersDatabase, IField field, IRenderer renderer
@@ -33,10 +34,13 @@
             this.namespaces = namespaces;
             this.namespaces.Add(NameSpacesInfo.UserLoginMenu);
             this.menuCreator = menuCreator;
+            this.border = new Border(this.field);
         }
 
         public IAccount Start()
         {
+            this.renderer.Write(this.border.InfoWindow());
+            this.renderer.Write(this.border.Walls());
             string username = string.Empty;
             string password = string.Empty;
             bool isGuestPlayer = false;

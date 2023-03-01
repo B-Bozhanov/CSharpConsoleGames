@@ -1,7 +1,9 @@
 ﻿namespace GameMenu.Menues.UserLoginMenu
 {
     using GameMenu.Repository.Interfaces;
-    using GameMenu.Utilities;
+
+    using Snake.Common;
+
     using UserDatabase.Interfaces;
 
 

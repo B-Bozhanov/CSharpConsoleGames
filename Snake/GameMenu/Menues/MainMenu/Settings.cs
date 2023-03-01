@@ -1,7 +1,8 @@
 ﻿namespace GameMenu.Menues.MainMenu
 {
     using GameMenu.Repository.Interfaces;
-    using GameMenu.Utilities;
+
+    using Snake.Common;
 
     internal class Settings : Menu
     {

@@ -1,4 +1,4 @@
-﻿namespace Snake.Core.Interfaces
+﻿namespace Snake.Services.Core.Interfaces
 {
     using UserDatabase.Interfaces;
 

@@ -1,16 +1,16 @@
-﻿namespace Snake.Models.Interfaces
+﻿namespace Snake.Services.Models.Interfaces
 {
     using GameMenu.Core.Interfaces;
     using GameMenu.UserInputHandle.Interfaces;
-    using Utilities;
+
+    using global::Snake.Common;
 
     public interface ISnake
     {
         public Queue<Coordinates> Elements { get; }
-        public Coordinates head { get; set; }
 
-        public Coordinates Move(IField field, IUserInput userInput);
+        public Coordinates Head { get; }
 
-        public void Eat(Coordinates food);
+        public Coordinates Move(IField field, IUserInput userInput, IObstacle obstacle, IFood food);
     }
 }

@@ -2,17 +2,21 @@
 {
     using GameMenu.Menues;
     using System.Text;
-    using GameMenu.Utilities;
     using Interfaces;
+    using Snake.Common;
 
     public class ConsoleField : IField
     {
+        private const int DefaultInfoWindowHeight = 2;
+
         public ConsoleField()
         {
             WindowResizer(this.WindowHeight, this.WindowWidth);
             Console.ForegroundColor = ConsoleColor.Yellow;
         }
 
+
+        public Coordinates InfoWindow { get; private set; }
 
         public int WindowHeight { get; private set; } = Console.LargestWindowHeight / 2;
 
@@ -24,6 +28,7 @@
         {
             this.WindowHeight = row;
             this.WindowWidth = col;
+            this.InfoWindow = new Coordinates(DefaultInfoWindowHeight, this.WindowWidth);
             MenuStartPossition = new Coordinates(WindowHeight / 2 - 4, WindowWidth / 2 - 6); // TODO: Save magig numbers in const.
             this.SetSettings();
         }

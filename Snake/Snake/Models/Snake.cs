@@ -1,22 +1,30 @@
-﻿namespace Snake.Models
+﻿namespace Snake.Services.Models
 {
     using GameMenu.Core.Interfaces;
     using GameMenu.UserInputHandle;
     using GameMenu.UserInputHandle.Interfaces;
-    using Interfaces;
-    using Utilities;
 
+    using global::Snake.Common;
+    using global::Snake.Common.Exceptions;
+    using global::Snake.Services.Models.Interfaces;
 
     public class Snake : ISnake
     {
+        private const char bodyShape = '●';
+        private const char headShapeUp = '▲';
+        private const char headShapeDown = '▼';
+        private const char headShapeLeft = '◄';
+        private const char headShapeRight = '►';
+        private char currentHeadSymbol = headShapeRight;
+
         private readonly Coordinates[] directions;
         private int direction = 0;
 
 
         public Snake()
         {
-            this.Elements = new Queue<Coordinates>();
-            this.directions = new Coordinates[]
+            Elements = new Queue<Coordinates>();
+            directions = new Coordinates[]
                  {
                      new Coordinates(0, 1),  // right
                      new Coordinates(0, -1), // left
@@ -29,58 +37,105 @@
 
         public Queue<Coordinates> Elements { get; private set; }
 
-        public Coordinates Head => this.Elements.Last(); 
+        public Coordinates Head => Elements.Last();
+
 
         private void Create()
         {
             for (int i = 0; i < 6; i++)
             {
-                this.Elements.Enqueue(new Coordinates(0, i));
+                Elements.Enqueue(new Coordinates(1, i));
             }
         }
 
-        public Coordinates Move(IUserInput input, IField field)
+        public Coordinates Move(IField field, IUserInput input, IObstacle obstacle, IFood food)
         {
+
             var userInput = input.GetInput();
-            if (userInput == KeyPressed.Right && this.direction != 1) this.direction = 0;
-            if (userInput == KeyPressed.Left && this.direction != 0) this.direction = 1;
-            if (userInput == KeyPressed.Down && this.direction != 3) this.direction = 2;
-            if (userInput == KeyPressed.Up && this.direction != 2) this.direction = 3;
+            if (userInput == KeyPressed.Right && direction != 1)
+            {
+                direction = 0;
+                currentHeadSymbol = headShapeRight;
+            }
+            if (userInput == KeyPressed.Left && direction != 0)
+            {
+                direction = 1;
+                currentHeadSymbol = headShapeLeft;
+            }
+            if (userInput == KeyPressed.Down && direction != 3)
+            {
+                direction = 2;
+                currentHeadSymbol = headShapeDown;
+            }
+            if (userInput == KeyPressed.Up && direction != 2)
+            {
+                direction = 3;
+                currentHeadSymbol = headShapeUp;
+            }
+
+            Coordinates nextDirection = directions[direction];
+            Coordinates nextHead = new Coordinates(nextDirection.Row + Head.Row, nextDirection.Col + Head.Col);
+            nextHead = HeadValidator(field, nextHead, obstacle);
+
+            Elements.Enqueue(nextHead);
+            var tail = Elements.Dequeue();
+            Eat(food);
+
+            foreach (var item in Elements)
+            {
+                item.Symbol = bodyShape;
+            }
+            Head.Symbol = currentHeadSymbol;
 
 
-            Coordinates snakeHead = this.Elements.Last();
-            Coordinates nextDirection = this.directions[direction];
-            Coordinates head = new Coordinates(nextDirection.Row + snakeHead.Row, nextDirection.Col + snakeHead.Col);
-
-            head = HeadValidator(field, head);
-
-            this.Elements.Enqueue(head);
-            var tail = this.Elements.Dequeue();
             return tail;
         }
 
-        public void Eat(Coordinates food)
+        private void Eat(IFood food)
         {
-            this.Elements.Enqueue(food);
+            if (food.FoodPossition != null)
+            {
+                if (Head.Row == food.FoodPossition.Row && Head.Col == food.FoodPossition.Col)
+                {
+                    Elements.Enqueue(food.FoodPossition);
+                }
+            }
         }
 
-        private Coordinates HeadValidator(IField field, Coordinates head)
+        private Coordinates HeadValidator(IField field, Coordinates head, IObstacle obstacle)
         {
-            if (head.Row >= field.WindowHeight)
+            if (Elements.Contains(head))
             {
-                head.Row = 0;
+                throw new GameOverException("You hit the tail!");
             }
-            if (head.Row < 0)
+            if (obstacle.Obstacles.Contains(head))
             {
-                head.Row = field.WindowHeight - 1;
+                throw new GameOverException("You hit obstacle!");
             }
-            if (head.Col >= field.WindowWidth)
+
+            if (obstacle.IsWallAppear && (head.Row >= field.WindowHeight || head.Row < 0
+                                     || head.Col >= field.WindowWidth || head.Col < 0))
             {
-                head.Col = 0;
+                throw new GameOverException("You hit the wall!");
             }
-            if (head.Col < 0)
+            else
             {
-                head.Col = field.WindowWidth - 1;
+                if (head.Row >= field.WindowHeight)
+                {
+                    head.Row = 0;
+                }
+                else if (head.Row < 0)
+                {
+                    head.Row = field.WindowHeight - 1;
+                }
+                else if (head.Col >= field.WindowWidth)
+                {
+                    head.Col = 0;
+                }
+                else if (head.Col < 0)
+                {
+                    head.Col = field.WindowWidth - 1;
+                }
             }
 
             return head;

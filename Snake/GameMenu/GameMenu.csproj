@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Common\Snake.Common.csproj" />
     <ProjectReference Include="..\UserDatabase\UserDatabase.csproj" />
   </ItemGroup>
 

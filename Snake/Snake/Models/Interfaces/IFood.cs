@@ -1,6 +1,9 @@
-﻿namespace Snake.Models.Interfaces
+﻿namespace Snake.Services.Models.Interfaces
 {
-    public interface IFood<T>
+    using global::Snake.Common;
+
+    public interface IFood
     {
+        public Coordinates FoodPossition { get; set; }
     }
 }

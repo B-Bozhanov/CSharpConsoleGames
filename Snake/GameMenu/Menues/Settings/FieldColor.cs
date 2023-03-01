@@ -3,7 +3,8 @@
     using GameMenu.Core.Interfaces;
     using GameMenu.IO.Interfaces;
     using GameMenu.Repository.Interfaces;
-    using GameMenu.Utilities;
+
+    using Snake.Common;
 
     internal class FieldColor : Menu
     {

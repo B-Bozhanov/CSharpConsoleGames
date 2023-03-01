@@ -1,11 +1,11 @@
 ﻿namespace GameMenu.Menues.UserLoginMenu
 {
-    using static GameMenu.Utilities.Messages;
+    using static Snake.Common.Messages;
 
     using GameMenu.IO.Interfaces;
     using GameMenu.Repository.Interfaces;
     using UserDatabase.Interfaces;
-    using GameMenu.Utilities;
+    using Snake.Common;
 
     public class Login : Menu
     {

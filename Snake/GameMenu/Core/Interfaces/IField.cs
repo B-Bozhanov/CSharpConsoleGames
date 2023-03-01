@@ -1,5 +1,6 @@
 ﻿using GameMenu.Menues;
-using GameMenu.Utilities;
+
+using Snake.Common;
 
 namespace GameMenu.Core.Interfaces
 {
@@ -10,6 +11,7 @@ namespace GameMenu.Core.Interfaces
         public int WindowWidth { get; }
 
         public static Coordinates MenuStartPossition { get; }
+        public Coordinates InfoWindow { get; }
 
         public void WindowResizer(int row, int col);
 

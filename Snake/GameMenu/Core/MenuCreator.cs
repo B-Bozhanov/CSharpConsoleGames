@@ -1,28 +1,29 @@
 ﻿namespace GameMenu.Core
 {
+    using System.Collections.Generic;
     using System.Reflection;
 
-    using Interfaces;
+    using GameMenu.Core.Interfaces;
     using GameMenu.Menues.Interfaces;
-    using GameMenu.Repository.Interfaces;
-    using GameMenu.Menues.UserLoginMenu;
-    using UserDatabase.Interfaces;
     using GameMenu.Menues.MainMenu;
-    using GameMenu.Utilities;
-    using System.Collections.Generic;
+    using GameMenu.Menues.UserLoginMenu;
+    using GameMenu.Repository.Interfaces;
+
+    using Snake.Common;
+
+    using UserDatabase.Interfaces;
 
     public class MenuCreator : IMenuCreator
     {
         private readonly IRepository<string> namespaces;
         private readonly IDatabase usersDatabase;
-        private  Coordinates menuStartCoords;
-        private readonly IField field;
+        private Coordinates menuStartCoords;
 
-        public MenuCreator(IRepository<string> namespaces, IDatabase usersDatabse, IField menuStartCoords)
+        public MenuCreator(IRepository<string> namespaces, IDatabase usersDatabse)
         {
             this.namespaces = namespaces;
             this.usersDatabase = usersDatabse;
-            this.field = menuStartCoords;
+            this.menuStartCoords = new Coordinates();
         }
 
         public ICollection<IMenu> GetMenues()
@@ -38,13 +39,13 @@
                 .ToArray();
 
             object[] constructorWithUsersArgs = new object[] { namespaces, usersDatabase };
-            object[] defaultConstructorArgs = new object[] { namespaces};
+            object[] defaultConstructorArgs = new object[] { namespaces };
 
             foreach (var type in types)
             {
                 IMenu currentMenu;
-                if (type == typeof(Login) 
-                    || type == typeof(CreateAccount) 
+                if (type == typeof(Login)
+                    || type == typeof(CreateAccount)
                     || type == typeof(ContinueWithoutAccount)
                     || type == typeof(Logout))
                 {

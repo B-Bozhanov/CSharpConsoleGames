@@ -3,7 +3,7 @@
 using StartUp;
 using GameMenu.Core.Interfaces;
 using UserDatabase.Interfaces;
-using Snake.Core.Interfaces;
+using Snake.Services.Core.Interfaces;
 
 var serviceProvider = DependencyResolver.GetServiceProvider();
 

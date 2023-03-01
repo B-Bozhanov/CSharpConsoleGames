@@ -1,4 +1,6 @@
-﻿namespace GameMenu.Menues
+﻿using GameMenu.Menues.Interfaces;
+
+namespace GameMenu.Menues
 {
     public enum Color
     {
