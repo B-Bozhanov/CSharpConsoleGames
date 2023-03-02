@@ -15,7 +15,7 @@ var serviceProvider = DependencyResolver.GetServiceProvider();
 var database = serviceProvider.GetService<IDatabase>();
 database!.LoadDatabase();
 
-var engine = serviceProvider.GetService<IMenuEngine>();
+var engine = serviceProvider.GetService<IEngine>();
 IAccount account = engine!.Start();
 
 var snakeEngine = serviceProvider.GetService<ISnakeEngine>();

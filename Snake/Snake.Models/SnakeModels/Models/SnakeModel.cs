@@ -50,7 +50,7 @@
             }
         }
 
-        public Coordinates Move(IField field, IUserInput input, IObstacle obstacle, IFood food)
+        public Coordinates Move(IFieldService field, IUserInput input, IObstacle obstacle, IFood food)
         {
 
             var userInput = input.GetInput();

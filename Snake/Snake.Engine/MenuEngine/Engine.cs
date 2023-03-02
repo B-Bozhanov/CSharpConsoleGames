@@ -15,7 +15,7 @@
 
     using UserDatabase.Interfaces;
 
-    public class Engine : IMenuEngine
+    public class Engine : IEngine
     {
         private const int CursorDistance = 2;
 
@@ -30,9 +30,9 @@
         private IBorderService boardService;
 
 
-        public Engine(IDatabase usersDatabase, IField field, IRenderer renderer
-                        ,IMenuCreator menuCreator, ICursor cursor, IRepository<string> namespaces
-                        ,IBorderService boardService)
+        public Engine(IDatabase usersDatabase, IField field, IRenderer renderer,
+                      IMenuCreator menuCreator, ICursor cursor, IRepository<string> namespaces,
+                      IBorderService boardService)
         {
             this.usersDatabse = usersDatabase;
             this.field = field;
@@ -91,7 +91,7 @@
                     username = accountArgs[0];
                     password = accountArgs[1];
                 }
-                renderer.Clear();
+                this.renderer.Clear();
             }
 
             if (isGuestPlayer)

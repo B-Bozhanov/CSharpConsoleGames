@@ -13,11 +13,14 @@
     using Snake.Models.Menu.Repository.Interfaces;
     using Snake.Models.Menu.UserInputHandle;
     using Snake.Models.Menu.UserInputHandle.Interfaces;
+    using Snake.Models.MenuModels.Core;
     using Snake.Models.SnakeModels.Core;
     using Snake.Models.SnakeModels.Core.Interfaces;
     using Snake.Models.SnakeModels.Models;
     using Snake.Models.SnakeModels.Models.Interfaces;
     using Snake.Services;
+    using Snake.Services.FieldService.ConsoleField;
+    using Snake.Services.FieldService.Interfaces;
 
     using UserDatabase;
     using UserDatabase.Interfaces;
@@ -29,10 +32,10 @@
             var services = new ServiceCollection();
 
             services.AddSingleton<IDatabase, UserDatabase>();
-            services.AddSingleton<IField, ConsoleField>();
+            services.AddSingleton<IFieldService, ConsoleFieldService>();
             services.AddSingleton<ICursor, Cursor>();
             services.AddSingleton<IRepository<string>, NameSpaceRepository>();
-            services.AddSingleton<IMenuEngine, Engine>();
+            services.AddSingleton<IEngine, Engine>();
             services.AddSingleton<ISnakeEngine, SnakeEngine>();
             services.AddSingleton<ISnake, SnakeModel>();
             services.AddTransient<IRenderer, ConsoleRenderer>();

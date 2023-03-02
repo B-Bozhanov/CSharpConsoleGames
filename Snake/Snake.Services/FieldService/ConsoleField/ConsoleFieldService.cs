@@ -1,20 +1,20 @@
-﻿namespace Snake.Models.Menu.Core
+﻿namespace Snake.Services.FieldService.ConsoleField
 {
-    using System;
     using System.Text;
 
-    using Interfaces;
-
     using Snake.Common;
+    using Snake.Models.Menu;
+    using Snake.Services.FieldService.Interfaces;
 
-    public class ConsoleField : IField
+
+    public class ConsoleFieldService : IFieldService
     {
         private const int DefaultInfoWindowHeight = 2;
 
-        public ConsoleField()
+        public ConsoleFieldService()
         {
-            WindowResizer(WindowHeight, WindowWidth);
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            WindowResize(WindowHeight, WindowWidth);
+            Console.ForegroundColor = ConsoleColor.Yellow; // Default color:
         }
 
 
@@ -26,7 +26,7 @@
 
         public static Coordinates MenuStartPossition { get; private set; } // TODO: Think something to remove static!
 
-        public void WindowResizer(int row, int col)
+        public void WindowResize(int row, int col)
         {
             WindowHeight = row;
             WindowWidth = col;
@@ -46,6 +46,7 @@
             var textColor = GetColor(color);
             Console.ForegroundColor = textColor;
         }
+
         public void ResetColor()
         {
             Console.ResetColor();
@@ -73,6 +74,7 @@
             }
             return default;
         }
+
         private void SetSettings()
         {
             if (OperatingSystem.IsWindows())

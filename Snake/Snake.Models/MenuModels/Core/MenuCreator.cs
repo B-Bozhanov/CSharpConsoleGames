@@ -1,4 +1,4 @@
-﻿namespace Snake.Models.Menu.Core
+﻿namespace Snake.Models.MenuModels.Core
 {
     using System;
     using System.Collections.Generic;
@@ -6,6 +6,7 @@
     using System.Reflection;
 
     using Snake.Common;
+    using Snake.Models.Menu;
     using Snake.Models.Menu.Interfaces;
     using Snake.Models.Menu.MainMenu;
     using Snake.Models.Menu.Repository.Interfaces;
@@ -17,7 +18,7 @@
     {
         private readonly IRepository<string> namespaces;
         private readonly IDatabase usersDatabase;
-        private Coordinates menuStartCoords;
+        private readonly Coordinates menuStartCoords;
 
         public MenuCreator(IRepository<string> namespaces, IDatabase usersDatabse)
         {
@@ -29,8 +30,8 @@
         public ICollection<IMenu> GetMenues()
         {
             var menues = new HashSet<IMenu>();
-            menuStartCoords.Row = -1;
-            menuStartCoords.Col = -1;
+            this.menuStartCoords.Row = -1;
+            this.menuStartCoords.Col = -1;
 
             Type[] types = Assembly
                 .GetExecutingAssembly()
@@ -38,8 +39,8 @@
                 .Where(t => t.Namespace == namespaces.Get())
                 .ToArray();
 
-            object[] constructorWithUsersArgs = new object[] { namespaces, usersDatabase };
-            object[] defaultConstructorArgs = new object[] { namespaces };
+            var constructorWithUsersArgs = new object[] { namespaces, usersDatabase };
+            var defaultConstructorArgs = new object[] { namespaces };
 
             foreach (var type in types)
             {
