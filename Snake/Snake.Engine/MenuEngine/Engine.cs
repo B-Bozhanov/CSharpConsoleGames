@@ -11,7 +11,6 @@
     using Snake.Models.Menu.Interfaces;
     using Snake.Models.Menu.IO.Interfaces;
     using Snake.Models.Menu.Repository.Interfaces;
-    using Snake.Models.MenuModels.Core.Interfaces;
     using Snake.Services;
 
     using UserDatabase.Interfaces;

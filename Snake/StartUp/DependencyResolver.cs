@@ -13,7 +13,6 @@
     using Snake.Models.Menu.Repository.Interfaces;
     using Snake.Models.Menu.UserInputHandle;
     using Snake.Models.Menu.UserInputHandle.Interfaces;
-    using Snake.Models.MenuModels.Core.Interfaces;
     using Snake.Models.SnakeModels.Core;
     using Snake.Models.SnakeModels.Core.Interfaces;
     using Snake.Models.SnakeModels.Models;
