@@ -7,6 +7,6 @@
        internal const int AutoSaveDatabseIntervalInSecconds = 1;
        internal const int WrongPassAttemps = 2;
        internal const string Guest = "Guest";
-       internal const string DefaultFilePath = "../../../../UserDatabase/UsersData/UserDatabase.json";
+       internal const string DefaultFilePath = "../../../../UserDatabase/UsersData/UserDatabse.json";
     }
 }

@@ -1,23 +1,24 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using GameMenu.Core;
+using GameMenu.Core.Interfaces;
+using GameMenu.IO.Interfaces;
+using GameMenu.Menues;
+using GameMenu.Menues.Interfaces;
 
-using Snake.Engine.MenuEngine.Interfaces;
-using Snake.Models.Menu.Core.Interfaces;
-using Snake.Models.SnakeModels.Core.Interfaces;
-using Snake.Services;
+using IO.Console;
 
-using StartUp;
+using Snake.Core;
+using Snake.Core.Interfaces;
 
 using UserDatabase.Interfaces;
 
+IWriter writer = new ConsoleWriter();
+IReader reader = new ConsoleReader();
+IDatabase usersDatabase = new UserDatabase.UserDatabase();
+usersDatabase.LoadDatabase();
 
-var serviceProvider = DependencyResolver.GetServiceProvider();
+IField field = new ConsoleField();
+IMenuEngine engine = new MenuEngine(usersDatabase, field, writer, reader);
+IAccount user = engine.Start();
 
-var database = serviceProvider.GetService<IDatabase>();
-database!.LoadDatabase();
-
-var engine = serviceProvider.GetService<IEngine>();
-IAccount account = engine!.Start();
-
-var snakeEngine = serviceProvider.GetService<ISnakeEngine>();
-snakeEngine!.StartGame(account);
-
+ISnakeEngine snake = new SnakeEngine(user);
+snake.StartGame();

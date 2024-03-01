@@ -19,6 +19,7 @@
         public string Username
         {
             get => this.username;
+
             private set
             {
                 if (String.IsNullOrWhiteSpace(value))
@@ -36,6 +37,7 @@
         public string Password
         {
             get => this.password;
+
             private set
             {
                 if (!String.IsNullOrWhiteSpace(value) && value.Length < 4)
@@ -62,5 +64,6 @@
         public DateTime LastLoggedInTime { get; set; }
 
         public DateTime CreatedTime { get; set; }
+
     }
 }
