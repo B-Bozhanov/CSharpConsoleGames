@@ -9,6 +9,11 @@
 
   <ItemGroup>
     <Folder Include="Extencions\" />
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
 
 </Project>

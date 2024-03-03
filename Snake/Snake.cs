@@ -1,34 +1,45 @@
 ﻿namespace Snake
 {
+    using Common;
+
     public class Snake
     {
-        private readonly int snakeDefaultLength = 4;
-        private readonly Queue<Coordinates> snakeElements = new();
+        private readonly Queue<Coordinates> body;
+        private Coordinates nextHeadPossition;
+
 
         public Snake(int snakeStartPossition)
         {
-            for (int i = 1; i <= snakeDefaultLength; i++)
+            this.body = new Queue<Coordinates>();
+            this.nextHeadPossition = new Coordinates();
+            for (int i = 1; i <= GlobalConstants.Snake.DefaultLength; i++)
             {
-                snakeElements.Enqueue(new Coordinates(snakeStartPossition, i));
+                body.Enqueue(new Coordinates(snakeStartPossition, i));
             }
         }
 
-        public Queue<Coordinates> SnakeElements => this.snakeElements;
+        public Queue<Coordinates> Body => this.body;
 
-        public Coordinates CurrentHeadPossition => this.snakeElements.Last();
+        public Coordinates CurrentHeadPossition => this.body.Last();
 
-        public Coordinates NextHeadPossition { get; set; }
+        public Coordinates NextHeadPossition => this.nextHeadPossition;
+
+        public void ChangeNextHeadPossition(Coordinates nextHeadPossition)
+        {
+            this.nextHeadPossition = nextHeadPossition;
+        }
 
         public void Eat()
         {
-            this.snakeElements.Enqueue(this.NextHeadPossition);
+            this.body.Enqueue(this.nextHeadPossition);
         }
 
+        public bool IsDead() => this.body.Any(x => x.Row == this.nextHeadPossition.Row && x.Column == this.nextHeadPossition.Column);
+        
         public void SetNextHeadPossition(Coordinates currentDirection)
         {
-
-             this.NextHeadPossition = new Coordinates(this.CurrentHeadPossition.Row + currentDirection.Row, 
-                                                      this.CurrentHeadPossition.Column + currentDirection.Column);
+            this.nextHeadPossition.Row = this.CurrentHeadPossition.Row + currentDirection.Row;
+            this.nextHeadPossition.Column = this.CurrentHeadPossition.Column + currentDirection.Column;
         }
     }
 }

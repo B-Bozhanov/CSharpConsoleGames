@@ -1,8 +1,8 @@
-﻿namespace Snake.Helpers
+﻿namespace Snake
 {
     public class ConsoleInputHandler : IInputHandler
     {
-        public KeyboardKey GetPressedKey(KeyboardKey currentPressedKey)
+        public KeyboardKey GetPressedKeyboardKey(KeyboardKey currentPressedKey)
         {
             if (Console.KeyAvailable)
             {
