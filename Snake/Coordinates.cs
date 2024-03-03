@@ -1,9 +1,10 @@
 ﻿// Primary constructor
-struct Coordinates(int row, int column)
+namespace Snake
 {
-    public int Row { get; set; } = row;
+    public struct Coordinates(int row, int column)
+    {
+        public int Row { get; set; } = row;
 
-    public int Column { get; set; } = column;
+        public int Column { get; set; } = column;
+    }
 }
-
-

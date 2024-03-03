@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Diagnostics;
 using System.Text;
+using Snake;
+using Snake.Helpers;
 
 
 // Console Setings
@@ -17,52 +19,30 @@ int ConsoleCol = 1 + FieldCol + 1;
 int Score = 0;
 int Level = 1;
 
+int snakeSpeed = 150; // was 150
+int snakeStartPossition = InfoWindow + 2;
+
 int levelUpRow = 0;
 int levelUpCol = 0;
 bool levelUp = false;
 bool levelFive = false;
+
+
 ConsoleSettings();
 DrowingInfoWindow();
 
+var snake = new Snake.Snake(snakeStartPossition);
+Direction direction = new Direction();
+IInputHandler consoleInputHandler = new ConsoleInputHandler();
 
-Coordinates[] directions =
-[
-    new Coordinates(0, 1),  // Right
-    new Coordinates(0, -1), // Left
-    new Coordinates(1, 0),  // Down
-    new Coordinates(-1, 0)  // Up
-];
+List<Coordinates> obstacle =
+    [
+         new Coordinates(5, 20),
+         new Coordinates(10, 40),
+         new Coordinates(17, 60),
+    ];
+    // Add snake elements to Queue array;
 
-int direction = 0;  // Right by default
-
-List<Coordinates> obstacle = new List<Coordinates>()
-                {
-                    new Coordinates(5, 20),
-                    new Coordinates(10, 40),
-                    new Coordinates(17, 60),
-                };
-
-Queue<Coordinates> snakeElements = new Queue<Coordinates>();    // Add snake elements to Queue array;
-for (int i = 1; i <= 4; i++)
-{
-    snakeElements.Enqueue(new Coordinates(InfoWindow + 2, i));
-}
-
-int colorCount = 0;
-foreach (var element in snakeElements)
-{
-    ConsoleColor color;
-    if (colorCount % 2 == 0)
-    {
-        color = ConsoleColor.DarkYellow;
-    }
-    else
-    {
-        color = ConsoleColor.DarkGreen;
-    }
-    Write("●", element.Row, element.Column, color);
-    colorCount++;
-}
 
 Random generator = new Random();
 int foodDisapear = 0;
@@ -75,7 +55,6 @@ Stopwatch obstaclesTimer = new Stopwatch();
 
 sw.Start();
 obstaclesTimer.Start();
-int snakeSpeed = 150;
 
 while (true)
 {
@@ -84,10 +63,10 @@ while (true)
     Write($"Score: {Score}", 1, 1, ConsoleColor.Yellow);
     Write($"Level: {Level}", 2, 1, ConsoleColor.Yellow);
 
-    direction = SnakeDirection(direction);
-    Coordinates snakeHead = snakeElements.Last();
-    Coordinates nextDirection = directions[direction];
-    Coordinates nextHead = new Coordinates(snakeHead.Row + nextDirection.Row, snakeHead.Column + nextDirection.Column);
+    var currentPressedKey = consoleInputHandler.GetPressedKey(KeyboardKey.None);
+    direction.ChangeCurrentDirection(currentPressedKey);
+
+    snake.SetNextHeadPossition(direction.CurrentDirection);
 
     if (Level >= 5)
     {
@@ -101,7 +80,7 @@ while (true)
                 foreach (var item in obstacle)
                 {
                     Write("=", item.Row, item.Column, ConsoleColor.Cyan);
-                    if (snakeElements.Contains(item))
+                    if (snake.SnakeElements.Contains(item))
                     {
                         isDead = true;
                         break;
@@ -119,7 +98,7 @@ while (true)
             {
                 obstaclesLastElement.Row = generator.Next(InfoWindow + 2, ConsoleRow - levelUpRow);
                 obstaclesLastElement.Column = generator.Next(levelUpCol, ConsoleCol - levelUpCol);
-            } while (snakeElements.Contains(obstaclesLastElement)
+            } while (snake.SnakeElements.Contains(obstaclesLastElement)
               || snakeFood.Row == obstaclesLastElement.Row
               || snakeFood.Column == obstaclesLastElement.Column
               || obstacle.Contains(obstaclesLastElement)
@@ -133,10 +112,10 @@ while (true)
 
     if (!levelUp)
     {
-        if (nextHead.Column >= ConsoleCol - levelUpCol) nextHead.Column = levelUpCol;
-        if (nextHead.Column < levelUpCol) nextHead.Column = ConsoleCol - 1 - levelUpCol;
-        if (nextHead.Row >= ConsoleRow + 1 - levelUpRow) nextHead.Row = InfoWindow + 2;
-        if (nextHead.Row < InfoWindow + 2) nextHead.Row = ConsoleRow - levelUpRow;
+        //if (snake.NextHeadPossition.Column >= ConsoleCol - levelUpCol) { snake.NextHeadPossition.Column = levelUpCol; }
+        //if (snake.NextHeadPossition.Column < levelUpCol) snake.NextHeadPossition.Column = ConsoleCol - 1 - levelUpCol;
+        //if (snake.NextHeadPossition.Row >= ConsoleRow + 1 - levelUpRow) nextHead.Row = InfoWindow + 2;
+        //if (snake.NextHeadPossition.Row < InfoWindow + 2) nextHead.Row = ConsoleRow - levelUpRow;
     }
 
     if (Level == 10 && !levelUp) // Level Up
@@ -147,12 +126,12 @@ while (true)
         levelUpRow = 1;
         levelUp = true;
     }
-    GameOver(snakeElements, nextHead, levelUp, obstacle, Level);
+    GameOver(snake.SnakeElements, snake.NextHeadPossition, levelUp, obstacle, Level);
 
-    snakeElements.Enqueue(nextHead);
+    snake.Eat();
 
-    colorCount = 0;
-    foreach (var element in snakeElements)
+    int colorCount = 0;
+    foreach (var element in snake.SnakeElements)
     {
         ConsoleColor color;
         if (colorCount % 2 == 0)
@@ -167,11 +146,11 @@ while (true)
         colorCount++;
     }
     string direct = string.Empty;
-    if (direction == 0) direct = ">";
-    if (direction == 1) direct = "<";
-    if (direction == 2) direct = "V";
-    if (direction == 3) direct = "^";
-    Write(direct, nextHead.Row, nextHead.Column, ConsoleColor.Red);
+    if (direction.CurrentDirection.Equals(direction.Right)) direct = ">";
+    if (direction.CurrentDirection.Equals(direction.Left)) direct = "<";
+    if (direction.CurrentDirection.Equals(direction.Down)) direct = "V";
+    if (direction.CurrentDirection.Equals(direction.Up)) direct = "^";
+    Write(direct, snake.NextHeadPossition.Row, snake.NextHeadPossition.Column, ConsoleColor.Red);
 
     foodDisapear = generator.Next(8, 15);
     if (!IsEat)
@@ -180,24 +159,24 @@ while (true)
         {
             snakeFood.Row = generator.Next(InfoWindow + 2, ConsoleRow - levelUpRow);
             snakeFood.Column = generator.Next(levelUpCol, ConsoleCol - levelUpCol);
-        } while (snakeElements.Contains(snakeFood) || snakeFood.Row == obstaclesLastElement.Row || snakeFood.Column == obstaclesLastElement.Column);
+        } while (snake.SnakeElements.Contains(snakeFood) || snakeFood.Row == obstaclesLastElement.Row || snakeFood.Column == obstaclesLastElement.Column);
         IsEat = true;
         Write("@", snakeFood.Row, snakeFood.Column, ConsoleColor.Green);
     }
 
-    if (nextHead.Row == snakeFood.Row && nextHead.Column == snakeFood.Column)
+    if (snake.NextHeadPossition.Row == snakeFood.Row && snake.NextHeadPossition.Column == snakeFood.Column)
     {
-        if (snakeElements.Count % 10 == 0)
+        if (snake.SnakeElements.Count % 10 == 0)
         {
             Level++;
             snakeSpeed -= 3;
         }
-        snakeElements.Enqueue(nextHead);
+        snake.SnakeElements.Enqueue(snake.NextHeadPossition);
         do
         {
             snakeFood.Row = generator.Next(InfoWindow + 2, ConsoleRow - levelUpRow);
             snakeFood.Column = generator.Next(levelUpCol, ConsoleCol - levelUpCol);
-        } while (snakeElements.Contains(snakeFood) || snakeFood.Row == obstaclesLastElement.Row || snakeFood.Column == obstaclesLastElement.Column);
+        } while (snake.SnakeElements.Contains(snakeFood) || snakeFood.Row == obstaclesLastElement.Row || snakeFood.Column == obstaclesLastElement.Column);
         Write("@", snakeFood.Row, snakeFood.Column, ConsoleColor.Green);
         snakeSpeed -= 1;
         Score += 1 * Level;
@@ -210,7 +189,7 @@ while (true)
         IsEat = false;
     }
 
-    Coordinates possitionToDelete = snakeElements.Dequeue();
+    Coordinates possitionToDelete = snake.SnakeElements.Dequeue();
     Write(" ", possitionToDelete.Row, possitionToDelete.Column);
     Thread.Sleep(snakeSpeed);
 }
@@ -248,58 +227,14 @@ void GameOver(Queue<Coordinates> snakeElements, Coordinates nextHead, bool level
     }
 }
 
-static int SnakeDirection(int direction)
-{
-    if (Console.KeyAvailable)
-    {
-        ConsoleKeyInfo key = Console.ReadKey();
-        if (key.Key == ConsoleKey.RightArrow)
-        {
-            if (direction == 1)
-            {
-                direction = 1;
-                return direction;
-            }
-            direction = 0;
-        }
-        else if (key.Key == ConsoleKey.LeftArrow)
-        {
-            if (direction == 0)
-            {
-                direction = 0;
-                return direction;
-            }
-            direction = 1;
-        }
-        else if (key.Key == ConsoleKey.DownArrow)
-        {
-            if (direction == 3)
-            {
-                direction = 3;
-                return direction;
-            }
-            direction = 2;
-        }
-        else if (key.Key == ConsoleKey.UpArrow)
-        {
-            if (direction == 2)
-            {
-                direction = 2;
-                return direction;
-            }
-            direction = 3;
-        }
-    }
-    return direction;
-}
 void ConsoleSettings()
 {
     Console.CursorVisible = false;
-    Console.Title = "Snake v1.1";
+    Console.Title = "Snake v1.0";
     //Console.WindowHeight = ConsoleRow + 2;
     //Console.WindowWidth = ConsoleCol;
-    //Console.BufferHeight = ConsoleRow + 2;
-    //Console.BufferWidth = ConsoleCol;
+    Console.BufferHeight = ConsoleRow ;
+    Console.BufferWidth = ConsoleCol;
     Console.SetWindowSize(ConsoleCol, ConsoleRow + 2);
     Console.OutputEncoding = Encoding.UTF8;
 }
@@ -331,7 +266,7 @@ void DrowingLevelWalls()
 {
     Console.SetCursorPosition(0, InfoWindow + 2);
     Console.ForegroundColor = ConsoleColor.DarkGray;
-    for (int i = 0; i <= FieldRow; i++)
+    for (int i = 0; i <= FieldRow - InfoWindow -4 ; i++)
     {
         string middleLine = "║";
         middleLine += new string(' ', ConsoleCol - 2);
