@@ -1,9 +1,22 @@
 ﻿namespace Snake.Drowers
 {
+    using System.Collections.Generic;
+
     using Common;
+
+    using static Common.GlobalConstants;
 
     public class ConsoleDrower : DrowerBase, IDrower
     {
+        private readonly Coordinates scorePossition;
+        private readonly Coordinates levelPossition;
+
+        public ConsoleDrower()
+        {
+            this.scorePossition = new Coordinates(Field.InfoWindowData.ScoreRowCoordinate, Field.InfoWindowData.ScoreColumnCoordinate);
+            this.levelPossition = new Coordinates(Field.InfoWindowData.LevelRowCoordinate, Field.InfoWindowData.LevelColumnCoordinate);
+        }
+
         public void DrowInfoWindow(Coordinates startPossition, Color infoWindowColor = Color.DarkGray)
         {
             ConsoleColor color = GetColor(infoWindowColor);
@@ -39,9 +52,30 @@
             Console.ResetColor();
         }
 
+
+        //TODO: It is not OK
         public void Drow(Coordinates coordinates)
         {
-            this.Drow(GlobalConstants.Field.InfoWindow.EmptySymbol.ToString(), coordinates, Color.Black);
+            this.Drow(Field.InfoWindow.EmptySymbol.ToString(), coordinates, Color.Black);
+        }
+
+        public void DrowInfoWindowData(int score, int level, Color color = Color.White)
+        {
+            this.Drow(string.Format(Field.InfoWindowData.ScoreMessage, score), this.scorePossition, color);
+            this.Drow(string.Format(Field.InfoWindowData.LevelMessage, level), this.levelPossition, color);
+        }
+
+        public void DrowGameOver(int score, int level, Color color)
+        {
+            this.Drow(string.Format(Field.InfoWindowData.GameOverScoreMessage, Environment.NewLine, score, level), this.scorePossition, color);
+        }
+
+        public void Drow(IEnumerable<Coordinates> collection)
+        {
+            foreach (var item in collection)
+            {
+                this.Drow(item.Symbol.ToString()!, new Coordinates(item.Row, item.Column), item.Color);
+            }
         }
     }
 }

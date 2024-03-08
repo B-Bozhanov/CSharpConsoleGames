@@ -7,17 +7,14 @@ using Snake;
 using Snake.Drowers;
 
 using static Common.GlobalConstants;
-//TODO: If level is five obstacle is appear suddenly.
-// Other
+
 int Score = 0;
 int Level = 1;
 
-int snakeSpeed = 150; // was 150
+int snakeSpeed = 150;
 
-int wallsAppearRow = 0;
-int wallsAppearCol = 0;
 var wallSize = new Coordinates();
-bool isWallsAppear = false;
+bool isGoThroughtWalls = true;
 bool levelFive = false;
 
 IDrower drower = new ConsoleDrower();
@@ -39,30 +36,30 @@ List<Coordinates> obstacles =
 
 
 Random generator = new Random();
-int foodDisapearSeconds = 0;
 int obstacleAppear = 0;
 
 Coordinates obstaclesLastElement = new Coordinates();
-Stopwatch sw = new Stopwatch();
+Stopwatch foodTimer = new Stopwatch();
 Stopwatch obstaclesTimer = new Stopwatch();
 
-sw.Start();
+foodTimer.Start();
 obstaclesTimer.Start();
-food.Generate(snake.Body, obstacles, new Coordinates(Field.InfoWindowHeight + 2, Field.FieldRows - wallsAppearRow),
-                                            new Coordinates(wallsAppearCol, Field.FieldColumns - wallsAppearCol));
+food.Generate(snake.Body, obstacles, new Coordinates(Field.InfoWindowHeight + 2, Field.FieldRows - wallSize.Row),
+                                            new Coordinates(wallSize.Column, Field.FieldColumns - wallSize.Column));
 drower.Drow(food.Symbol.ToString(), food.Coordinates, Color.Green);
+
 while (true)
 {
+    int foodDisapearSeconds = foodTimer.Elapsed.Seconds;
+    int obstacleSeconds = foodTimer.Elapsed.Seconds;
+
     drower.DrowInfoWindow(new Coordinates(0, 0));
-    TimeSpan timer = sw.Elapsed;
-    TimeSpan obst = obstaclesTimer.Elapsed;
-    drower.Drow($"Score: {Score}", new Coordinates(1, 1), Color.Yellow);
-    drower.Drow($"Level: {Level}", new Coordinates(2, 1), Color.Yellow);
+    drower.DrowInfoWindowData(Score, Level, Color.Yellow);
 
     var currentPressedKey = consoleInputHandler.GetPressedKeyboardKey(KeyboardKey.None);
     direction.ChangeCurrentDirection(currentPressedKey);
+    snake.ChangeNextHeadPossition(direction);
 
-    snake.Move(direction.CurrentDirection);
     if (Level >= 5)
     {
         obstaclesTimer.Start();
@@ -87,12 +84,12 @@ while (true)
             levelFive = true;
         }
         obstacleAppear = generator.Next(5, 10);
-        if (obst.Seconds == obstacleAppear)
+        if (obstacleSeconds == obstacleAppear)
         {
             do
             {
-                obstaclesLastElement.Row = generator.Next(Field.InfoWindowHeight + 2, Field.FieldRows - wallsAppearRow);
-                obstaclesLastElement.Column = generator.Next(wallsAppearCol, Field.FieldColumns - wallsAppearCol);
+                obstaclesLastElement.Row = generator.Next(Field.InfoWindowHeight + 2, Field.FieldRows - wallSize.Row);
+                obstaclesLastElement.Column = generator.Next(wallSize.Column, Field.FieldColumns - wallSize.Column);
             } while (snake.Body.Contains(obstaclesLastElement)
               || food.Coordinates.Row == obstaclesLastElement.Row
               || food.Coordinates.Column == obstaclesLastElement.Column
@@ -104,51 +101,21 @@ while (true)
         obstacles.Add(obstaclesLastElement);
     }
 
-
-    if (!isWallsAppear)
+    if (isGoThroughtWalls)
     {
         snake.GoThroughtWalls(wallSize);
     }
 
-    if (Level == 10 && !isWallsAppear) // Level Up
+    if (Level == 10)
     {
-        //TODO: Increese Console columns and Rows by 1 for borders;
         drower.DrowWalls(new Coordinates(Field.InfoWindowHeight + 2, 0));
         drower.Drow(food.Symbol, food.Coordinates, Color.Green);
         wallSize.Row = 1;
         wallSize.Column = 1;
-        isWallsAppear = true;
+        isGoThroughtWalls = false;
     }
 
-    GameOver(isWallsAppear, obstacles, Level);
-    snake.Body.Enqueue(snake.NextHeadPossition);
-
-    int colorCount = 0;
-    string direct = string.Empty;
-    foreach (var element in snake.Body)
-    {
-        Color color;
-        if (colorCount % 2 == 0)
-        {
-            color = Color.DarkYellow;
-        }
-        else
-        {
-            color = Color.DarkGreen;
-        }
-        drower.Drow("●", new Coordinates(element.Row, element.Column), color);
-        if (element.Equals(snake.CurrentHeadPossition))
-        {
-            if (direction.CurrentDirection.Equals(direction.Right)) direct = ">";
-            if (direction.CurrentDirection.Equals(direction.Left)) direct = "<";
-            if (direction.CurrentDirection.Equals(direction.Down)) direct = "V";
-            if (direction.CurrentDirection.Equals(direction.Up)) direct = "^";
-            drower.Drow(direct, new Coordinates(snake.NextHeadPossition.Row, snake.NextHeadPossition.Column), Color.Red);
-        }
-        colorCount++;
-    }
-
-    foodDisapearSeconds = generator.Next(8, 20);
+    GameOver(isGoThroughtWalls, obstacles, Level);
 
     var isEat = snake.Eat(food.Coordinates);
     if (isEat)
@@ -158,37 +125,36 @@ while (true)
             Level++;
             snakeSpeed -= 5;
         }
-
-        food.Generate(snake.Body, obstacles, new Coordinates(Field.InfoWindowHeight + 2, Field.FieldRows - wallsAppearRow), new Coordinates(wallsAppearCol, Field.FieldColumns - wallsAppearCol));
-        
-        drower.Drow(food.Symbol, food.Coordinates, Color.Green);
+        food.Generate(snake.Body, obstacles, new Coordinates(Field.InfoWindowHeight + 2, Field.FieldRows - wallSize.Row), new Coordinates(wallSize.Column, Field.FieldColumns - wallSize.Column));
         snakeSpeed -= 1;
         Score += 1 * Level;
-        sw.Restart();
+        foodTimer.Restart();
     }
-    else if (timer.Seconds == foodDisapearSeconds)
+    else if (foodDisapearSeconds == food.DisapearSeconds)
     {
         drower.Drow(food.Coordinates);
-        food.Generate(snake.Body, obstacles, new Coordinates(Field.InfoWindowHeight + 2, Field.FieldRows - wallsAppearRow),
-                                             new Coordinates(wallsAppearCol, Field.FieldColumns - wallsAppearCol));
+        food.Generate(snake.Body, obstacles, new Coordinates(Field.InfoWindowHeight + 2, Field.FieldRows - wallSize.Row),
+                                             new Coordinates(wallSize.Column, Field.FieldColumns - wallSize.Column));
         drower.Drow(food.Symbol, food.Coordinates, Color.Green);
-        sw.Restart();
+        foodTimer.Restart();
     }
-    Coordinates possitionToDeletee = snake.Body.Dequeue();
-    drower.Drow(possitionToDeletee);
+    snake.Move();
 
+
+    drower.Drow(food.Symbol, food.Coordinates, Color.Green);
+    drower.Drow(snake.Body);
+    drower.Drow(snake.TailPossition);
     Thread.Sleep(snakeSpeed);
 }
 
-void GameOver(bool levelUp, List<Coordinates> obstacles, int level)
+void GameOver(bool isGoThroughtWalls, List<Coordinates> obstacles, int level)
 {
-    if (levelUp && level >= 10)
+    var isGameOver = false;
+    if (isGoThroughtWalls && level >= 10)
     {
         if (snake.IsOnField())
         {
-            drower.Drow($"Game over!\n Your Score is: {Score}\n", new Coordinates(1, 1), Color.DarkRed);
-            drower.Drow($"Game over!\n Your Level is: {Level}\n", new Coordinates(1, 1), Color.DarkRed);
-            Environment.Exit(0);
+            isGameOver = true;
         }
     }
 
@@ -196,16 +162,18 @@ void GameOver(bool levelUp, List<Coordinates> obstacles, int level)
     {
         if (snake.IsCrashToObstacle(obstacles))
         {
-            drower.Drow($"Game over!\n Your Score is: {Score}\n", new Coordinates(1, 1), Color.DarkRed);
-            drower.Drow($"Game over!\n Your Level is: {Level}\n", new Coordinates(1, 1), Color.DarkRed);
-            Environment.Exit(0);
+            isGameOver = true;
         }
     }
 
     if (snake.IsEatMySelf())
     {
-        drower.Drow($"Game over!{Environment.NewLine} Your Score is: {Score}{Environment.NewLine}", new Coordinates(1, 1), Color.DarkRed);
-        drower.Drow($"Game over!{Environment.NewLine} Your Level is: {Level}{Environment.NewLine}", new Coordinates(1, 1), Color.DarkRed);
+        isGameOver = true;
+    }
+
+    if (isGameOver)
+    {
+        drower.DrowGameOver(Score, Level, Color.Red);
         Thread.Sleep(10000);
         Environment.Exit(0);
     }

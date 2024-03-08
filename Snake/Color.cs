@@ -12,5 +12,6 @@
         DarkGreen = 7,
         DarkYellow = 8,
         DarkRed = 9,
+        None = 99,
     }
 }

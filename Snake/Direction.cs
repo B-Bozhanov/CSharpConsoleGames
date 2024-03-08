@@ -1,6 +1,6 @@
 ﻿namespace Snake
 {
-    internal class Direction
+    public class Direction
     {
         private readonly Coordinates[] directions;
 
