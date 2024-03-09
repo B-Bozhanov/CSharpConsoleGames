@@ -32,25 +32,25 @@
             switch (currentPressedKey)
             {
                 case KeyboardKey.Right:
-                    if (!this.CurrentDirection.Equals(this.Left))
+                    if (!this.CurrentDirection.Equals((object)this.Left))
                     {
                         this.CurrentDirection = this.Right;
                     }
                     break;
                 case KeyboardKey.Left:
-                    if (!this.CurrentDirection.Equals(this.Right))
+                    if (!this.CurrentDirection.Equals((object)this.Right))
                     {
                         this.CurrentDirection = this.Left;
                     }
                     break;
                 case KeyboardKey.Up:
-                    if (!this.CurrentDirection.Equals(this.Down))
+                    if (!this.CurrentDirection.Equals((object)this.Down))
                     {
                         this.CurrentDirection = this.Up;
                     }
                     break;
                 case KeyboardKey.Down:
-                    if (!this.CurrentDirection.Equals(this.Up))
+                    if (!this.CurrentDirection.Equals((object)this.Up))
                     {
                         this.CurrentDirection = this.Down;
                     }

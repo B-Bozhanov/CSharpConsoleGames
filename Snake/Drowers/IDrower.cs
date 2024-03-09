@@ -6,8 +6,6 @@
 
         public void DrowWalls(Coordinates startPossition, Color wallsColor = Color.DarkGray);
 
-        public void Drow(string text, Coordinates coordinatesToDrow, Color color = Color.Black);
-
         public void Drow(IEnumerable<Coordinates> collection);
 
         public void DrowInfoWindowData(int score, int level, Color color = Color.White);
@@ -18,6 +16,8 @@
         /// Drow empty string on this coordinates
         /// </summary>
         /// <param name="coordinates"></param>
+        public void DrowEmpty(Coordinates coordinates);
+
         public void Drow(Coordinates coordinates);
     }
 }

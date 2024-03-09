@@ -2,8 +2,6 @@
 {
     using System.Collections.Generic;
 
-    using Common;
-
     using static Common.GlobalConstants;
 
     public class ConsoleDrower : DrowerBase, IDrower
@@ -43,7 +41,7 @@
             return consoleColor;
         }
 
-        public void Drow(string text, Coordinates coordinatesToDrow, Color color = Color.Black)
+        private static void Drow(string text, Coordinates coordinatesToDrow, Color color = Color.Black)
         {
             Console.SetCursorPosition(coordinatesToDrow.Column, coordinatesToDrow.Row);
             var consoleColor = GetColor(color);
@@ -52,30 +50,33 @@
             Console.ResetColor();
         }
 
-
-        //TODO: It is not OK
-        public void Drow(Coordinates coordinates)
+        public void DrowEmpty(Coordinates coordinates)
         {
-            this.Drow(Field.InfoWindow.EmptySymbol.ToString(), coordinates, Color.Black);
+            Drow(Field.InfoWindow.EmptySymbol.ToString(), coordinates, Color.Black);
         }
 
         public void DrowInfoWindowData(int score, int level, Color color = Color.White)
         {
-            this.Drow(string.Format(Field.InfoWindowData.ScoreMessage, score), this.scorePossition, color);
-            this.Drow(string.Format(Field.InfoWindowData.LevelMessage, level), this.levelPossition, color);
+            Drow(string.Format(Field.InfoWindowData.ScoreMessage, score), this.scorePossition, color);
+            Drow(string.Format(Field.InfoWindowData.LevelMessage, level), this.levelPossition, color);
         }
 
         public void DrowGameOver(int score, int level, Color color)
         {
-            this.Drow(string.Format(Field.InfoWindowData.GameOverScoreMessage, Environment.NewLine, score, level), this.scorePossition, color);
+            Drow(string.Format(Field.InfoWindowData.GameOverScoreMessage, Environment.NewLine, score, level), this.scorePossition, color);
         }
 
         public void Drow(IEnumerable<Coordinates> collection)
         {
             foreach (var item in collection)
             {
-                this.Drow(item.Symbol.ToString()!, new Coordinates(item.Row, item.Column), item.Color);
+                Drow(item.Symbol.ToString()!, new Coordinates(item.Row, item.Column), item.Color);
             }
+        }
+
+        public void Drow(Coordinates coordinates)
+        {
+            Drow(coordinates.Symbol.ToString()!, coordinates, coordinates.Color);
         }
     }
 }

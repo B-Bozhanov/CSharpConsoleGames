@@ -45,8 +45,11 @@
             public const char HeadUp = '^';
             public const char HeadDown = 'V';
             public const char FoodSymbol = '@';
+            public const char ObstacleSymbol = '=';
+            public const int FirstObstaclesCount = 3;
             public const string Name = "Snake v1.0";
             public const int StartPossition = Field.InfoWindowHeight + 2;
+            public const int ObstaclesAppearLevel = 1;
         }
     }
 }

@@ -1,7 +1,5 @@
 ﻿namespace Snake
 {
-    using System;
-
     using Common;
 
     using static Common.GlobalConstants;
@@ -35,15 +33,16 @@
 
         public Coordinates NextHeadPossition => this.nextHeadPossition;
 
-        public Coordinates? TailPossition { get; private set; }
+        public Coordinates TailPossition { get; private set; }
 
         public void ChangeNextHeadPossition(Direction direction)
         {
-            if (direction.CurrentDirection.Equals(direction.Right)) this.nextHeadSymbol = GlobalConstants.Snake.HeadRight;
-            if (direction.CurrentDirection.Equals(direction.Left)) this.nextHeadSymbol = GlobalConstants.Snake.HeadLeft;
-            if (direction.CurrentDirection.Equals(direction.Down)) this.nextHeadSymbol = GlobalConstants.Snake.HeadDown;
-            if (direction.CurrentDirection.Equals(direction.Up)) this.nextHeadSymbol = GlobalConstants.Snake.HeadUp;
+            if (direction.CurrentDirection.Equals((object)direction.Right)) this.nextHeadSymbol = GlobalConstants.Snake.HeadRight;
+            if (direction.CurrentDirection.Equals((object)direction.Left)) this.nextHeadSymbol = GlobalConstants.Snake.HeadLeft;
+            if (direction.CurrentDirection.Equals((object)direction.Down)) this.nextHeadSymbol = GlobalConstants.Snake.HeadDown;
+            if (direction.CurrentDirection.Equals((object)direction.Up)) this.nextHeadSymbol = GlobalConstants.Snake.HeadUp;
 
+            this.CurrentHeadPossition.Symbol = this.bodySymbol;
             this.nextHeadPossition = new()
             {
                 Color = this.nextHeadColor,
@@ -52,12 +51,11 @@
                 Column = this.CurrentHeadPossition.Column + direction.CurrentDirection.Column
             };
 
-            this.CurrentHeadPossition.Symbol = this.bodySymbol;
         }
 
         public bool Eat(Coordinates food)
         {
-            if (this.nextHeadPossition.AreEqual(food))
+            if (this.nextHeadPossition.Equals(food))
             {
                 this.body.Enqueue(this.NextHeadPossition);
                 return true;
@@ -88,10 +86,10 @@
 
         //TODO: May be in obstacle file.
         public bool IsCrashToObstacle(IEnumerable<Coordinates> obstacles)
-                => obstacles.Any(o => o.AreEqual(this.nextHeadPossition));
+                => obstacles.Any(o => o.Equals(this.nextHeadPossition));
 
         public bool IsEatMySelf()
-                => this.body.Any(x => x.AreEqual(this.nextHeadPossition));
+                => this.body.Any(x => x.Equals(this.nextHeadPossition));
 
         public bool IsOnField()
                 => this.NextHeadPossition.Row >= Field.FieldRows + 1 || this.NextHeadPossition.Row < Field.InfoWindowHeight + 2
@@ -114,7 +112,7 @@
             int count = 0;
             foreach (var body in this.body)
             {
-                if (body.Equals(this.NextHeadPossition))
+                if (body.Equals((object)this.NextHeadPossition))
                 {
                     break;
                 }

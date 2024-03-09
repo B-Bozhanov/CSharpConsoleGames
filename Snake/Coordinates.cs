@@ -23,19 +23,13 @@ namespace Snake
 
         public Color Color { get; set; }
 
-        public bool AreEqual(Coordinates other)
+        public override bool Equals(object? obj)
         {
-            if (other.Row == this.Row && other.Column == this.Column)
+            if (obj is not Coordinates other)
             {
-                return true;
+                return false;
             }
-
-            return false;
-        }
-
-        public bool AreAllEquals(Coordinates other)
-        {
-            if (other.Equals(this))
+            if (other.Row == this.Row && other.Column == this.Column)
             {
                 return true;
             }
