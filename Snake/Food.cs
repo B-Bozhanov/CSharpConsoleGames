@@ -10,7 +10,7 @@
         private readonly Coordinates coordinates;
         private readonly Coordinates rowsRange;
         private readonly Coordinates columnsRange;
-        private readonly int disapearStartSecconds = 8;
+        private readonly int disapearStartSecconds = 5;
         private readonly int disapearEndSecconds = 20;
 
         public Food()
@@ -28,7 +28,8 @@
 
         public Coordinates Coordinates => this.coordinates;
 
-        public int DisapearSeconds => this.generator.Next(this.disapearStartSecconds, disapearEndSecconds);
+        //TODO: May be in GameManager or ScoreManager:
+        public int RandomDisapearSeconds => this.generator.Next(this.disapearStartSecconds, this.disapearEndSecconds);
 
         public Coordinates Generate(IEnumerable<Coordinates> snakeBody, IEnumerable<Coordinates> obstacles, Coordinates wallsSize)
         {

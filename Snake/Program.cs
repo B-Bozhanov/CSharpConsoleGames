@@ -21,54 +21,66 @@ IDrower drower = new ConsoleDrower();
 var gameManager = new GameManager(drower);
 
 SetConsoleSettings();
-drower.DrowInfoWindow(new Coordinates(0, 0));
 
 var snake = new Snake.Snake(GlobalConstants.Snake.StartPossition);
 var direction = new Direction();
 var food = new Food();
 var obstacle = new Obstacle();
-
 IInputHandler consoleInputHandler = new ConsoleInputHandler();
 
-Random generator = new Random();
+Stopwatch foodAppearTimer = new Stopwatch();
+Stopwatch obstaclesAppearTimer = new Stopwatch();
+Stopwatch obstaclesDisappearTimer = new Stopwatch();
 
-Stopwatch foodTimer = new Stopwatch();
-Stopwatch obstaclesTimer = new Stopwatch();
-
-foodTimer.Start();
+foodAppearTimer.Start();
 food.Generate(snake.Body, obstacle.Obstacles, wallSize);
-drower.Drow(food.Coordinates);
 bool isFirstObstaclesGenerated = false;
+
 drower.DrowInfoWindow(new Coordinates(0, 0));
+drower.Drow(food.Coordinates);
+int foodRandomDisappearSecondns = food.RandomDisapearSeconds;
+int obstacleRandomAppearSecconds = obstacle.RandomAppearSecconds;
+int obstacleRandomDisappearSecconds = obstacle.RandomDisappearSecconds;
 
 while (true)
 {
-    int foodDisapearSeconds = foodTimer.Elapsed.Seconds;
+    int foodDisapearSeconds = foodAppearTimer.Elapsed.Seconds;
     drower.DrowInfoWindowData(Score, Level, Color.Yellow);
 
     var currentPressedKey = consoleInputHandler.GetPressedKeyboardKey(KeyboardKey.None);
     direction.ChangeCurrentDirection(currentPressedKey);
     snake.ChangeNextHeadPossition(direction);
 
+    //var level = scoreManager.GetLevel();
+
     if (Level >= GlobalConstants.Snake.ObstaclesAppearLevel)
     {
-        int obstacleSeconds = obstaclesTimer.Elapsed.Seconds;
         if (!isFirstObstaclesGenerated)
         {
             obstacle.GenerateFirstCount(snake.Body, food.Coordinates, wallSize);
             drower.Drow(obstacle.Obstacles);
-
-            obstaclesTimer.Start();
+            obstaclesAppearTimer.Start();
+            obstaclesDisappearTimer.Start();
             isFirstObstaclesGenerated = true;
         }
 
-        int obstacleAppear = generator.Next(10, 30);
+        int obstacleAppearSeconds = obstaclesAppearTimer.Elapsed.Seconds;
 
-        if (obstacleSeconds == obstacleAppear)
+        if (obstacleAppearSeconds >= obstacleRandomAppearSecconds)
         {
             var lastGeneratedObstacle = obstacle.Generate(snake.Body, food.Coordinates, wallSize);
             drower.Drow(lastGeneratedObstacle);
-            obstaclesTimer.Restart();
+            obstacleRandomAppearSecconds = obstacle.RandomAppearSecconds;
+            obstaclesAppearTimer.Restart();
+        }
+
+        int obstacleDisappearSeconds = obstaclesDisappearTimer.Elapsed.Seconds;
+
+        if (obstacleDisappearSeconds >= obstacleRandomDisappearSecconds)
+        {
+            var removedObstacle = obstacle.RandomDisappear();
+            drower.DrowEmpty(removedObstacle);
+            obstaclesDisappearTimer.Restart();
         }
     }
 
@@ -99,14 +111,15 @@ while (true)
         food.Generate(snake.Body, obstacle.Obstacles, wallSize);
         snakeSpeed -= 1;
         Score += 1 * Level;
-        foodTimer.Restart();
+        foodAppearTimer.Restart();
     }
-    else if (foodDisapearSeconds == food.DisapearSeconds)
+    else if (foodDisapearSeconds >= foodRandomDisappearSecondns)
     {
         drower.DrowEmpty(food.Coordinates);
-        food.Generate(snake.Body, obstacle.Obstacles, wallSize);
-        drower.Drow(food.Coordinates);
-        foodTimer.Restart();
+        Coordinates nextFood = food.Generate(snake.Body, obstacle.Obstacles, wallSize);
+        drower.Drow(nextFood);
+        foodAppearTimer.Restart();
+        foodRandomDisappearSecondns = food.RandomDisapearSeconds;
     }
 
     snake.Move();

@@ -33,7 +33,7 @@
 
         public Coordinates NextHeadPossition => this.nextHeadPossition;
 
-        public Coordinates TailPossition { get; private set; }
+        public Coordinates TailPossition { get; private set; } = null!;
 
         public void ChangeNextHeadPossition(Direction direction)
         {
