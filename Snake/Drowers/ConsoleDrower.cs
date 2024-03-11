@@ -50,9 +50,9 @@
             Console.ResetColor();
         }
 
-        public void DrowEmpty(Coordinates coordinates)
+        public void DrowEmpty(Coordinates coordinates, Color color = Color.Black)
         {
-            Drow(Field.InfoWindow.EmptySymbol.ToString(), coordinates, Color.Black);
+            Drow(Field.InfoWindow.EmptySymbol.ToString(), coordinates, color);
         }
 
         public void DrowInfoWindowData(int score, int level, Color color = Color.White)
@@ -74,7 +74,7 @@
             }
         }
 
-        public void Drow(Coordinates coordinates)
+        public void Drow(Coordinates coordinates, Color color = Color.None)
         {
             Drow(coordinates.Symbol.ToString()!, coordinates, coordinates.Color);
         }

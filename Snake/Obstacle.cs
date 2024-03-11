@@ -8,7 +8,7 @@
     {
         // TODO: Think for some better dataStructure;
         private readonly Random generator;
-        private readonly List<Coordinates> obstacles;
+        private List<Coordinates> obstacles;
         private readonly Color color;
         private readonly char symbol;
         private readonly int appearStartSecconds = 10;
@@ -19,7 +19,7 @@
         public Obstacle()
         {
             this.generator = new Random();
-            this.obstacles = [];
+            this.obstacles = new List<Coordinates>();
             this.color = Color.Cyan;
             this.symbol = GlobalConstants.Snake.ObstacleSymbol;
         }
@@ -58,7 +58,6 @@
             for (int i = 0; i < GlobalConstants.Snake.FirstObstaclesCount; i++)
             {
                 var obstacle = this.Generate(snakeBody, foodCoordinates, wallsSize);
-                this.obstacles.Add(obstacle);
             }
         }
 
@@ -74,9 +73,9 @@
 
         public Coordinates RandomDisappear()
         {
-            var index = this.generator.Next(0, this.obstacles.Count -1);
-            var obstacle = this.obstacles[index];
-            this.obstacles.RemoveAt(index);
+            var index = this.generator.Next(0, this.Obstacles.Count -1);
+            var obstacle = this.Obstacles[index];
+            this.obstacles.Remove(obstacle);
 
             return obstacle;
         }

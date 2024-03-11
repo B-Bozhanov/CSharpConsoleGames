@@ -16,8 +16,8 @@
         /// Drow empty string on this coordinates
         /// </summary>
         /// <param name="coordinates"></param>
-        public void DrowEmpty(Coordinates coordinates);
+        public void DrowEmpty(Coordinates coordinates, Color color = Color.Black);
 
-        public void Drow(Coordinates coordinates);
+        public void Drow(Coordinates coordinates, Color color = Color.None);
     }
 }
