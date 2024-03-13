@@ -2,25 +2,26 @@
 {
     using Common;
 
-    using static Common.GlobalConstants;
-
     public class Snake
     {
         private readonly Queue<Coordinates> body;
         private Coordinates nextHeadPossition;
+        private int speed = GlobalConstants.Snake.DefaultSpeed;
         private readonly Color bodyColor;
         private readonly Color nextHeadColor = Color.Red;
         private readonly Color bodyColor1 = Color.DarkYellow;
         private readonly Color bodyColor2 = Color.DarkGreen;
         private readonly char bodySymbol;
         private char nextHeadSymbol;
+        private readonly IField field;
 
-        public Snake(int snakeStartPossition)
+        public Snake(IField field, int snakeStartPossition)
         {
             this.body = new Queue<Coordinates>();
             this.nextHeadPossition = new Coordinates();
             this.bodySymbol = GlobalConstants.Snake.BodySymbol;
             this.nextHeadSymbol = GlobalConstants.Snake.HeadRight;
+            this.field = field;
 
             for (int i = 1; i <= GlobalConstants.Snake.DefaultLength; i++)
             {
@@ -32,6 +33,8 @@
         public Coordinates CurrentHeadPossition => this.body.Last();
 
         public Coordinates NextHeadPossition => this.nextHeadPossition;
+
+        public int Speed => this.speed;
 
         public Coordinates TailPossition { get; private set; } = null!;
 
@@ -66,21 +69,21 @@
 
         public void GoThroughtWalls(Coordinates wallSize)
         {
-            if (this.NextHeadPossition.Column >= Field.GameColumns - wallSize.Column)
+            if (this.NextHeadPossition.Column >= this.field.GameColumns - wallSize.Column)
             {
                 this.nextHeadPossition.Column = wallSize.Column;
             }
             if (this.NextHeadPossition.Column < wallSize.Column)
             {
-                this.nextHeadPossition.Column = Field.GameColumns - 1 - wallSize.Column;
+                this.nextHeadPossition.Column = this.field.GameColumns - 1 - wallSize.Column;
             }
-            if (this.NextHeadPossition.Row >= Field.FieldRows + 1 - wallSize.Row)
+            if (this.NextHeadPossition.Row >= this.field.FieldRows + 1 - wallSize.Row)
             {
-                this.nextHeadPossition.Row = Field.InfoWindowHeight + 2;
+                this.nextHeadPossition.Row = this.field.InfoWindowHeight + 2;
             }
-            if (this.NextHeadPossition.Row < Field.InfoWindowHeight + 2)
+            if (this.NextHeadPossition.Row < this.field.InfoWindowHeight + 2)
             {
-                this.nextHeadPossition.Row = Field.FieldRows - wallSize.Row;
+                this.nextHeadPossition.Row = this.field.FieldRows - wallSize.Row;
             }
         }
 
@@ -92,12 +95,12 @@
                 => this.body.Any(x => x.Equals(this.nextHeadPossition));
 
         public bool IsOnField()
-                => this.NextHeadPossition.Row >= Field.FieldRows + 1 || this.NextHeadPossition.Row < Field.InfoWindowHeight + 2
-                   || this.NextHeadPossition.Column >= Field.FieldColumns - 1 || this.NextHeadPossition.Column < 1;
+                => this.NextHeadPossition.Row >= this.field.FieldRows + 1 || this.NextHeadPossition.Row < this.field.InfoWindowHeight + 2
+                   || this.NextHeadPossition.Column >= this.field.FieldColumns - 1 || this.NextHeadPossition.Column < 1;
 
         public void IncreaseSpeed(int speed)
         {
-
+            this.speed -= speed;
         }
 
         public void Move()

@@ -12,8 +12,9 @@
         private readonly Coordinates columnsRange;
         private readonly int disapearStartSecconds = 5;
         private readonly int disapearEndSecconds = 20;
+        private readonly IField field;
 
-        public Food()
+        public Food(IField field)
         {
             generator = new Random();
             this.coordinates = new Coordinates
@@ -21,9 +22,11 @@
                 Color = Color.Green,
                 Symbol = GlobalConstants.Snake.FoodSymbol
             };
+            this.field = field;
 
-            this.rowsRange = new Coordinates(Field.InfoWindowHeight + 2, Field.FieldRows);
-            this.columnsRange = new Coordinates(0, Field.FieldColumns);
+            this.rowsRange = new Coordinates(this.field.InfoWindowHeight + 2, this.field.FieldRows);
+            this.columnsRange = new Coordinates(0, this.field.FieldColumns);
+
         }
 
         public Coordinates Coordinates => this.coordinates;

@@ -39,17 +39,18 @@
         {
             public const char BodySymbol = '●';
             public const int DefaultLength = 3;
-            public const int DefaultSpeed = 1;
+            public const int DefaultSpeed = 200;
             public const char HeadLeft = '<';
             public const char HeadRight = '>';
             public const char HeadUp = '^';
             public const char HeadDown = 'V';
             public const char FoodSymbol = '@';
-            public const char ObstacleSymbol = '=';
+            public const char ObstacleSymbol = (char) 9760;
             public const int FirstObstaclesCount = 3;
             public const string Name = "Snake v1.0";
             public const int StartPossition = Field.InfoWindowHeight + 2;
-            public const int ObstaclesAppearLevel = 1;
+            public const int ObstaclesAppearLevel = 5;
+            public const int WallsAppearLevel = 10;
         }
     }
 }

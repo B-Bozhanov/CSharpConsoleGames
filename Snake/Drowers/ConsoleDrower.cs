@@ -31,7 +31,7 @@
             Console.SetCursorPosition(startPossition.Column, startPossition.Row);
             string walls = GetWalls();
             Console.ForegroundColor = color;
-            Console.WriteLine(walls);
+            Console.Write(walls);
             Console.ResetColor();
         }
 
@@ -74,7 +74,7 @@
             }
         }
 
-        public void Drow(Coordinates coordinates, Color color = Color.None)
+        public void Drow(Coordinates coordinates)
         {
             Drow(coordinates.Symbol.ToString()!, coordinates, coordinates.Color);
         }

@@ -18,6 +18,6 @@
         /// <param name="coordinates"></param>
         public void DrowEmpty(Coordinates coordinates, Color color = Color.Black);
 
-        public void Drow(Coordinates coordinates, Color color = Color.None);
+        public void Drow(Coordinates coordinates);
     }
 }

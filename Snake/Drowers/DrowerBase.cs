@@ -36,7 +36,7 @@
         {
             var walls = new StringBuilder();
 
-            for (int i = 0; i <= FieldRows; i++)
+            for (int i = 0; i <= GameRows -1 ; i++)
             {
                 walls.Append(InfoWindow.VerticalLine);
                 walls.Append(new string(InfoWindow.EmptySymbol, FieldColumns - 2));

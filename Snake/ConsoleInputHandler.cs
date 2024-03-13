@@ -6,7 +6,7 @@
         {
             if (Console.KeyAvailable)
             {
-                ConsoleKeyInfo key = Console.ReadKey();
+                ConsoleKeyInfo key = Console.ReadKey(true);
 
                 if (key.Key == ConsoleKey.RightArrow || key.Key == ConsoleKey.D)
                 {
