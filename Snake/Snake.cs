@@ -15,13 +15,15 @@
         private char nextHeadSymbol;
         private readonly IField field;
 
-        public Snake(IField field, int snakeStartPossition)
+        public Snake(IField field)
         {
             this.body = new Queue<Coordinates>();
             this.nextHeadPossition = new Coordinates();
             this.bodySymbol = GlobalConstants.Snake.BodySymbol;
             this.nextHeadSymbol = GlobalConstants.Snake.HeadRight;
             this.field = field;
+
+            var snakeStartPossition = GlobalConstants.Snake.StartPossition;
 
             for (int i = 1; i <= GlobalConstants.Snake.DefaultLength; i++)
             {

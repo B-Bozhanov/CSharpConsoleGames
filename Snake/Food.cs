@@ -2,8 +2,6 @@
 {
     using Common;
 
-    using static Common.GlobalConstants;
-
     public class Food
     {
         private readonly Random generator;

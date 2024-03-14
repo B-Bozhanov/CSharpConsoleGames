@@ -6,13 +6,13 @@
 
     public class ConsoleField : IField
     {
-        public ConsoleField(Coordinates gameCoordinates, int infoWindowHeight, Coordinates fieldCoordinates)
+        public ConsoleField()
         {
-            this.GameRows = gameCoordinates.Row;
-            this.GameColumns = gameCoordinates.Column;
-            this.InfoWindowHeight = infoWindowHeight;
-            this.FieldRows = fieldCoordinates.Row;
-            this.FieldColumns = fieldCoordinates.Column;
+            this.GameRows = GlobalConstants.Field.GameRows;
+            this.GameColumns = GlobalConstants.Field.GameColumns;
+            this.InfoWindowHeight = GlobalConstants.Field.InfoWindowHeight;
+            this.FieldRows = GlobalConstants.Field.FieldRows;
+            this.FieldColumns = GlobalConstants.Field.FieldColumns;
 
             this.SetSettings();
         }

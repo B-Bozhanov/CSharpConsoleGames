@@ -1,5 +1,4 @@
-﻿// Primary constructor
-namespace Snake
+﻿namespace Snake
 {
     public class Coordinates
     {
