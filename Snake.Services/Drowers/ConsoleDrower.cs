@@ -1,27 +1,20 @@
-﻿namespace Snake.Drowers
+﻿namespace Snake.Services.Drowers
 {
     using System.Collections.Generic;
+
+    using Snake.Models;
 
     using static Common.GlobalConstants;
 
     public class ConsoleDrower : DrowerBase, IDrower
     {
-        private readonly Coordinates scorePossition;
-        private readonly Coordinates levelPossition;
-
-        public ConsoleDrower()
-        {
-            this.scorePossition = new Coordinates(Field.InfoWindowData.ScoreRowCoordinate, Field.InfoWindowData.ScoreColumnCoordinate);
-            this.levelPossition = new Coordinates(Field.InfoWindowData.LevelRowCoordinate, Field.InfoWindowData.LevelColumnCoordinate);
-        }
-
         public void DrowInfoWindow(Coordinates startPossition, Color infoWindowColor = Color.DarkGray)
         {
             ConsoleColor color = GetColor(infoWindowColor);
             string infoWindowString = GetInfoWindow();
             Console.ForegroundColor = color;
             Console.SetCursorPosition(startPossition.Column, startPossition.Row);
-            Console.Write(infoWindowString.ToString().Trim());
+            Console.Write(infoWindowString.Trim());
             Console.ResetColor();
         }
 
@@ -57,13 +50,13 @@
 
         public void DrowInfoWindowData(int score, int level, Color color = Color.White)
         {
-            Drow(string.Format(Field.InfoWindowData.ScoreMessage, score), this.scorePossition, color);
-            Drow(string.Format(Field.InfoWindowData.LevelMessage, level), this.levelPossition, color);
+            Drow(string.Format(Field.InfoWindowData.ScoreMessage, score), this.ScorePossition, color);
+            Drow(string.Format(Field.InfoWindowData.LevelMessage, level), this.LevelPossition, color);
         }
 
         public void DrowGameOver(int score, int level, Color color)
         {
-            Drow(string.Format(Field.InfoWindowData.GameOverScoreMessage, Environment.NewLine, score, level), this.scorePossition, color);
+            Drow(string.Format(Field.InfoWindowData.GameOverScoreMessage, Environment.NewLine, score, level), this.ScorePossition, color);
         }
 
         public void Drow(IEnumerable<Coordinates> collection)

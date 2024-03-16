@@ -1,12 +1,15 @@
-﻿namespace Snake
+﻿using Snake.Models;
+using Snake.Services.Interfaces;
+
+namespace Snake.Services
 {
-    public class Direction
+    public class DirectionService : IDirectionService
     {
         private readonly Coordinates[] directions;
 
-        public Direction()
+        public DirectionService()
         {
-            this.directions =
+            directions =
             [
                 new Coordinates(1, 0),   // Down, 0
                 new Coordinates(0, -1),  // Left, 1
@@ -14,45 +17,45 @@
                 new Coordinates(-1, 0),  // Up, 3
             ];
 
-            this.CurrentDirection = this.Right;   // Right by default
+            CurrentDirection = Right;   // Right by default
         }
 
         public Coordinates CurrentDirection { get; set; }
 
-        public Coordinates Down => this.directions[0];
+        public Coordinates Down => directions[0];
 
-        public Coordinates Left => this.directions[1];
+        public Coordinates Left => directions[1];
 
-        public Coordinates Right => this.directions[2];
+        public Coordinates Right => directions[2];
 
-        public Coordinates Up => this.directions[3];
+        public Coordinates Up => directions[3];
 
         public void ChangeCurrentDirection(KeyboardKey currentPressedKey)
         {
             switch (currentPressedKey)
             {
                 case KeyboardKey.Right:
-                    if (!this.CurrentDirection.Equals((object)this.Left))
+                    if (!CurrentDirection.Equals(Left))
                     {
-                        this.CurrentDirection = this.Right;
+                        CurrentDirection = Right;
                     }
                     break;
                 case KeyboardKey.Left:
-                    if (!this.CurrentDirection.Equals((object)this.Right))
+                    if (!CurrentDirection.Equals(Right))
                     {
-                        this.CurrentDirection = this.Left;
+                        CurrentDirection = Left;
                     }
                     break;
                 case KeyboardKey.Up:
-                    if (!this.CurrentDirection.Equals((object)this.Down))
+                    if (!CurrentDirection.Equals(Down))
                     {
-                        this.CurrentDirection = this.Up;
+                        CurrentDirection = Up;
                     }
                     break;
                 case KeyboardKey.Down:
-                    if (!this.CurrentDirection.Equals((object)this.Up))
+                    if (!CurrentDirection.Equals(Up))
                     {
-                        this.CurrentDirection = this.Down;
+                        CurrentDirection = Down;
                     }
                     break;
             }

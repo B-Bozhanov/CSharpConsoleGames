@@ -1,10 +1,10 @@
-﻿namespace Snake
+﻿namespace Snake.Services.Interfaces
 {
-    public interface IField
+    public interface IFieldService
     {
         public int GameRows { get; }
 
-        public int GameColumns { get;}
+        public int GameColumns { get; }
 
         public int InfoWindowHeight { get; }
 

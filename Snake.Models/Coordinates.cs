@@ -1,4 +1,4 @@
-﻿namespace Snake
+﻿namespace Snake.Models
 {
     public class Coordinates
     {
@@ -21,6 +21,11 @@
         public char? Symbol { get; set; }
 
         public Color Color { get; set; }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
 
         public override bool Equals(object? obj)
         {

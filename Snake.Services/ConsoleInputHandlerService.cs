@@ -1,6 +1,9 @@
-﻿namespace Snake
+﻿using Snake.Models;
+using Snake.Services.Interfaces;
+
+namespace Snake.Services
 {
-    public class ConsoleInputHandler : IInputHandler
+    public class ConsoleInputHandlerService : IInputHandlerService
     {
         public KeyboardKey GetPressedKeyboardKey(KeyboardKey currentPressedKey)
         {

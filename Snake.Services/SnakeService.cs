@@ -1,21 +1,24 @@
-﻿namespace Snake
+﻿namespace Snake.Services
 {
     using Common;
 
-    public class Snake
+    using Snake.Models;
+    using Snake.Models.Models;
+    using Snake.Services.Interfaces;
+
+    public class SnakeService : ISnakeService
     {
         private readonly Queue<Coordinates> body;
         private Coordinates nextHeadPossition;
         private int speed = GlobalConstants.Snake.DefaultSpeed;
-        private readonly Color bodyColor;
         private readonly Color nextHeadColor = Color.Red;
         private readonly Color bodyColor1 = Color.DarkYellow;
         private readonly Color bodyColor2 = Color.DarkGreen;
         private readonly char bodySymbol;
         private char nextHeadSymbol;
-        private readonly IField field;
+        private readonly IFieldService field;
 
-        public Snake(IField field)
+        public SnakeService(IFieldService field)
         {
             this.body = new Queue<Coordinates>();
             this.nextHeadPossition = new Coordinates();
@@ -27,12 +30,10 @@
 
             for (int i = 1; i <= GlobalConstants.Snake.DefaultLength; i++)
             {
-                this.body.Enqueue(new Coordinates(snakeStartPossition, i, this.bodySymbol, this.bodyColor));
+                this.body.Enqueue(new Coordinates(snakeStartPossition, i, this.bodySymbol));
             }
         }
-        public Queue<Coordinates> Body => this.body;
-
-        public Coordinates CurrentHeadPossition => this.body.Last();
+        //public Queue<Coordinates> Body => this.body;
 
         public Coordinates NextHeadPossition => this.nextHeadPossition;
 
@@ -40,29 +41,34 @@
 
         public Coordinates TailPossition { get; private set; } = null!;
 
-        public void ChangeNextHeadPossition(Direction direction)
-        {
-            if (direction.CurrentDirection.Equals((object)direction.Right)) this.nextHeadSymbol = GlobalConstants.Snake.HeadRight;
-            if (direction.CurrentDirection.Equals((object)direction.Left)) this.nextHeadSymbol = GlobalConstants.Snake.HeadLeft;
-            if (direction.CurrentDirection.Equals((object)direction.Down)) this.nextHeadSymbol = GlobalConstants.Snake.HeadDown;
-            if (direction.CurrentDirection.Equals((object)direction.Up)) this.nextHeadSymbol = GlobalConstants.Snake.HeadUp;
+        IEnumerable<Coordinates> ISnakeService.Body => this.body;
 
-            this.CurrentHeadPossition.Symbol = this.bodySymbol;
+        public SnakeModel ChangeNextHeadPossition(IDirectionService direction)
+        {
+            if (direction.CurrentDirection.Equals(direction.Right)) nextHeadSymbol = GlobalConstants.Snake.HeadRight;
+            if (direction.CurrentDirection.Equals(direction.Left)) nextHeadSymbol = GlobalConstants.Snake.HeadLeft;
+            if (direction.CurrentDirection.Equals(direction.Down)) nextHeadSymbol = GlobalConstants.Snake.HeadDown;
+            if (direction.CurrentDirection.Equals(direction.Up)) nextHeadSymbol = GlobalConstants.Snake.HeadUp;
+
+            var cuurentHeadPossition = this.body.Last();
+
+            cuurentHeadPossition.Symbol = this.bodySymbol;
             this.nextHeadPossition = new()
             {
                 Color = this.nextHeadColor,
                 Symbol = this.nextHeadSymbol,
-                Row = this.CurrentHeadPossition.Row + direction.CurrentDirection.Row,
-                Column = this.CurrentHeadPossition.Column + direction.CurrentDirection.Column
+                Row = cuurentHeadPossition.Row + direction.CurrentDirection.Row,
+                Column = cuurentHeadPossition.Column + direction.CurrentDirection.Column
             };
 
+            return new SnakeModel { Body = body };
         }
 
         public bool Eat(Coordinates food)
         {
             if (this.nextHeadPossition.Equals(food))
             {
-                this.body.Enqueue(this.NextHeadPossition);
+                this.body.Enqueue(NextHeadPossition);
                 return true;
             }
 
@@ -109,7 +115,7 @@
         {
             this.body.Enqueue(this.NextHeadPossition);
             this.TailPossition = this.body.Dequeue();
-            this.SetBodyColors();
+            SetBodyColors();
         }
 
         private void SetBodyColors()
@@ -117,7 +123,7 @@
             int count = 0;
             foreach (var body in this.body)
             {
-                if (body.Equals((object)this.NextHeadPossition))
+                if (body.Equals(this.NextHeadPossition))
                 {
                     break;
                 }

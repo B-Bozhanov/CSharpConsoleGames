@@ -1,12 +1,22 @@
-﻿namespace Snake.Drowers
+﻿namespace Snake.Services.Drowers
 {
     using System.Text;
 
-    using static Common.GlobalConstants;
+    using Snake.Models;
+
     using static Common.GlobalConstants.Field;
 
     public abstract class DrowerBase
     {
+        public DrowerBase()
+        {
+            this.ScorePossition = new Coordinates(InfoWindowData.ScoreRowCoordinate, InfoWindowData.ScoreColumnCoordinate);
+            this.LevelPossition = new Coordinates(InfoWindowData.LevelRowCoordinate, InfoWindowData.LevelColumnCoordinate);
+        }
+
+        protected Coordinates ScorePossition { get; }
+        protected Coordinates LevelPossition { get; }
+
         public static string GetInfoWindow()
         {
             var infoWindowString = new StringBuilder();
@@ -36,7 +46,7 @@
         {
             var walls = new StringBuilder();
 
-            for (int i = 0; i <= GameRows -1 ; i++)
+            for (int i = 0; i <= GameRows - 1; i++)
             {
                 walls.Append(InfoWindow.VerticalLine);
                 walls.Append(new string(InfoWindow.EmptySymbol, FieldColumns - 2));

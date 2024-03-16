@@ -1,5 +1,7 @@
-﻿namespace Snake.Drowers
+﻿namespace Snake.Services.Drowers
 {
+    using Snake.Models;
+
     public interface IDrower
     {
         public void DrowInfoWindow(Coordinates startPossition, Color infoWindowColor = Color.DarkGray);

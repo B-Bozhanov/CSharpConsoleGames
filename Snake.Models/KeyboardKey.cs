@@ -1,4 +1,4 @@
-﻿namespace Snake
+﻿namespace Snake.Models
 {
     public enum KeyboardKey
     {

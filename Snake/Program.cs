@@ -1,9 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-using Snake;
-using Snake.Game;
+using Snake.Data.Data;
+using Snake.Services;
+using Snake.Services.Interfaces;
 
-var services = RegisterServices.Register();
-var gameManager = services.GetService<GameManager>()!;
+string sqlConnectionString = "Server=localhost;Database=SnakeGame;Trusted_Connection=true;MultipleActiveResultSets=true;TrustServerCertificate=True;Integrated Security=true";
+var dbContext = new SnakeDbContext(sqlConnectionString);
+await dbContext.Database.EnsureCreatedAsync();
+
+IServiceProvider services = new Service().GetServices();
+IGameService gameManager = services.GetRequiredService<IGameService>()!;
 
 gameManager.Start();
