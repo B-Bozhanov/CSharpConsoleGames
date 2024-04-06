@@ -3,15 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snake.Game", "Snake.Game.csproj", "{B42D63ED-22DA-42E2-BA5F-3A5B1308E8E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snake.App", "Snake.App.csproj", "{B42D63ED-22DA-42E2-BA5F-3A5B1308E8E3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "..\Common\Common.csproj", "{9BBD3F0C-83C8-4927-8701-5EB60EE632B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snake.Data", "..\Snake.Data\Snake.Data.csproj", "{F0964B62-3805-49A7-ADB6-FBBEFAD01C07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snake.Data", "..\Snake.Data\Snake.Data.csproj", "{F0964B62-3805-49A7-ADB6-FBBEFAD01C07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snake.Services", "..\Snake.Services\Snake.Services.csproj", "{905335E6-B69B-44CF-8338-CD301C02DA53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snake.Services", "..\Snake.Services\Snake.Services.csproj", "{905335E6-B69B-44CF-8338-CD301C02DA53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snake.Models", "..\Snake.Models\Snake.Models.csproj", "{7FDACC8B-5943-4218-A978-9FAE2CC7BE2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snake.Models", "..\Snake.Models\Snake.Models.csproj", "{7FDACC8B-5943-4218-A978-9FAE2CC7BE2F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9D65B634-B0D6-4C49-AA31-72F7DB75D889}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snake.Menu", "..\Snake.Menu\Snake.Menu.csproj", "{A638B076-8E26-42F1-86C4-97DD71F60B56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +46,10 @@ Global
 		{7FDACC8B-5943-4218-A978-9FAE2CC7BE2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FDACC8B-5943-4218-A978-9FAE2CC7BE2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FDACC8B-5943-4218-A978-9FAE2CC7BE2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A638B076-8E26-42F1-86C4-97DD71F60B56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A638B076-8E26-42F1-86C4-97DD71F60B56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A638B076-8E26-42F1-86C4-97DD71F60B56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A638B076-8E26-42F1-86C4-97DD71F60B56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

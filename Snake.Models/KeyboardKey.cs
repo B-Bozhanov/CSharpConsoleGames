@@ -6,6 +6,7 @@
         Left = 1,
         Up = 2,
         Down = 3,
+        Enter = 4,
         None = 99,
     }
 }

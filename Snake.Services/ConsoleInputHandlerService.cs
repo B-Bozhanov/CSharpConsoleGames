@@ -5,8 +5,10 @@ namespace Snake.Services
 {
     public class ConsoleInputHandlerService : IInputHandlerService
     {
-        public KeyboardKey GetPressedKeyboardKey(KeyboardKey currentPressedKey)
+        public KeyboardKey GetPressedKeyboardKey()
         {
+            KeyboardKey currentPressedKey = KeyboardKey.None;
+
             if (Console.KeyAvailable)
             {
                 ConsoleKeyInfo key = Console.ReadKey(true);
@@ -26,6 +28,10 @@ namespace Snake.Services
                 if (key.Key == ConsoleKey.UpArrow || key.Key == ConsoleKey.W)
                 {
                     return KeyboardKey.Up;
+                }
+                if (key.Key == ConsoleKey.Enter)
+                {
+                    return KeyboardKey.Enter;
                 }
             }
 

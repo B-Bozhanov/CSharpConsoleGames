@@ -9,7 +9,7 @@
     {
         // TODO: Think for some better dataStructure;
         private readonly Random generator;
-        private List<Coordinates> obstacles;
+        private readonly List<Coordinates> obstacles;
         private readonly Color color;
         private readonly char symbol;
         private readonly int appearStartSecconds = 10;
@@ -19,10 +19,10 @@
 
         public ObstacleService()
         {
-            generator = new Random();
-            obstacles = new List<Coordinates>();
-            color = Color.Cyan;
-            symbol = GlobalConstants.Snake.ObstacleSymbol;
+            this.generator = new Random();
+            this.obstacles = [];
+            this.color = Color.Cyan;
+            this.symbol = GlobalConstants.Snake.ObstacleSymbol;
 
         }
 
@@ -36,9 +36,7 @@
 
         public Coordinates Generate(IFieldService field, IEnumerable<Coordinates> snakeBody, Coordinates foodCoordinates, Coordinates wallsSize)
         {
-            var obstacle = new Coordinates();
-            obstacle.Color = color;
-            obstacle.Symbol = symbol;
+            var obstacle = new Coordinates(0 , 0, this.symbol, this.color);
 
             do
             {

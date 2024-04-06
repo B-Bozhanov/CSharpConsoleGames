@@ -9,6 +9,5 @@ var dbContext = new SnakeDbContext(sqlConnectionString);
 await dbContext.Database.EnsureCreatedAsync();
 
 IServiceProvider services = new Service().GetServices();
-IGameService gameManager = services.GetRequiredService<IGameService>()!;
-
-gameManager.Start();
+IGameService gameService = services.GetRequiredService<IGameService>()!;
+gameService.Start();

@@ -1,7 +1,5 @@
-﻿namespace Snake.Models.Models
+﻿namespace Snake.Models.Models.Snake
 {
-    using Snake.Models;
-
     public class SnakeModel
     {
         public IEnumerable<Coordinates> Body { get; set; } = null!;

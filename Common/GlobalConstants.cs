@@ -35,22 +35,46 @@
             }
         }
 
+        public static class Menu
+        {
+            public const int StartRow = Field.GameRows / 2;
+            public const int StartColumn = Field.GameColumns / 2 - 5;
+            public const int CursorDistannce = 2;
+            public const int CursorStartRow = StartRow;
+            public const int CursorStartColumn = StartColumn - CursorDistannce;
+            public const int CursorReturnColumnValue = CursorStartColumn + CursorDistannce;
+            public const char CursorSymbol = '*';
+
+            public const string MenuAssemblyName = "Snake.Menu";
+            public const string StartMenuTypeName = "Login";
+        }
+
         public static class Snake
         {
-            public const char BodySymbol = '●';
+            public const string BodySymbol = "●";
             public const int DefaultLength = 3;
             public const int DefaultSpeed = 200;
-            public const char HeadLeft = '<';
-            public const char HeadRight = '>';
-            public const char HeadUp = '^';
-            public const char HeadDown = 'V';
-            public const char FoodSymbol = '@';
+            public const string HeadLeft = "<";
+            public const string HeadRight = ">";
+            public const string HeadUp = "^";
+            public const string HeadDown = "V";
+            public const string FoodSymbol = "@";
             public const char ObstacleSymbol = (char) 9760;
             public const int FirstObstaclesCount = 3;
             public const string Name = "Snake v1.0";
             public const int StartPossition = Field.InfoWindowHeight + 2;
             public const int ObstaclesAppearLevel = 5;
             public const int WallsAppearLevel = 10;
+        }
+
+        public static class Exceptions
+        {
+            public static class Menu
+            {
+                public const string AssemblyNotFound = "The assembly is not found";
+                public const string TypeNotFound = "The type is not found";
+                public const string NamespaceNotFound = "There is no namespace";
+            }
         }
     }
 }

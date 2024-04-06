@@ -6,7 +6,7 @@
 
     using static Common.GlobalConstants.Field;
 
-    public abstract class DrowerBase
+    public abstract class DrowerBase 
     {
         public DrowerBase()
         {
@@ -15,6 +15,7 @@
         }
 
         protected Coordinates ScorePossition { get; }
+
         protected Coordinates LevelPossition { get; }
 
         public static string GetInfoWindow()

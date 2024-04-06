@@ -1,7 +1,7 @@
 ﻿namespace Snake.Services.Interfaces
 {
     using Snake.Models;
-    using Snake.Models.Models;
+    using Snake.Models.Models.Snake;
 
     public interface ISnakeService
     {

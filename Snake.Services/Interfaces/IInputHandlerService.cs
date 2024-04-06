@@ -4,6 +4,6 @@
 
     public interface IInputHandlerService
     {
-        public KeyboardKey GetPressedKeyboardKey(KeyboardKey currentKey);
+        public KeyboardKey GetPressedKeyboardKey();
     }
 }

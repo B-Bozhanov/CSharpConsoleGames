@@ -3,7 +3,7 @@
     using Common;
 
     using Snake.Models;
-    using Snake.Models.Models;
+    using Snake.Models.Models.Snake;
     using Snake.Services.Interfaces;
 
     public class SnakeService : ISnakeService
@@ -14,8 +14,8 @@
         private readonly Color nextHeadColor = Color.Red;
         private readonly Color bodyColor1 = Color.DarkYellow;
         private readonly Color bodyColor2 = Color.DarkGreen;
-        private readonly char bodySymbol;
-        private char nextHeadSymbol;
+        private readonly string bodySymbol;
+        private string nextHeadSymbol;
         private readonly IFieldService field;
 
         public SnakeService(IFieldService field)

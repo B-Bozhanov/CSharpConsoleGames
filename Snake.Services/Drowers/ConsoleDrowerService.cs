@@ -3,10 +3,11 @@
     using System.Collections.Generic;
 
     using Snake.Models;
+    using Snake.Models.Models.Menues;
 
     using static Common.GlobalConstants;
 
-    public class ConsoleDrower : DrowerBase, IDrower
+    public class ConsoleDrowerService : DrowerBase, IDrowerService
     {
         public void DrowInfoWindow(Coordinates startPossition, Color infoWindowColor = Color.DarkGray)
         {
@@ -70,6 +71,14 @@
         public void Drow(Coordinates coordinates)
         {
             Drow(coordinates.Symbol.ToString()!, coordinates, coordinates.Color);
+        }
+
+        public void Drow(IEnumerable<IMenu> menues)
+        {
+            foreach (var menu in menues)
+            {
+                this.Drow(menu.Coordinates);
+            }
         }
     }
 }

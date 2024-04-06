@@ -1,7 +1,10 @@
 ﻿namespace Snake.Services
 {
+    using System.Reflection;
+
     using Microsoft.Extensions.DependencyInjection;
 
+    using Snake.Menu.Wellcome;
     using Snake.Services.Drowers;
     using Snake.Services.Interfaces;
 
@@ -16,7 +19,7 @@
 
         private static ServiceCollection RegisterServices(ServiceCollection services)
         {
-            services.AddSingleton<IDrower, ConsoleDrower>();
+            services.AddSingleton<IDrowerService, ConsoleDrowerService>();
             services.AddSingleton<IFieldService, ConsoleFieldService>();
             services.AddSingleton<ISnakeService, SnakeService>();
             services.AddSingleton<IInputHandlerService, ConsoleInputHandlerService>();
@@ -25,6 +28,8 @@
             services.AddSingleton<IFoodService, FoodService>();
             services.AddSingleton<IObstacleService, ObstacleService>();
             services.AddSingleton<IGameService, GameService>();
+            services.AddSingleton<ICursorService, CursorService>();
+            services.AddSingleton<IMenuService, MenuService>();
 
             return services;
         }

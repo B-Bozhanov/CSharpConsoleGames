@@ -1,8 +1,9 @@
 ﻿namespace Snake.Services.Drowers
 {
     using Snake.Models;
+    using Snake.Models.Models.Menues;
 
-    public interface IDrower
+    public interface IDrowerService
     {
         public void DrowInfoWindow(Coordinates startPossition, Color infoWindowColor = Color.DarkGray);
 
@@ -19,6 +20,8 @@
         /// </summary>
         /// <param name="coordinates"></param>
         public void DrowEmpty(Coordinates coordinates, Color color = Color.Black);
+
+        public void Drow(IEnumerable<IMenu> menues);
 
         public void Drow(Coordinates coordinates);
     }

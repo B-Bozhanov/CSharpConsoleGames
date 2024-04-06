@@ -6,10 +6,20 @@
         {
         }
 
-        public Coordinates(int row, int column, char? symbol = null, Color color = Color.None)
+        public Coordinates(int row, int column)
         {
             this.Row = row;
             this.Column = column;
+        }
+
+        public Coordinates(int row, int column, char? symbol = null, Color color = Color.None) : this(row, column)
+        {
+            this.Symbol = symbol.ToString();
+            this.Color = color;
+        }
+
+        public Coordinates(int row, int column, string? symbol = null, Color color = Color.None) : this(row, column)
+        {
             this.Symbol = symbol;
             this.Color = color;
         }
@@ -18,7 +28,7 @@
 
         public int Column { get; set; }
 
-        public char? Symbol { get; set; }
+        public string? Symbol { get; set; }
 
         public Color Color { get; set; }
 

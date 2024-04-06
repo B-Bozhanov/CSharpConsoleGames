@@ -1,25 +1,29 @@
 ﻿namespace Snake.Services
 {
     using System.Diagnostics;
+    using System.Reflection;
 
     using Common;
 
     using Drowers;
 
     using Snake.Models;
-    using Snake.Models.Models;
+    using Snake.Models.Models.Menues;
+    using Snake.Models.Models.Snake;
     using Snake.Services.Interfaces;
 
     public class GameService : IGameService
     {
-        private readonly IDrower drower;
+        private readonly IDrowerService drowerService;
         private readonly IFieldService field;
-        private readonly IInputHandlerService inputHandler;
+        private readonly IInputHandlerService inputHandlerService;
         private readonly IDirectionService direction;
         private readonly ISnakeService snakeService;
         private readonly IScoreService scoreManager;
         private readonly IFoodService foodService;
         private readonly IObstacleService obstacleService;
+        private readonly ICursorService cursorService;
+        private readonly IMenuService menuService;
         private readonly Stopwatch foodAppearTimer;
         private readonly Stopwatch obstaclesAppearTimer;
         private readonly Stopwatch obstaclesDisappearTimer;
@@ -29,52 +33,109 @@
         private int foodRandomDisappearSecondns;
         private int obstacleRandomAppearSecconds;
         private readonly int obstacleRandomDisappearSecconds;
-
+        private readonly Stack<string> namespaces;
+        private readonly Assembly menuesAssembly;
         private readonly Coordinates wallSize;
+        private HashSet<IMenu> menues;
+        private bool isMenuesCreated;
 
-        public GameService(IDrower drower, IFieldService field, IInputHandlerService inputHandler, IDirectionService direction, ISnakeService snakeService, IScoreService scoreManager, IFoodService foodService, IObstacleService obstacleService)
+        public GameService()
         {
             this.foodAppearTimer = new Stopwatch();
             this.obstaclesAppearTimer = new Stopwatch();
             this.obstaclesDisappearTimer = new Stopwatch();
+            this.wallSize = new Coordinates();
             this.isFirstObstaclesGenerated = false;
             this.isWallsAppear = true;
+            this.isGoThroughtWalls = true;
+            this.isMenuesCreated = false;
+            this.menues = [];
+
+            this.namespaces = new Stack<string>();
+        }
+
+        public GameService(IDrowerService drower, 
+            IFieldService field, 
+            IInputHandlerService inputHandler,
+            IDirectionService direction, 
+            ISnakeService snakeService, 
+            IScoreService scoreManager,
+            IFoodService foodService, 
+            IObstacleService obstacleService,
+            ICursorService cursorService,
+            IMenuService menuService) 
+            : this()
+        {
             this.foodRandomDisappearSecondns = foodService.RandomDisapearSeconds;
             this.obstacleRandomAppearSecconds = obstacleService.RandomAppearSecconds;
             this.obstacleRandomDisappearSecconds = obstacleService.RandomDisappearSecconds;
-            this.drower = drower;
+            this.drowerService = drower;
             this.field = field;
-            this.inputHandler = inputHandler;
+            this.inputHandlerService = inputHandler;
             this.direction = direction;
             this.snakeService = snakeService;
             this.scoreManager = scoreManager;
             this.foodService = foodService;
             this.obstacleService = obstacleService;
-            this.isGoThroughtWalls = true;
-            this.wallSize = new Coordinates();
-
-            this.foodAppearTimer.Start();
-            this.foodService.Generate(snakeService.Body, obstacleService.Obstacles, wallSize);
-            this.drower.Drow(foodService.Coordinates);
-            this.drower.DrowInfoWindow(new Coordinates(0, 0));
+            this.cursorService = cursorService;
+            this.menuService = menuService;
         }
 
         public void Start()
+        {
+            this.StartMenues();
+
+            this.foodAppearTimer.Start();
+            this.foodService.Generate(this.snakeService.Body, this.obstacleService.Obstacles, this.wallSize);
+            this.StartMainGame();
+        }
+
+        private void StartMenues()
+        {
+            while (true)
+            {
+                if (!this.isMenuesCreated)
+                {
+                    this.menues =
+                    [
+                        .. this.menuService
+                            .Create<IMenu>()
+                            .OrderBy(x => x.PriorityNumber)
+                    ];
+
+                    this.isMenuesCreated = true;
+                }
+
+                this.drowerService.Drow(menues);
+                var currentCursorPossition = this.cursorService.Move(this.inputHandlerService, this.drowerService, this.menues.Count);
+                this.isMenuesCreated = false;
+
+                var currentSelectedMenu = menues.First(x => x.Coordinates.Equals(currentCursorPossition));
+                currentSelectedMenu.Execute(this.namespaces);
+                Console.WriteLine();
+            }
+
+
+            this.drowerService.Drow(foodService.Coordinates);
+            this.drowerService.DrowInfoWindow(new Coordinates());
+        }
+
+        private void StartMainGame()
         {
             while (true)
             {
                 //Console.WriteLine(snake.Speed);
                 int foodDisapearSeconds = this.foodAppearTimer.Elapsed.Seconds;
-                this.drower.DrowInfoWindowData(this.scoreManager.Score, this.scoreManager.Level, Color.Yellow);
+                this.drowerService.DrowInfoWindowData(this.scoreManager.Score, this.scoreManager.Level, Color.Yellow);
 
-                KeyboardKey currentPressedKey = this.inputHandler.GetPressedKeyboardKey(KeyboardKey.None);
+                KeyboardKey currentPressedKey = this.inputHandlerService.GetPressedKeyboardKey();
                 this.direction.ChangeCurrentDirection(currentPressedKey);
                 SnakeModel snake = snakeService.ChangeNextHeadPossition(direction);
 
                 if (this.scoreManager.Level == GlobalConstants.Snake.WallsAppearLevel && this.isWallsAppear)
                 {
-                    this.drower.DrowWalls(new Coordinates(field.InfoWindowHeight + 2, 0));
-                    this.drower.Drow(foodService.Coordinates);
+                    this.drowerService.DrowWalls(new Coordinates(field.InfoWindowHeight + 2, 0));
+                    this.drowerService.Drow(foodService.Coordinates);
                     this.wallSize.Row = 1;
                     this.wallSize.Column = 1;
                     this.isGoThroughtWalls = false;
@@ -86,7 +147,7 @@
                     if (!this.isFirstObstaclesGenerated)
                     {
                         this.obstacleService.GenerateFirstCount(this.field, snake.Body, this.foodService.Coordinates, this.wallSize);
-                        this.drower.Drow(this.obstacleService.Obstacles);
+                        this.drowerService.Drow(this.obstacleService.Obstacles);
                         this.obstaclesAppearTimer.Start();
                         this.obstaclesDisappearTimer.Start();
                         this.isFirstObstaclesGenerated = true;
@@ -97,7 +158,7 @@
                     if (obstacleAppearSeconds >= this.obstacleRandomAppearSecconds)
                     {
                         Coordinates lastGeneratedObstacle = this.obstacleService.Generate(field, snake.Body, this.foodService.Coordinates, this.wallSize);
-                        this.drower.Drow(lastGeneratedObstacle);
+                        this.drowerService.Drow(lastGeneratedObstacle);
                         this.obstacleRandomAppearSecconds = this.obstacleService.RandomAppearSecconds;
                         this.obstaclesAppearTimer.Restart();
                     }
@@ -107,7 +168,7 @@
                     if (obstacleDisappearSeconds >= this.obstacleRandomDisappearSecconds)
                     {
                         var removedObstacle = this.obstacleService.RandomDisappear();
-                        this.drower.DrowEmpty(removedObstacle);
+                        this.drowerService.DrowEmpty(removedObstacle);
                         this.obstaclesDisappearTimer.Restart();
                     }
                 }
@@ -128,18 +189,18 @@
                 }
                 else if (foodDisapearSeconds >= this.foodRandomDisappearSecondns)
                 {
-                    this.drower.DrowEmpty(this.foodService.Coordinates);
+                    this.drowerService.DrowEmpty(this.foodService.Coordinates);
                     Coordinates nextFood = foodService.Generate(snake.Body, this.obstacleService.Obstacles, this.wallSize);
-                    this.drower.Drow(nextFood);
+                    this.drowerService.Drow(nextFood);
                     this.foodAppearTimer.Restart();
                     this.foodRandomDisappearSecondns = this.foodService.RandomDisapearSeconds;
                 }
 
                 this.snakeService.Move();
 
-                this.drower.Drow(this.foodService.Coordinates);
-                this.drower.Drow(snake.Body);
-                this.drower.DrowEmpty(this.snakeService.TailPossition);
+                this.drowerService.Drow(this.foodService.Coordinates);
+                this.drowerService.Drow(snake.Body);
+                this.drowerService.DrowEmpty(this.snakeService.TailPossition);
                 Thread.Sleep(this.snakeService.Speed);
             }
         }
@@ -168,8 +229,8 @@
 
             if (isGameOver)
             {
-                this.drower.DrowGameOver(score, level, Color.Red);
-                this.drower.Drow(snakeService.Body);
+                this.drowerService.DrowGameOver(score, level, Color.Red);
+                this.drowerService.Drow(snakeService.Body);
                 Thread.Sleep(10000);
                 Environment.Exit(0);
             }
